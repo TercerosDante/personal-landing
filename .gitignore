@@ -1,0 +1,21 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.astro/
+
+# vercel
+.vercel/
+
+# environment & logs
+.env
+.env.*
+!.env.example
+*.log
+npm-debug.log*
+
+# tooling / editor
+.serena
+.DS_Store
+Thumbs.db

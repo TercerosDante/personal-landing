@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ronald Terceros · System Architecture</title>
+<meta name="description" content="Full-Stack Engineer — interactive blueprint of a production-grade TypeScript stack." />
+
+<!-- Fonts: Archivo (technical display) + IBM Plex Mono (drafting labels) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<!-- Devicon (tech logos) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css" />
+
+<style>
+/* ============================== TOKENS ============================== */
+:root{
+  --paper:#f3f1ec;
+  --paper2:#eae6dd;
+  --ink:#222a36;
+  --ink-soft:#4a5160;
+  --muted:#838a99;
+  --faint:#aab0bd;
+  --line:#69728b;
+  --slate:#2b3340;
+  --slate2:#323c4e;
+  --hair:rgba(43,51,64,.12);
+  --card:rgba(255,255,255,.62);
+  --signal:#d8623f;            /* coral annotation accent */
+  --signal-soft:rgba(216,98,63,.14);
+
+  /* muted per-layer accents (read on paper) */
+  --c-cyan:#2f6f8f; --c-azure:#345b8c; --c-violet:#5b53a3;
+  --c-emerald:#2f7d5e; --c-rose:#b04a45; --c-amber:#9a6b28; --c-magenta:#a23f86;
+
+  --hexclip:polygon(50% 1%,97% 26%,97% 74%,50% 99%,3% 74%,3% 26%);
+  --fit:1;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:crosshair;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+::selection{background:var(--signal-soft)}
+
+::-webkit-scrollbar{width:9px}
+::-webkit-scrollbar-track{background:var(--paper2)}
+::-webkit-scrollbar-thumb{background:#cfc8bb;border-radius:9px}
+::-webkit-scrollbar-thumb:hover{background:#bcb3a3}
+
+/* ============================== BLUEPRINT PAPER ============================== */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.paper{background:
+  radial-gradient(ellipse 110% 85% at 50% -5%,#faf8f3,#efece5 55%,#e7e2d8);}
+.grid{
+  background-image:
+    linear-gradient(rgba(48,66,96,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(48,66,96,.05) 1px,transparent 1px);
+  background-size:38px 38px;
+  -webkit-mask-image:radial-gradient(ellipse 88% 82% at 50% 46%,#000 58%,transparent 100%);
+          mask-image:radial-gradient(ellipse 88% 82% at 50% 46%,#000 58%,transparent 100%);
+}
+.grid-fine{
+  background-image:
+    linear-gradient(rgba(48,66,96,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(48,66,96,.04) 1px,transparent 1px);
+  background-size:190px 190px;
+}
+.vignette{background:radial-gradient(ellipse 75% 65% at 50% 40%,transparent 55%,rgba(150,140,120,.16) 100%)}
+.grain{opacity:.04;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+/* ============================== TOP BAR ============================== */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:40;height:58px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 22px;
+  background:linear-gradient(180deg,rgba(243,241,236,.92),rgba(243,241,236,.5) 70%,transparent);
+  backdrop-filter:blur(3px);}
+.brand{display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.12em}
+.brand b{font-family:"Archivo",sans-serif;font-weight:700;letter-spacing:.16em;
+  background:var(--slate);color:#f2f4f8;padding:6px 12px;border-radius:6px;font-size:11.5px;
+  box-shadow:0 4px 14px -6px rgba(43,51,64,.5)}
+.brand .role{color:var(--muted);text-transform:uppercase}
+.nav{display:flex;align-items:center;gap:4px}
+.nav button{font-size:10.5px;letter-spacing:.14em;color:var(--ink-soft);padding:8px 13px;border-radius:6px;
+  text-transform:uppercase;transition:.2s;position:relative}
+.nav button:hover{color:var(--ink);background:rgba(43,51,64,.05)}
+.nav button.on{color:var(--signal)}
+.nav button.on::after{content:"";position:absolute;left:13px;right:13px;bottom:3px;height:2px;background:var(--signal);border-radius:2px}
+.tstamp{display:flex;align-items:center;gap:14px;font-size:10.5px;letter-spacing:.1em;color:var(--muted)}
+.tstamp .live{display:flex;align-items:center;gap:6px;color:var(--signal)}
+.tstamp .live i{width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 0 3px var(--signal-soft);animation:pulse 1.8s ease-in-out infinite}
+.tstamp .clk{color:var(--ink-soft)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+.progress{position:fixed;top:58px;left:0;right:0;height:2px;z-index:41;background:rgba(43,51,64,.08)}
+.progress i{display:block;height:100%;width:0;background:var(--signal);box-shadow:0 0 8px rgba(216,98,63,.5)}
+
+/* ============================== HERO ============================== */
+.hero{position:relative;z-index:5;min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding:90px 8vw 40px}
+.hero .kicker{font-size:10.5px;letter-spacing:.34em;color:var(--signal);text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.hero .kicker::before{content:"";width:40px;height:1px;background:var(--signal)}
+.hero h1{font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(40px,8vw,108px);line-height:.94;margin:0;letter-spacing:-.01em;color:var(--ink)}
+.hero h1 .em{color:var(--signal)}
+.hero .tag{margin-top:26px;font-size:clamp(13px,1.8vw,17px);letter-spacing:.04em;color:var(--ink-soft);display:flex;align-items:center;gap:10px;height:1.4em}
+.hero .tag .pfx{color:var(--faint)}
+.hero .tag .tw{color:var(--c-emerald);border-right:2px solid var(--c-emerald);padding-right:3px;white-space:nowrap}
+.hero .sub{margin-top:28px;max-width:560px;font-size:13px;line-height:1.9;color:var(--muted)}
+.hero .specs{margin-top:32px;display:flex;flex-wrap:wrap;gap:9px}
+.hero .specs span{font-size:10px;letter-spacing:.1em;color:var(--ink-soft);border:1px solid var(--hair);background:rgba(255,255,255,.45);padding:7px 13px;border-radius:30px;text-transform:uppercase}
+.hero .cue{margin-top:40px;font-size:10px;letter-spacing:.28em;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.hero .cue i{width:26px;height:1px;background:var(--muted);position:relative;overflow:hidden}
+.hero .cue i::after{content:"";position:absolute;inset:0;background:var(--signal);animation:run 1.8s ease-in-out infinite}
+@keyframes run{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+/* ============================== ARCHITECTURE STAGE ============================== */
+.architecture{position:relative;z-index:5;height:300vh}
+.stage{position:relative;height:100vh;width:100%;overflow:hidden;perspective:1600px}
+
+/* registration corner marks */
+.stage::before,.stage::after{content:"";position:absolute;width:18px;height:18px;border:1px solid var(--hair);z-index:2;pointer-events:none}
+.stage::before{top:78px;left:30px;border-right:none;border-bottom:none}
+.stage::after{bottom:30px;right:30px;border-left:none;border-top:none}
+
+.stage-head{position:absolute;top:74px;left:50%;transform:translateX(-50%);text-align:center;z-index:8;pointer-events:none}
+.stage-head .eyebrow{font-size:9.5px;letter-spacing:.34em;color:var(--signal);text-transform:uppercase}
+.stage-head h2{font-family:"Archivo",sans-serif;font-weight:700;font-size:clamp(17px,2.4vw,26px);letter-spacing:-.01em;margin:7px 0 0;color:var(--ink)}
+
+/* segmented nav */
+.seg{position:absolute;top:128px;left:50%;transform:translateX(-50%);z-index:9;display:flex;gap:5px;
+  background:var(--card);border:1px solid var(--hair);border-radius:30px;padding:5px;backdrop-filter:blur(8px);box-shadow:0 8px 24px -14px rgba(43,51,64,.4)}
+.seg button{font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;border-radius:24px;color:var(--ink-soft);transition:.25s}
+.seg button:hover{color:var(--ink)}
+.seg button.on{background:var(--slate);color:#f2f4f8}
+
+.world{position:absolute;left:50%;top:53%;width:1200px;height:760px;transform:translate(-50%,-50%) scale(var(--fit));transform-style:preserve-3d}
+.tilt{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .25s ease-out}
+.cluster{position:absolute;inset:0;width:1200px;height:760px;transform-origin:center center;will-change:transform,opacity,filter}
+
+/* decorative rings (eco) */
+.deco-rings{position:absolute;left:600px;top:400px;width:680px;height:680px;transform:translate(-50%,-50%);pointer-events:none;opacity:.7}
+.deco-rings::before,.deco-rings::after{content:"";position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(43,51,64,.1)}
+.deco-rings::before{inset:100px;animation:spin 80s linear infinite}
+.deco-rings::after{inset:230px;border-style:solid;border-color:rgba(43,51,64,.07);animation:spin 120s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* connection ink */
+.links{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.link{fill:none;stroke:#69728b;stroke-width:1.4;stroke-linecap:round;opacity:.85}
+.link.dash{stroke-dasharray:5 6}
+.flow{fill:var(--signal)}
+
+/* nodes */
+.nodes{position:absolute;inset:0}
+.node{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:9px;z-index:3;
+  animation:float 6.5s ease-in-out infinite alternate;animation-delay:var(--fd,0s);cursor:pointer}
+@keyframes float{from{transform:translate(-50%,-50%) translateY(-4px)}to{transform:translate(-50%,-50%) translateY(5px)}}
+
+.glyph{position:relative;display:grid;place-items:center;transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s,filter .3s}
+.glyph .ico{position:relative;z-index:3;display:grid;place-items:center}
+.glyph .ico i{font-size:33px;color:#eef1f6}
+.mono-badge{font-family:"Archivo",sans-serif;font-weight:700;font-size:17px;letter-spacing:.02em;color:#eef1f6}
+
+/* hexagon (eco) — solid slate */
+.glyph.hex{width:118px;height:106px;clip-path:var(--hexclip);
+  background:linear-gradient(160deg,#313c4f,#242c3a);
+  filter:drop-shadow(0 14px 22px rgba(40,50,70,.32));}
+.glyph.hex::after{content:"";position:absolute;inset:0;clip-path:var(--hexclip);
+  background:linear-gradient(160deg,rgba(255,255,255,.07),transparent 45%);pointer-events:none}
+.glyph.hub{transform:scale(1.14)}
+
+/* orb (sub-modules) — slate w/ accent ring */
+.glyph.orb{width:88px;height:88px;border-radius:50%;
+  background:linear-gradient(160deg,#323c4e,#262e3d);
+  border:1.5px solid color-mix(in srgb,var(--accent) 62%,#3a4456);
+  box-shadow:0 12px 24px -12px rgba(40,50,70,.5),inset 0 1px 0 rgba(255,255,255,.07);}
+.glyph.orb::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px solid color-mix(in srgb,var(--accent) 24%,transparent)}
+.glyph.hub.orb{transform:scale(1.16)}
+
+/* labels */
+.tag{display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;pointer-events:none}
+.t-label{font-family:"Archivo",sans-serif;font-weight:700;font-size:13px;letter-spacing:.01em;color:var(--ink);text-shadow:0 1px 0 rgba(255,255,255,.6)}
+.t-meta{font-size:9px;letter-spacing:.04em;color:var(--muted);display:flex;align-items:center;gap:5px}
+.t-meta .t-cat{font-weight:600;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+
+/* node states */
+.node:hover{z-index:9}
+.node:hover .glyph{transform:scale(1.1);filter:brightness(1.06)}
+.node:hover .glyph.hub{transform:scale(1.24)}
+.node:hover .t-label{color:#000}
+.node.active .glyph.hex{box-shadow:0 0 0 2px var(--signal),0 16px 30px -12px rgba(216,98,63,.5);filter:none}
+.node.active .glyph.orb{border-color:var(--signal);box-shadow:0 0 0 2px var(--signal),0 14px 28px -12px rgba(216,98,63,.45)}
+.node.active .t-cat{color:var(--signal)}
+
+/* ============================== DOCK (section summary) ============================== */
+.dock{position:absolute;left:26px;bottom:26px;z-index:9;width:308px;max-width:42vw;
+  background:var(--card);border:1px solid var(--hair);border-radius:14px;padding:18px 18px 16px;backdrop-filter:blur(10px);
+  box-shadow:0 20px 50px -26px rgba(43,51,64,.5)}
+.dock .dh{display:flex;align-items:baseline;gap:10px}
+.dock .dnum{font-family:"Archivo",sans-serif;font-weight:800;font-size:30px;color:var(--signal);line-height:.8}
+.dock .dtag{font-size:9.5px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
+.dock h4{font-family:"Archivo",sans-serif;font-weight:700;font-size:16px;margin:11px 0 0;color:var(--ink)}
+.dock .dsum{font-size:11px;line-height:1.7;color:var(--ink-soft);margin-top:7px}
+.dock .dfacts{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
+.dock .dfacts span{font-size:9px;letter-spacing:.08em;color:var(--ink-soft);background:rgba(43,51,64,.06);border-radius:5px;padding:4px 8px;display:flex;align-items:center;gap:5px}
+.dock .dfacts span::before{content:"";width:5px;height:5px;border-radius:1px;background:var(--signal)}
+.dock .dchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;padding-top:13px;border-top:1px dashed var(--hair)}
+.dock .dchips b{font-size:8.5px;letter-spacing:.16em;color:var(--muted);width:100%;text-transform:uppercase;margin-bottom:1px}
+.dock .dchips span{font-size:10px;letter-spacing:.03em;color:var(--ink);border:1px solid var(--hair);background:rgba(255,255,255,.5);border-radius:20px;padding:4px 10px}
+
+/* live metrics strip */
+.metrics{position:absolute;right:26px;top:128px;z-index:9;display:flex;gap:10px}
+.metric{background:var(--card);border:1px solid var(--hair);border-radius:11px;padding:9px 12px 7px;width:118px;backdrop-filter:blur(8px);box-shadow:0 12px 30px -20px rgba(43,51,64,.5)}
+.metric .mh{display:flex;justify-content:space-between;font-size:8.5px;letter-spacing:.1em;color:var(--muted)}
+.metric .mv{font-family:"Archivo",sans-serif;font-weight:700;font-size:18px;color:var(--ink);margin-top:1px}
+.metric .mv small{font-size:9px;color:var(--muted);font-weight:400;margin-left:2px}
+.metric canvas{display:block;width:100%;height:22px;margin-top:4px}
+
+/* ============================== DETAIL PANEL ============================== */
+.detail{position:absolute;right:26px;bottom:26px;z-index:9;width:316px;max-width:42vw;
+  background:var(--card);border:1px solid var(--hair);border-radius:14px;padding:18px;backdrop-filter:blur(10px);
+  box-shadow:0 20px 50px -26px rgba(43,51,64,.5);transition:transform .3s,opacity .3s}
+.detail .dc{font-size:9.5px;letter-spacing:.2em;color:var(--signal);text-transform:uppercase;font-weight:600}
+.detail .dl{font-family:"Archivo",sans-serif;font-weight:700;font-size:19px;color:var(--ink);margin-top:6px}
+.detail .dd{font-size:11px;line-height:1.75;color:var(--ink-soft);margin-top:9px}
+.detail .dhint{font-size:9.5px;letter-spacing:.06em;color:var(--signal);margin-top:13px;display:flex;align-items:center;gap:6px}
+.detail .dhint::before{content:"";width:14px;height:1px;background:var(--signal)}
+
+/* ============================== FOOTER ============================== */
+.footer{position:relative;z-index:5;padding:120px 8vw 64px;background:var(--paper2);border-top:1px solid var(--hair)}
+.footer .fk{font-size:10.5px;letter-spacing:.34em;color:var(--signal);text-transform:uppercase;display:flex;align-items:center;gap:12px}
+.footer .fk::before{content:"";width:40px;height:1px;background:var(--signal)}
+.footer h3{font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(28px,5vw,58px);margin:20px 0 0;color:var(--ink);letter-spacing:-.01em}
+.footer h3 .em{color:var(--signal)}
+.contact{margin-top:42px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;max-width:880px}
+.contact a,.contact div{border:1px solid var(--hair);background:rgba(255,255,255,.55);border-radius:12px;padding:17px 17px;transition:.25s;display:block}
+.contact a:hover{border-color:var(--signal);transform:translateY(-3px);box-shadow:0 16px 30px -20px rgba(216,98,63,.5)}
+.contact .cl{font-size:9px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.contact .cv{margin-top:8px;font-family:"Archivo",sans-serif;font-weight:600;font-size:15px;color:var(--ink);word-break:break-word}
+.deploy{margin-top:42px;display:inline-flex;align-items:center;gap:11px;font-family:"Archivo",sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:12px;
+  color:#f6f3ee;background:var(--signal);padding:15px 30px;border-radius:8px;transition:.25s;box-shadow:0 16px 30px -14px rgba(216,98,63,.6)}
+.deploy:hover{transform:translateY(-3px);filter:brightness(1.05)}
+.deploy i{width:7px;height:7px;border-radius:50%;background:#f6f3ee}
+.colophon{margin-top:60px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-size:9.5px;letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
+
+/* ============================== BOOT ============================== */
+.boot{position:fixed;inset:0;z-index:120;background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .7s,visibility .7s}
+.boot.gone{opacity:0;visibility:hidden}
+.boot .bt{font-size:10.5px;letter-spacing:.34em;color:var(--signal);text-transform:uppercase}
+.boot .bbar{width:min(320px,60vw);height:2px;background:rgba(43,51,64,.12);overflow:hidden}
+.boot .bbar i{display:block;height:100%;width:0;background:var(--signal);transition:width 1.3s cubic-bezier(.4,.1,.2,1)}
+.boot .blog{font-size:9px;letter-spacing:.12em;color:var(--faint);height:1.2em}
+
+/* ============================== RESPONSIVE ============================== */
+@media (max-width:900px){
+  .metrics{display:none}
+  .detail{display:none}
+  .dock{left:50%;transform:translateX(-50%);width:min(360px,90vw);max-width:90vw;bottom:18px}
+}
+@media (max-width:720px){
+  .nav{display:none}
+  .brand .role{display:none}
+  body{cursor:auto}
+}
+@media (prefers-reduced-motion:reduce){
+  .node,.deco-rings::before,.deco-rings::after{animation:none}
+  .flow{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- blueprint background -->
+<div class="bg paper"></div>
+<div class="bg grid" id="gridLayer"></div>
+<div class="bg grid-fine"></div>
+<div class="bg vignette"></div>
+<div class="bg grain"></div>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="brand">
+    <b>RONALD&nbsp;TERCEROS</b>
+    <span class="role">Full-Stack Engineer</span>
+  </div>
+  <nav class="nav" id="topnav">
+    <button data-sec="eco">01 · Topology</button>
+    <button data-sec="frontend">02 · Frontend</button>
+    <button data-sec="backend">03 · Backend</button>
+    <button data-link="#contact">Contact</button>
+  </nav>
+  <div class="tstamp">
+    <span class="live"><i></i>LIVE</span>
+    <span class="clk" id="clock">--:--:--</span>
+    <span>UTC&minus;4</span>
+  </div>
+</header>
+<div class="progress"><i id="progressFill"></i></div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="kicker">Architecture Blueprint · Interactive</div>
+  <h1>Systems that<br><span class="em">ship &amp; survive.</span></h1>
+  <div class="tag"><span class="pfx">$ stack --focus</span> <span class="tw" id="tw"></span></div>
+  <p class="sub">6+ years designing, building and operating production-grade TypeScript applications — React &amp; Next.js frontends, NestJS APIs, PostgreSQL, and cloud infrastructure on AWS &amp; Linux VPS with Docker, Traefik and automated CI/CD.</p>
+  <div class="specs"><span>Multi-tenant SaaS</span><span>Stripe · Webhooks</span><span>BullMQ · Redis</span><span>Prisma · 58 models</span><span>DDD · Event-driven</span></div>
+  <div class="cue">Scroll or tap a tab to traverse <i></i></div>
+</header>
+
+<!-- ARCHITECTURE -->
+<section class="architecture">
+  <div class="stage">
+    <div class="stage-head">
+      <div class="eyebrow" id="stageEyebrow">blueprint://topology</div>
+      <h2 id="stageTitle">Production Ecosystem</h2>
+    </div>
+
+    <nav class="seg" id="seg">
+      <button data-sec="eco" class="on">01 · Topology</button>
+      <button data-sec="frontend">02 · Frontend</button>
+      <button data-sec="backend">03 · Backend</button>
+    </nav>
+
+    <!-- live metrics -->
+    <div class="metrics">
+      <div class="metric"><div class="mh"><span>REQ/S</span><span>rps</span></div><div class="mv" id="m-req">0</div><canvas data-spark="signal"></canvas></div>
+      <div class="metric"><div class="mh"><span>p99</span><span>ms</span></div><div class="mv" id="m-lat">0<small>ms</small></div><canvas data-spark="ink"></canvas></div>
+    </div>
+
+    <div class="world">
+     <div class="tilt" id="tilt">
+
+      <!-- CLUSTER 1 · ECOSYSTEM -->
+      <div class="cluster" id="cluster-eco">
+        <svg class="links" viewBox="0 0 1200 760" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <path id="eco1" class="link" d="M210 210 Q430 150 600 150"/>
+          <path id="eco2" class="link" d="M600 150 Q635 275 600 400"/>
+          <path id="eco3" class="link" d="M600 400 Q800 320 980 250"/>
+          <path id="eco4" class="link" d="M600 400 Q800 440 980 470"/>
+          <path id="eco5" class="link" d="M600 400 Q600 525 600 650"/>
+          <path id="eco6" class="link dash" d="M600 650 Q820 575 980 470"/>
+          <circle class="flow" r="3.2"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath xlink:href="#eco1"/></animateMotion></circle>
+          <circle class="flow" r="3.2"><animateMotion dur="3.3s" repeatCount="indefinite"><mpath xlink:href="#eco2"/></animateMotion></circle>
+          <circle class="flow" r="3" ><animateMotion dur="3.0s" repeatCount="indefinite"><mpath xlink:href="#eco3"/></animateMotion></circle>
+          <circle class="flow" r="3" ><animateMotion dur="2.5s" repeatCount="indefinite"><mpath xlink:href="#eco4"/></animateMotion></circle>
+          <circle class="flow" r="3" ><animateMotion dur="3.6s" repeatCount="indefinite"><mpath xlink:href="#eco5"/></animateMotion></circle>
+        </svg>
+        <div class="deco-rings"></div>
+        <div class="nodes"></div>
+      </div>
+
+      <!-- CLUSTER 2 · FRONTEND -->
+      <div class="cluster" id="cluster-frontend">
+        <svg class="links" viewBox="0 0 1200 760" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <path class="link fe-link" d="M600 150 Q420 245 250 340"/>
+          <path class="link fe-link" d="M600 150 Q540 315 470 480"/>
+          <path class="link fe-link" d="M600 150 Q690 310 770 470"/>
+          <path class="link fe-link" d="M600 150 Q465 385 340 620"/>
+          <path class="link fe-link" d="M600 150 Q625 395 650 640"/>
+          <path class="link fe-link" d="M600 150 Q770 240 930 330"/>
+          <path class="link fe-link dash" d="M470 480 Q620 475 770 470"/>
+          <path class="link fe-link dash" d="M470 480 Q405 550 340 620"/>
+          <path class="link fe-link dash" d="M470 480 Q560 560 650 640"/>
+        </svg>
+        <div class="nodes"></div>
+      </div>
+
+      <!-- CLUSTER 3 · BACKEND & DATA -->
+      <div class="cluster" id="cluster-backend">
+        <svg class="links" viewBox="0 0 1200 760" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <path class="link be-link" d="M175 150 Q145 275 175 400"/>
+          <path class="link be-link" d="M175 400 Q145 520 175 640"/>
+          <path class="link be-link" d="M175 400 Q350 350 520 300"/>
+          <path class="link be-link" d="M175 640 Q350 470 520 300"/>
+          <path class="link be-link" d="M520 300 Q675 250 830 200"/>
+          <path class="link be-link" d="M830 200 Q945 255 1060 310"/>
+          <path class="link be-link" d="M520 300 Q675 375 830 450"/>
+          <path class="link be-link dash" d="M830 450 Q945 380 1060 310"/>
+          <path class="link be-link" d="M520 300 Q520 440 520 580"/>
+          <path class="link be-link dash" d="M520 580 Q780 580 1045 580"/>
+          <path class="link be-link" d="M520 300 Q780 440 1045 580"/>
+        </svg>
+        <div class="nodes"></div>
+      </div>
+
+     </div>
+    </div>
+
+    <!-- section summary dock -->
+    <aside class="dock" id="dock">
+      <div class="dh"><span class="dnum" id="dk-num">01</span><span class="dtag" id="dk-tag">Topology</span></div>
+      <h4 id="dk-title">Production Ecosystem</h4>
+      <p class="dsum" id="dk-sum"></p>
+      <div class="dfacts" id="dk-facts"></div>
+      <div class="dchips" id="dk-chips"></div>
+    </aside>
+
+    <!-- node detail -->
+    <aside class="detail" id="detail">
+      <div class="dc" id="dt-cat">Navigate</div>
+      <div class="dl" id="dt-label">Inspect the system</div>
+      <p class="dd" id="dt-desc">Hover any service for details. Click a node in the topology to dive into its layer — or use the 01 · 02 · 03 tabs.</p>
+      <div class="dhint" id="dt-hint" style="display:none"></div>
+    </aside>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="contact">
+  <div class="fk">End of trace · Open a channel</div>
+  <h3>Let's architect<br>your <span class="em">next system.</span></h3>
+  <div class="contact">
+    <a href="mailto:tercerosdante@gmail.com"><div class="cl">Email</div><div class="cv">tercerosdante@gmail.com</div></a>
+    <a href="https://github.com/tercerosdante" target="_blank" rel="noopener"><div class="cl">GitHub</div><div class="cv">@tercerosdante</div></a>
+    <a href="tel:+59173341014"><div class="cl">Phone</div><div class="cv">+591 73341014</div></a>
+    <div><div class="cl">Location</div><div class="cv">Bolivia · Remote · UTC&minus;4</div></div>
+  </div>
+  <a class="deploy" href="mailto:tercerosdante@gmail.com?subject=Let's%20build%20something"><i></i>Deploy a conversation</a>
+  <div class="colophon">
+    <span>© 2026 Ronald Terceros — Full-Stack Engineer</span>
+    <span>TypeScript · React · NestJS · PostgreSQL · AWS</span>
+    <span>Build · v2.0.0 · blueprint</span>
+  </div>
+</footer>
+
+<!-- BOOT -->
+<div class="boot" id="boot">
+  <div class="bt">Plotting Blueprint</div>
+  <div class="bbar"><i id="bootBar"></i></div>
+  <div class="blog" id="bootLog">loading sheet…</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* muted per-layer accents */
+const PAL={cyan:'#2f6f8f',azure:'#345b8c',violet:'#5b53a3',emerald:'#2f7d5e',rose:'#b04a45',amber:'#9a6b28',magenta:'#a23f86'};
+
+/* ============================== DATA ============================== */
+const ECO=[
+  {x:210,y:210,label:'Frontend App',cat:'CLIENT',accent:'cyan',icon:'devicon-react-plain',jump:'frontend',
+   desc:'React 19 + Next.js 15 clients with role-based navigation and an Axios auto-refresh interceptor. Mobile-first React Native + Expo on TsunaGo.'},
+  {x:600,y:150,label:'API Gateway',cat:'EDGE',accent:'violet',icon:'devicon-nestjs-plain',jump:'backend',
+   desc:'Traefik terminates HTTPS and routes to NestJS. Hardened with Helmet, Throttler rate-limiting and Zod request validation.'},
+  {x:600,y:400,label:'Microservices',cat:'CORE',accent:'emerald',icon:'devicon-nodejs-plain',hub:true,jump:'backend',
+   desc:'Modular, event-driven NestJS. Typed DomainEvents, transaction-aware methods and pure DDD domain logic unit-tested without DI.'},
+  {x:980,y:250,label:'Redis Cache',cat:'CACHE',accent:'rose',icon:'devicon-redis-plain',jump:'backend',
+   desc:'Cached sessions and idempotency keys, exchange-rate cache and cache-aside reads that keep p99 latency low.'},
+  {x:980,y:470,label:'PostgreSQL',cat:'DATA',accent:'azure',icon:'devicon-postgresql-plain',jump:'backend',
+   desc:'Primary store via Prisma — up to 58 models on Makevi. Migrations run automatically on deploy.'},
+  {x:600,y:650,label:'Queues',cat:'JOBS',accent:'amber',mono:'BMQ',jump:'backend',
+   desc:'BullMQ workers: billing reminders, suspensions, ride auto-completion and expiry checks with exponential-backoff retries.'},
+];
+const FRONTEND=[
+  {x:600,y:150,label:'Frontend Runtime',cat:'RUNTIME',accent:'cyan',icon:'devicon-typescript-plain',hub:true,
+   desc:'TypeScript SPA/SSR foundation shared across web and mobile clients.'},
+  {x:250,y:340,label:'Next.js 15',cat:'FRAMEWORK',accent:'cyan',icon:'devicon-nextjs-plain',
+   desc:'App Router, SSR and routing for the Makevi web frontend (React 19).'},
+  {x:470,y:480,label:'React 19',cat:'UI',accent:'azure',icon:'devicon-react-plain',
+   desc:'Component model and hooks powering every client surface.'},
+  {x:770,y:470,label:'TanStack Query',cat:'SERVER STATE',accent:'rose',mono:'TQ',
+   desc:'Caching, background refetch and request dedup against the REST API.'},
+  {x:340,y:620,label:'Zustand',cat:'CLIENT STATE',accent:'amber',mono:'Zu',
+   desc:'Lightweight global state for POS and dashboard flows.'},
+  {x:650,y:640,label:'UI Layer',cat:'DESIGN',accent:'emerald',icon:'devicon-tailwindcss-plain',
+   desc:'Tailwind, MUI and Ant Design — dual layouts, on-screen keyboard and touch targets.'},
+  {x:930,y:330,label:'RHF + Zod',cat:'FORMS',accent:'violet',mono:'Zod',
+   desc:'React Hook Form with shared Zod contracts for end-to-end validation.'},
+];
+const BACKEND=[
+  {x:175,y:150,label:'Routes',cat:'API',accent:'violet',icon:'devicon-graphql-plain',
+   desc:'REST + GraphQL surface documented with Swagger / OpenAPI.'},
+  {x:175,y:400,label:'Controllers',cat:'NESTJS',accent:'emerald',icon:'devicon-nestjs-plain',
+   desc:'Thin controllers delegating to domain services.'},
+  {x:175,y:640,label:'Guards',cat:'AUTH',accent:'rose',mono:'JWT',
+   desc:'JWT access/refresh tokens, role-based access control and bcrypt hashing.'},
+  {x:520,y:300,label:'Services',cat:'DOMAIN',accent:'cyan',icon:'devicon-nodejs-plain',hub:true,
+   desc:'DDD domain logic with event-driven cross-module communication via typed DomainEvents.'},
+  {x:520,y:580,label:'Workers',cat:'JOBS',accent:'amber',mono:'Job',
+   desc:'BullMQ queues and cron — reminders, suspensions and retries with exponential backoff.'},
+  {x:830,y:200,label:'Prisma ORM',cat:'ORM',accent:'azure',mono:'Pr',
+   desc:'Type-safe data access and migrations over PostgreSQL.'},
+  {x:830,y:450,label:'Redis',cat:'CACHE',accent:'rose',icon:'devicon-redis-plain',
+   desc:'Cache-aside reads, cached sessions and idempotency store.'},
+  {x:1060,y:310,label:'PostgreSQL',cat:'DATABASE',accent:'azure',icon:'devicon-postgresql-plain',
+   desc:'Relational primary store with multi-tenant tenantId isolation.'},
+  {x:1045,y:580,label:'Integrations',cat:'EXTERNAL',accent:'emerald',mono:'API',
+   desc:'Stripe (signature-verified webhooks), AWS (S3/SES/SNS), Shopee OAuth + sync and Google Maps.'},
+];
+
+const SECTIONS={
+  eco:{num:'01',tag:'Topology',title:'Production Ecosystem',progress:0.04,eyebrow:'blueprint://topology',
+    sum:'Six core services wired into a modular, event-driven backend behind an HTTPS edge.',
+    facts:['12 services','58 Prisma models','HTTPS via Traefik'],
+    chips:['NestJS','PostgreSQL','Prisma','Redis','BullMQ','Traefik','Docker','AWS']},
+  frontend:{num:'02',tag:'Frontend',title:'Frontend Runtime',progress:0.52,eyebrow:'blueprint://frontend',
+    sum:'Type-safe React 19 / Next.js 15 clients with server-state caching and validated forms.',
+    facts:['SSR + SPA','Auto-refresh auth','Mobile-first (Expo)'],
+    chips:['React 19','Next.js 15','TanStack Query','Zustand','Tailwind','MUI','Ant Design','Zod']},
+  backend:{num:'03',tag:'Backend & Data',title:'Backend & Data Layer',progress:0.88,eyebrow:'blueprint://backend',
+    sum:'The NestJS request lifecycle from guarded routes to domain services, Prisma and cache.',
+    facts:['JWT + RBAC','Idempotent webhooks','Cache-aside'],
+    chips:['NestJS','Prisma','PostgreSQL','Redis','BullMQ','Stripe','AWS','GraphQL']},
+};
+
+/* ============================== NODE RENDERING ============================== */
+function makeNode(n,shape,i){
+  const node=document.createElement('div');
+  node.className='node';
+  node.style.left=n.x+'px';node.style.top=n.y+'px';
+  node.style.setProperty('--accent',PAL[n.accent]);
+  node.style.setProperty('--fd',(((i*0.83)%4)+0.1).toFixed(2)+'s');
+
+  const gly=document.createElement('div');
+  gly.className='glyph '+(n.hub?'hub ':'')+shape;
+  const ico=document.createElement('div');ico.className='ico';
+  if(n.icon){const it=document.createElement('i');it.className=n.icon;ico.appendChild(it);}
+  else{const b=document.createElement('span');b.className='mono-badge';b.textContent=n.mono||'·';ico.appendChild(b);}
+  gly.appendChild(ico);node.appendChild(gly);
+
+  const tag=document.createElement('div');tag.className='tag';
+  tag.innerHTML='<span class="t-label">'+n.label+'</span>'+
+    '<span class="t-meta"><span class="t-cat">'+n.cat+'</span></span>';
+  node.appendChild(tag);
+
+  node.addEventListener('mouseenter',()=>showDetail(n));
+  node.addEventListener('mouseleave',restoreDetail);
+  node.addEventListener('click',()=>{
+    if(n.jump){jumpTo(n.jump);}
+    else{pinnedNode=(pinnedNode===n?null:n);flashActive(node);restoreDetail();}
+  });
+  return node;
+}
+function renderCluster(id,arr,shape){const host=document.querySelector(id+' .nodes');arr.forEach((n,i)=>host.appendChild(makeNode(n,shape,i)));}
+renderCluster('#cluster-eco',ECO,'hex');
+renderCluster('#cluster-frontend',FRONTEND,'orb');
+renderCluster('#cluster-backend',BACKEND,'orb');
+
+function flashActive(node){document.querySelectorAll('.node.active').forEach(n=>n.classList.remove('active'));if(pinnedNode)node.classList.add('active');}
+
+/* ============================== DETAIL + DOCK ============================== */
+let pinnedNode=null,curKey='eco';
+const DEFAULT_DETAIL={cat:'Navigate',label:'Inspect the system',desc:'Hover any service for details. Click a node in the topology to dive into its layer — or use the 01 · 02 · 03 tabs.'};
+function showDetail(n){
+  document.getElementById('dt-cat').textContent=n.cat||'';
+  document.getElementById('dt-label').textContent=n.label||'';
+  document.getElementById('dt-desc').textContent=n.desc||'';
+  const hint=document.getElementById('dt-hint');
+  if(n.jump){hint.style.display='';hint.textContent='click to enter the '+n.jump+' layer';}
+  else{hint.style.display='none';}
+}
+function restoreDetail(){showDetail(pinnedNode||DEFAULT_DETAIL);}
+
+function setSection(key){
+  if(key===curKey)return;
+  curKey=key;pinnedNode=null;
+  document.querySelectorAll('.node.active').forEach(n=>n.classList.remove('active'));
+  const s=SECTIONS[key];
+  document.getElementById('dk-num').textContent=s.num;
+  document.getElementById('dk-tag').textContent=s.tag;
+  document.getElementById('dk-title').textContent=s.title;
+  document.getElementById('dk-sum').textContent=s.sum;
+  document.getElementById('stageTitle').textContent=s.title;
+  document.getElementById('stageEyebrow').textContent=s.eyebrow;
+  document.getElementById('dk-facts').innerHTML=s.facts.map(f=>'<span>'+f+'</span>').join('');
+  document.getElementById('dk-chips').innerHTML='<b>Stack in this layer</b>'+s.chips.map(c=>'<span>'+c+'</span>').join('');
+  document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.sec===key));
+  document.querySelectorAll('#topnav button[data-sec]').forEach(b=>b.classList.toggle('on',b.dataset.sec===key));
+  restoreDetail();
+}
+
+/* ============================== CLOCK / TYPEWRITER ============================== */
+function tickClock(){const el=document.getElementById('clock');if(!el)return;const now=new Date();const u=now.getTime()+now.getTimezoneOffset()*60000;const b=new Date(u-4*3600000);const p=x=>String(x).padStart(2,'0');el.textContent=p(b.getHours())+':'+p(b.getMinutes())+':'+p(b.getSeconds());}
+tickClock();setInterval(tickClock,1000);
+(function(){const el=document.getElementById('tw');if(!el)return;const w=['TypeScript','React · Next.js','Node.js · NestJS','PostgreSQL · Prisma','AWS · Docker · CI/CD','Multi-tenant SaaS','Stripe · BullMQ · Redis'];let wi=0,ci=0,del=false;function s(){const t=w[wi];el.textContent=t.slice(0,ci);if(!del){ci++;if(ci>t.length){del=true;setTimeout(s,1300);return;}}else{ci--;if(ci<0){del=false;wi=(wi+1)%w.length;ci=0;}}setTimeout(s,del?36:74);}s();})();
+
+/* ============================== LIVE METRICS ============================== */
+function Spark(c,color){const dpr=Math.min(devicePixelRatio||1,2);const ctx=c.getContext('2d');let w=0,h=0;const N=34,d=[];for(let i=0;i<N;i++)d.push(.5);
+  function size(){w=c.clientWidth;h=c.clientHeight;c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+  function draw(){if(!w)size();ctx.clearRect(0,0,w,h);ctx.beginPath();d.forEach((v,i)=>{const x=i/(N-1)*w,y=h-v*h*.82-h*.08;i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.strokeStyle=color;ctx.lineWidth=1.3;ctx.lineJoin='round';ctx.stroke();ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.closePath();ctx.fillStyle=color+'22';ctx.fill();}
+  return{push(v){d.push(Math.max(0,Math.min(1,v)));d.shift();draw();},resize(){size();draw();}};}
+const sparks=[];let mReq=920,mLat=42;
+(function(){const map={signal:'#d8623f',ink:'#345b8c'};document.querySelectorAll('canvas[data-spark]').forEach(c=>{const s=Spark(c,map[c.dataset.spark]);s.key=c.dataset.spark;sparks.push(s);});
+  function rw(v,a,b,st){v+=(Math.random()-.5)*st;return Math.max(a,Math.min(b,v));}
+  function up(){mReq=rw(mReq,420,1850,180);mLat=rw(mLat,21,96,11);const q=document.getElementById('m-req'),l=document.getElementById('m-lat');if(q)q.textContent=Math.round(mReq).toLocaleString();if(l)l.innerHTML=Math.round(mLat)+'<small>ms</small>';sparks.forEach(s=>s.push(s.key==='signal'?(mReq-420)/1430:(mLat-21)/75));}
+  up();setInterval(up,950);window.addEventListener('resize',()=>sparks.forEach(s=>s.resize()));})();
+
+/* ============================== PARALLAX (tilt + grid) ============================== */
+(function(){if(REDUCED)return;const t=document.getElementById('tilt'),g=document.getElementById('gridLayer');let tx=0,ty=0,cx=0,cy=0;
+  window.addEventListener('pointermove',e=>{tx=e.clientX/innerWidth-.5;ty=e.clientY/innerHeight-.5;});
+  (function spin(){requestAnimationFrame(spin);cx+=(tx-cx)*.05;cy+=(ty-cy)*.05;if(t)t.style.transform='rotateY('+(cx*7)+'deg) rotateX('+(-cy*5)+'deg)';if(g)g.style.transform='translate('+(-cx*14)+'px,'+(-cy*14)+'px)';})();})();
+
+/* ============================== RESPONSIVE FIT ============================== */
+function fit(){const f=Math.min((innerWidth-80)/1200,(innerHeight-300)/760);document.documentElement.style.setProperty('--fit',Math.max(0.34,Math.min(1.0,f)).toFixed(3));}
+fit();addEventListener('resize',fit);
+
+/* ============================== SCROLL CHOREOGRAPHY ============================== */
+let archST=null;
+function jumpTo(key){const s=SECTIONS[key];if(!archST||!s)return;const y=archST.start+(archST.end-archST.start)*s.progress;window.scrollTo({top:y,behavior:'smooth'});}
+function setPhase(p){document.getElementById('progressFill').style.width=(p*100).toFixed(1)+'%';setSection(p<0.32?'eco':p<0.62?'frontend':'backend');}
+function initPaths(sel,drawn){document.querySelectorAll(sel).forEach(p=>{const L=p.getTotalLength();p.style.strokeDasharray=L;p.style.strokeDashoffset=drawn?0:L;});}
+
+/* nav + seg buttons */
+document.querySelectorAll('#seg button,#topnav button[data-sec]').forEach(b=>b.addEventListener('click',()=>jumpTo(b.dataset.sec)));
+document.querySelectorAll('#topnav button[data-link]').forEach(b=>b.addEventListener('click',()=>{const el=document.querySelector(b.dataset.link);if(el)el.scrollIntoView({behavior:'smooth'});}));
+
+addEventListener('load',()=>{
+  const boot=document.getElementById('boot'),bar=document.getElementById('bootBar'),log=document.getElementById('bootLog');
+  const logs=['loading sheet…','resolving graph…','plotting 24 nodes…','inking traces…','render ready ✓'];let li=0;
+  const lt=setInterval(()=>{if(log)log.textContent=logs[li=Math.min(li+1,logs.length-1)];},300);
+  requestAnimationFrame(()=>{if(bar)bar.style.width='100%';});
+  setTimeout(()=>{clearInterval(lt);if(boot)boot.classList.add('gone');},1600);
+
+  if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined'){initPaths('.fe-link',true);initPaths('.be-link',true);curKey='';setSection('eco');return;}
+  gsap.registerPlugin(ScrollTrigger);
+  initPaths('.fe-link',false);initPaths('.be-link',false);
+  gsap.set('#cluster-frontend',{opacity:0,scale:.55,filter:'blur(8px)'});
+  gsap.set('#cluster-backend',{opacity:0,scale:.55,filter:'blur(8px)'});
+
+  const tl=gsap.timeline({scrollTrigger:{trigger:'.architecture',start:'top top',end:'bottom bottom',scrub:1,pin:'.stage',anticipatePin:1,invalidateOnRefresh:true,onUpdate:self=>setPhase(self.progress)}});
+  archST=tl.scrollTrigger;
+
+  tl.to('#cluster-eco',{scale:2.0,opacity:0,filter:'blur(10px)',ease:'power2.in',duration:.14},0.30);
+  tl.to('#cluster-frontend',{opacity:1,scale:1,filter:'blur(0px)',ease:'power2.out',duration:.14},0.33);
+  tl.to('.fe-link',{strokeDashoffset:0,stagger:.012,ease:'none',duration:.16},0.35);
+  tl.to('#cluster-frontend',{scale:2.0,opacity:0,filter:'blur(10px)',ease:'power2.in',duration:.14},0.60);
+  tl.to('#cluster-backend',{opacity:1,scale:1,filter:'blur(0px)',ease:'power2.out',duration:.14},0.63);
+  tl.to('.be-link',{strokeDashoffset:0,stagger:.009,ease:'none',duration:.18},0.65);
+  tl.to({},{duration:.18},0.83);
+
+  curKey='';setPhase(0);
+  setTimeout(()=>ScrollTrigger.refresh(),400);
+});
+</script>
+</body>
+</html>

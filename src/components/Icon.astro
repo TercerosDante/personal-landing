@@ -1,0 +1,43 @@
+---
+/**
+ * Build-time SVG icon.
+ *
+ * Inlines ONLY the referenced icon's SVG into the HTML at build time. The full
+ * icon set lives in the `@iconify-json/devicon` devDependency and is never
+ * shipped to the browser — no runtime JS, no icon-font CDN.
+ *
+ * Usage:
+ *   import Icon from '../components/Icon.astro';
+ *   <Icon name="react" size={20} title="React" />
+ *
+ * `name` is an Iconify devicon key. Browse the set:
+ *   https://icon-sets.iconify.design/devicon/
+ */
+import { icons } from "@iconify-json/devicon";
+import { getIconData, iconToSVG, iconToHTML, replaceIDs } from "@iconify/utils";
+
+interface Props {
+  name: string;
+  size?: number;
+  title?: string;
+  class?: string;
+}
+
+const { name, size = 24, title, class: className } = Astro.props;
+
+const data = getIconData(icons, name);
+if (!data) {
+  throw new Error(
+    `[Icon] Unknown devicon icon "${name}". Browse names at https://icon-sets.iconify.design/devicon/`,
+  );
+}
+
+const { attributes, body } = iconToSVG(data, { height: size });
+const svg = iconToHTML(replaceIDs(body), {
+  ...attributes,
+  ...(className ? { class: className } : {}),
+  ...(title ? { role: "img", "aria-label": title } : { "aria-hidden": "true" }),
+} as Record<string, string>);
+---
+
+<Fragment set:html={svg} />
