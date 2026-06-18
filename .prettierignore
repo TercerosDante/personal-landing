@@ -1,5 +1,4 @@
 dist
 .astro
 node_modules
-POC
 package-lock.json
