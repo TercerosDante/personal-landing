@@ -1,19 +1,32 @@
-# Ronald Terceros — Personal Site
+# Ronald Terceros — Portfolio
 
-Personal portfolio for Ronald Terceros (Full-Stack Engineer), built with [Astro](https://astro.build) and deployed on Vercel as a fully **static** site.
+Personal portfolio for **Ronald Terceros** (Full-Stack Engineer), built with
+[Astro](https://astro.build) as a fully **static**, bilingual (EN/ES) site and deployed on Vercel at
+**[ronaldterceros.com](https://ronaldterceros.com)**.
 
-> **Status — scaffold only.** The portfolio currently lives as raw HTML in [`POC/`](./POC) and has **not** been integrated into the Astro app yet. The home page is a placeholder.
+Performance-first: no UI framework, `astro` is the only runtime dependency, and the client ships a
+single ~3 KB (gzipped) script.
+
+## Highlights
+
+- **Static Astro 6** — no adapter, Vercel zero-config.
+- **Bilingual** — English by default with an in-place EN ⇄ ES toggle (no reload, no i18n library).
+- **Optimized assets** — `astro:assets` AVIF/WebP responsive images, self-hosted subset fonts
+  (Astro Fonts API), build-time inlined SVG icons. No third-party CDNs.
+- **SEO** — canonical, Open Graph + Twitter cards, JSON-LD `Person`, sitemap, robots.txt, custom
+  1200×630 share image.
+- **Accessible** — WCAG AA contrast, landmarks, correct heading order.
 
 ## Requirements
 
-- **Node.js ≥ 22.12** (required by Astro 6). `.nvmrc` pins Node `22`.
+- **Node.js ≥ 22.12** (Astro 6). `.nvmrc` pins Node `22`.
 
 ## Commands
 
 | Command           | Action                                          |
 | ----------------- | ----------------------------------------------- |
 | `npm install`     | Install dependencies                            |
-| `npm run dev`     | Start the dev server at `http://localhost:4321` |
+| `npm run dev`     | Dev server at `http://localhost:4321`           |
 | `npm run build`   | Build the static site to `dist/`                |
 | `npm run preview` | Preview the production build locally            |
 | `npm run check`   | Type-check the project (`astro check`)          |
@@ -23,22 +36,26 @@ Personal portfolio for Ronald Terceros (Full-Stack Engineer), built with [Astro]
 
 ```text
 src/
-  components/Icon.astro   # build-time SVG icon — inlines only-used icons, no CDN
-  layouts/Layout.astro    # base HTML document
-  pages/index.astro       # placeholder home page
-public/                   # static assets served as-is (favicon, …)
-POC/                      # original hand-built portfolio (raw HTML) — to be integrated
+  pages/index.astro      # the single page (composes the section components)
+  layouts/Layout.astro   # <head> (SEO + fonts), embeds the ES i18n payload, loads the client script
+  components/            # Nav · Hero · Experience · Projects · Stack · Education · Contact · Footer
+                        # + Background · Lightbox · Boot · Icon
+  data/                  # structural data only (tech tokens, icons, colors, images, dates)
+  i18n/content.ts        # all reader-facing copy, English + Spanish, typed
+  scripts/client.ts      # all client behaviour (bundled, typed)
+  scripts/i18n.ts        # the EN/ES in-place swap engine
+  styles/global.css      # single design-system stylesheet (design tokens + all rules)
+  assets/                # images processed by astro:assets
+public/                  # served as-is: favicon, og.png, resume.pdf, robots.txt, sitemap.xml
 ```
 
-## Performance approach
+## Editing content
 
-This scaffold is set up to keep the eventual portfolio fast:
-
-- **Images** — Astro's built-in [`astro:assets`](https://docs.astro.build/en/guides/images/) (Sharp) converts source images to WebP/AVIF with responsive sizes at build time. (The POC screenshots are 1.4–1.9 MB PNGs.)
-- **Icons** — `src/components/Icon.astro` inlines only the icons actually referenced from `@iconify-json/devicon` at build time. No icon-font CDN, no runtime JS.
-- **Fonts** — to be self-hosted/subset with Astro's built-in Fonts API (removes the Google Fonts CDN).
-- **Static output** — no server runtime; nothing extra ships to the browser.
+All copy lives in **`src/i18n/content.ts`** (both locales). The `Content` interface keeps the English
+and Spanish trees in sync. The `src/data/*.ts` files hold only non-text structure. See
+[`CLAUDE.md`](./CLAUDE.md) for the architecture, i18n mechanism, and conventions in detail.
 
 ## Deployment (Vercel)
 
-Push to GitHub and import the repository on [Vercel](https://vercel.com). It auto-detects Astro (build `astro build`, output `dist/`, Node 22) — **no adapter and no `vercel.json` needed** for a static site.
+Vercel auto-detects Astro (build `astro build`, output `dist/`, Node 22) — **no adapter and no
+`vercel.json`** for a static site. The production domain is configured on the Vercel project.
