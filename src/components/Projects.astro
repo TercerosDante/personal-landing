@@ -1,60 +1,87 @@
 ---
 import { Picture } from 'astro:assets';
 import { projects } from '../data/projects';
+import { dict } from '../i18n/content';
+
+const t = dict.proj;
 ---
 
 <section class="sec" id="projects">
   <div class="sec-head reveal">
-    <div class="eyebrow">02 / Projects</div>
-    <h2>Independent &amp; freelance work.</h2>
-    <p class="sub">Side projects shipped end-to-end — architecture, backend, frontend and delivery.</p>
+    <div class="eyebrow" data-i18n="proj.eyebrow">{t.eyebrow}</div>
+    <h2 data-i18n="proj.title">{t.title}</h2>
+    <p class="sub" data-i18n="proj.sub">{t.sub}</p>
   </div>
   <div class="proj-grid">
     {
-      projects.map((p) => (
-        <article class="proj reveal">
-          <div class="proj-thumb">
-            <Picture
-              src={p.image}
-              alt={p.alt}
-              formats={['avif', 'webp']}
-              fallbackFormat="webp"
-              widths={[480, 760, 1100, 1600]}
-              sizes="(max-width:820px) 92vw, 54vw"
-            />
-            <span class="zoom-hint">
-              <span class="zh">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <circle cx="11" cy="11" r="7" />
-                  <path d="M21 21l-4.3-4.3M11 8.5v5M8.5 11h5" />
+      projects.map((p, i) => {
+        const item = t.items[i];
+        const live = item.live;
+        return (
+          <article class="proj reveal">
+            <div class="proj-thumb">
+              <Picture
+                src={p.image}
+                alt={item.alt}
+                data-i18n-attr={`alt:proj.items.${i}.alt`}
+                formats={['avif', 'webp']}
+                fallbackFormat="webp"
+                widths={[480, 760, 1100, 1600]}
+                sizes="(max-width:820px) 92vw, 54vw"
+              />
+              <span class="zoom-hint">
+                <span class="zh">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                  >
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="M21 21l-4.3-4.3M11 8.5v5M8.5 11h5" />
+                  </svg>
+                </span>
+              </span>
+            </div>
+            <div class="proj-body">
+              <div class="p-top">
+                <span class="p-year" data-i18n={`proj.items.${i}.year`}>
+                  {item.year}
+                </span>
+              </div>
+              <h3 data-i18n={`proj.items.${i}.title`}>{item.title}</h3>
+              {live && (
+                <span class="live">
+                  <i />
+                  <span data-i18n={`proj.items.${i}.live`}>{live}</span>
+                </span>
+              )}
+              <p data-i18n={`proj.items.${i}.desc`}>{item.desc}</p>
+              <div class="chips">
+                {p.tags.map((tag) => (
+                  <span class={tag.hot ? 'hot' : undefined}>{tag.label}</span>
+                ))}
+              </div>
+              <a
+                class="view ph"
+                href="#"
+                data-ph={t.linkPending}
+                data-i18n-attr="data-ph:proj.linkPending"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <path d="M7 17 17 7M9 7h8v8" />
                 </svg>
-              </span>
-            </span>
-          </div>
-          <div class="proj-body">
-            <div class="p-top">
-              <span class="p-year">{p.year}</span>
+                <span data-i18n="proj.view">{t.view}</span>
+              </a>
             </div>
-            <h3>{p.title}</h3>
-            {p.live && (
-              <span class="live">
-                <i />
-                {p.live}
-              </span>
-            )}
-            <p>{p.description}</p>
-            <div class="chips">
-              {p.tags.map((t) => <span class={t.hot ? 'hot' : undefined}>{t.label}</span>)}
-            </div>
-            <a class="view ph" href="#" data-ph="Project link — pending">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="M7 17 17 7M9 7h8v8" />
-              </svg>
-              View project
-            </a>
-          </div>
-        </article>
-      ))
+          </article>
+        );
+      })
     }
   </div>
 </section>

@@ -1,17 +1,25 @@
 ---
 import Icon from './Icon.astro';
 import { stack } from '../data/stack';
+import { dict } from '../i18n/content';
 
+const t = dict.stack;
 const total = stack.reduce((sum, layer) => sum + layer.techs.length, 0);
 ---
 
 <section class="sec" id="stack">
   <div class="sec-head reveal">
-    <div class="eyebrow">03 / Stack</div>
-    <h2>The full stack, laid out.</h2>
+    <div class="eyebrow" data-i18n="stack.eyebrow">{t.eyebrow}</div>
+    <h2 data-i18n="stack.title">{t.title}</h2>
     <p class="sub">
-      Production-grade tooling I reach for across the whole lifecycle — organised by layer.
-      <span class="stack-count">// {total} technologies · {stack.length} layers</span>
+      <span data-i18n="stack.sub">{t.sub}</span>
+      <span class="stack-count"
+        >// {total}
+        <span data-i18n="stack.technologies">{t.technologies}</span> · {
+          stack.length
+        }
+        <span data-i18n="stack.layers">{t.layers}</span></span
+      >
     </p>
   </div>
   <div class="layers">
@@ -26,17 +34,30 @@ const total = stack.reduce((sum, layer) => sum + layer.techs.length, 0);
           </div>
           <div class="layer-body">
             <div class="layer-head">
-              <h3>{layer.name}</h3>
-              <span class="cnt">{layer.techs.length} modules</span>
-              <span class="lnote">{layer.note}</span>
+              <h3 data-i18n={`stack.items.${li}.name`}>{t.items[li].name}</h3>
+              <span class="cnt">
+                {layer.techs.length}{' '}
+                <span data-i18n="stack.modules">{t.modules}</span>
+              </span>
+              <span class="lnote" data-i18n={`stack.items.${li}.note`}>
+                {t.items[li].note}
+              </span>
             </div>
             <div class="techs">
-              {layer.techs.map((t) => (
-                <span class="tech" data-note={t.note}>
-                  <span class="ti" style={`color:${t.color}`}>
-                    {t.icon ? <Icon name={t.icon} size={17} /> : <b class="tm">{t.mono}</b>}
+              {layer.techs.map((tech, ti) => (
+                <span
+                  class="tech"
+                  data-note={t.items[li].techs[ti]}
+                  data-i18n-attr={`data-note:stack.items.${li}.techs.${ti}`}
+                >
+                  <span class="ti" style={`color:${tech.color}`}>
+                    {tech.icon ? (
+                      <Icon name={tech.icon} size={17} />
+                    ) : (
+                      <b class="tm">{tech.mono}</b>
+                    )}
                   </span>
-                  <span class="tn">{t.label}</span>
+                  <span class="tn">{tech.label}</span>
                 </span>
               ))}
             </div>

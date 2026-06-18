@@ -1,13 +1,14 @@
+/** Section anchors. Labels live in `src/i18n/content.ts` under `nav.<key>`. */
 export interface NavItem {
   href: string;
-  label: string;
+  key: 'about' | 'experience' | 'projects' | 'stack' | 'education' | 'contact';
 }
 
 export const nav: NavItem[] = [
-  { href: '#about', label: 'About' },
-  { href: '#experience', label: 'Experience' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#stack', label: 'Stack' },
-  { href: '#education', label: 'Education' },
-  { href: '#contact', label: 'Contact' },
+  { href: '#about', key: 'about' },
+  { href: '#experience', key: 'experience' },
+  { href: '#projects', key: 'projects' },
+  { href: '#stack', key: 'stack' },
+  { href: '#education', key: 'education' },
+  { href: '#contact', key: 'contact' },
 ];

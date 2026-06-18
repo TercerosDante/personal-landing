@@ -1,33 +1,46 @@
 ---
 import { education, languages } from '../data/education';
+import { dict } from '../i18n/content';
+
+const t = dict.edu;
 ---
 
 <section class="sec" id="education">
   <div class="sec-head reveal">
-    <div class="eyebrow">04 / Education</div>
-    <h2>Training &amp; languages.</h2>
+    <div class="eyebrow" data-i18n="edu.eyebrow">{t.eyebrow}</div>
+    <h2 data-i18n="edu.title">{t.title}</h2>
   </div>
   <div class="edu-grid">
     <div class="edu-list">
       {
         education.map((e, i) => (
-          <div class="edu reveal" data-d={i ? (i * 0.06).toFixed(2) : undefined}>
+          <div
+            class="edu reveal"
+            data-d={i ? (i * 0.06).toFixed(2) : undefined}
+          >
             <div class="yr">{e.year}</div>
             <div class="ed-b">
-              <h4>{e.title}</h4>
-              <div class="inst">{e.inst}</div>
+              <h4 data-i18n={`edu.items.${i}.title`}>{t.items[i].title}</h4>
+              <div class="inst" data-i18n={`edu.items.${i}.inst`}>
+                {t.items[i].inst}
+              </div>
             </div>
           </div>
         ))
       }
     </div>
     <div class="lang-card reveal" data-d=".1">
-      <div class="lc-h">Languages</div>
+      <div class="lc-h" data-i18n="edu.languages">{t.languages}</div>
       {
-        languages.map((l) => (
+        languages.map((l, i) => (
           <div class="lang">
             <div class="lt">
-              {l.name} <span>{l.level}</span>
+              <span class="ln" data-i18n={`edu.langs.${i}.name`}>
+                {t.langs[i].name}
+              </span>
+              <span class="lv" data-i18n={`edu.langs.${i}.level`}>
+                {t.langs[i].level}
+              </span>
             </div>
             <div class="bar">
               <i style={`width:${l.pct}%`} />

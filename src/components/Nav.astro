@@ -1,18 +1,49 @@
 ---
 import { site } from '../data/site';
 import { nav } from '../data/nav';
+import { dict } from '../i18n/content';
 ---
 
 <header class="topbar">
   <div class="brand" data-go="#about">
-    <b>RONALD&nbsp;TERCEROS</b><span class="role">{site.role}</span>
+    <b>RONALD&nbsp;TERCEROS</b><span class="role" data-i18n="hero.role"
+      >{dict.hero.role}</span
+    >
   </div>
   <nav class="nav" id="nav">
-    {nav.map((item, i) => <a href={item.href} class={i === 0 ? 'on' : undefined}>{item.label}</a>)}
-    <a href={site.cv} class="cvbtn" target="_blank" rel="noopener">CV ↓</a>
+    {
+      nav.map((item, i) => (
+        <a
+          href={item.href}
+          class={i === 0 ? 'on' : undefined}
+          data-i18n={`nav.${item.key}`}
+        >
+          {dict.nav[item.key]}
+        </a>
+      ))
+    }
+    <a
+      href={site.cv}
+      class="cvbtn"
+      target="_blank"
+      rel="noopener"
+      data-i18n="nav.cv">{dict.nav.cv}</a
+    >
   </nav>
   <div class="navtools">
-    <div class="clk-wrap"><span class="live"></span><span id="clock">--:--:--</span><span>UTC−4</span></div>
-    <button class="menu-btn" id="menuBtn" aria-label="Menu"><i></i><i></i><i></i></button>
+    <button
+      id="langToggle"
+      class="lang-toggle"
+      type="button"
+      aria-label="Cambiar a español">ES</button
+    >
+    <div class="clk-wrap">
+      <span class="live"></span><span id="clock">--:--:--</span><span
+        >UTC−4</span
+      >
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu"
+      ><i></i><i></i><i></i></button
+    >
   </div>
 </header>

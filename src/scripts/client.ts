@@ -3,6 +3,9 @@
  * base Layout) — typed, tree-shaken, no inline blob.
  */
 import { site } from '../data/site';
+// Importing the named helpers also runs the i18n module (toggle wiring + any
+// saved-locale swap) before the behaviours below read the current language.
+import { taglineWords, openingText } from './i18n';
 
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -23,18 +26,19 @@ setInterval(tick, 1000);
 (() => {
   const el = document.getElementById('tw');
   if (!el) return;
-  const words = site.tagline;
+  let words = taglineWords();
   let i = 0;
   let c = 0;
   let del = false;
+  let timer: ReturnType<typeof setTimeout>;
   const step = () => {
-    const t = words[i];
+    const t = words[i % words.length] ?? '';
     el.textContent = t.slice(0, c);
     if (!del) {
       c++;
       if (c > t.length) {
         del = true;
-        setTimeout(step, 1300);
+        timer = setTimeout(step, 1300);
         return;
       }
     } else {
@@ -45,9 +49,18 @@ setInterval(tick, 1000);
         c = 0;
       }
     }
-    setTimeout(step, del ? 34 : 72);
+    timer = setTimeout(step, del ? 34 : 72);
   };
   step();
+  // Rebuild with the new locale's words when the language toggles.
+  window.addEventListener('langchange', () => {
+    words = taglineWords();
+    i = 0;
+    c = 0;
+    del = false;
+    clearTimeout(timer);
+    step();
+  });
 })();
 
 /* ============================== WARP GRID (mouse-gravity background) ============================== */
@@ -76,14 +89,22 @@ setInterval(tick, 1000);
   }
   resize();
   window.addEventListener('resize', resize);
-  window.addEventListener('pointermove', (e) => {
-    tmx = e.clientX;
-    tmy = e.clientY;
-  }, { passive: true });
-  window.addEventListener('pointerdown', (e) => {
-    tmx = e.clientX;
-    tmy = e.clientY;
-  }, { passive: true });
+  window.addEventListener(
+    'pointermove',
+    (e) => {
+      tmx = e.clientX;
+      tmy = e.clientY;
+    },
+    { passive: true },
+  );
+  window.addEventListener(
+    'pointerdown',
+    (e) => {
+      tmx = e.clientX;
+      tmy = e.clientY;
+    },
+    { passive: true },
+  );
   document.addEventListener('mouseleave', () => {
     tmx = -9999;
     tmy = -9999;
@@ -162,13 +183,21 @@ setInterval(tick, 1000);
   let tsy = window.scrollY || 0;
   let sy = tsy;
   let t = 0;
-  window.addEventListener('pointermove', (e) => {
-    tmx = e.clientX / window.innerWidth - 0.5;
-    tmy = e.clientY / window.innerHeight - 0.5;
-  }, { passive: true });
-  window.addEventListener('scroll', () => {
-    tsy = window.scrollY;
-  }, { passive: true });
+  window.addEventListener(
+    'pointermove',
+    (e) => {
+      tmx = e.clientX / window.innerWidth - 0.5;
+      tmy = e.clientY / window.innerHeight - 0.5;
+    },
+    { passive: true },
+  );
+  window.addEventListener(
+    'scroll',
+    () => {
+      tsy = window.scrollY;
+    },
+    { passive: true },
+  );
   const loop = () => {
     requestAnimationFrame(loop);
     mx += (tmx - mx) * 0.06;
@@ -200,9 +229,11 @@ setInterval(tick, 1000);
     }),
   );
   if (!nav) return;
-  nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]:not(.ph)').forEach((a) =>
-    a.addEventListener('click', () => nav.classList.remove('open')),
-  );
+  nav
+    .querySelectorAll<HTMLAnchorElement>('a[href^="#"]:not(.ph)')
+    .forEach((a) =>
+      a.addEventListener('click', () => nav.classList.remove('open')),
+    );
   const navMap: Record<string, HTMLAnchorElement> = {};
   nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
     const href = a.getAttribute('href');
@@ -268,10 +299,14 @@ setInterval(tick, 1000);
     const name = (d.get('name') || '').toString().trim();
     const email = (d.get('email') || '').toString().trim();
     const msg = (d.get('message') || '').toString().trim();
-    const subject = encodeURIComponent(`Portfolio contact${name ? ` — ${name}` : ''}`);
-    const body = encodeURIComponent(`${msg}\n\n— ${name}${email ? `\n${email}` : ''}`);
+    const subject = encodeURIComponent(
+      `Portfolio contact${name ? ` — ${name}` : ''}`,
+    );
+    const body = encodeURIComponent(
+      `${msg}\n\n— ${name}${email ? `\n${email}` : ''}`,
+    );
     const note = document.getElementById('cformNote');
-    if (note) note.textContent = 'Opening your email client…';
+    if (note) note.textContent = openingText();
     window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
   });
 })();
@@ -296,7 +331,10 @@ setInterval(tick, 1000);
   };
   document.querySelectorAll<HTMLElement>('.proj-thumb').forEach((t) => {
     const im = t.querySelector('img');
-    if (im) t.addEventListener('click', () => open(im.getAttribute('src') || '', im.getAttribute('alt') || ''));
+    if (im)
+      t.addEventListener('click', () =>
+        open(im.getAttribute('src') || '', im.getAttribute('alt') || ''),
+      );
   });
   lbClose?.addEventListener('click', close);
   lb.addEventListener('click', (e) => {
