@@ -1,0 +1,48 @@
+---
+import Icon from './Icon.astro';
+import { stack } from '../data/stack';
+
+const total = stack.reduce((sum, layer) => sum + layer.techs.length, 0);
+---
+
+<section class="sec" id="stack">
+  <div class="sec-head reveal">
+    <div class="eyebrow">03 / Stack</div>
+    <h2>The full stack, laid out.</h2>
+    <p class="sub">
+      Production-grade tooling I reach for across the whole lifecycle — organised by layer.
+      <span class="stack-count">// {total} technologies · {stack.length} layers</span>
+    </p>
+  </div>
+  <div class="layers">
+    {
+      stack.map((layer, li) => (
+        <div class="layer reveal" data-d={(li * 0.07).toFixed(2)}>
+          <div class="layer-rail">
+            <div class="layer-node">
+              <span class="lm">{layer.mark}</span>
+              <span class="lx">{layer.idx}</span>
+            </div>
+          </div>
+          <div class="layer-body">
+            <div class="layer-head">
+              <h3>{layer.name}</h3>
+              <span class="cnt">{layer.techs.length} modules</span>
+              <span class="lnote">{layer.note}</span>
+            </div>
+            <div class="techs">
+              {layer.techs.map((t) => (
+                <span class="tech" data-note={t.note}>
+                  <span class="ti" style={`color:${t.color}`}>
+                    {t.icon ? <Icon name={t.icon} size={17} /> : <b class="tm">{t.mono}</b>}
+                  </span>
+                  <span class="tn">{t.label}</span>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

@@ -1,0 +1,13 @@
+---
+// Image viewer. Opened by the client script when a project thumbnail is clicked.
+---
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lb-close" id="lbClose" aria-label="Close viewer (Esc)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M6 6l12 12M18 6 6 18"></path>
+    </svg>
+  </button>
+  <figure><img id="lbImg" src="" alt="" /><figcaption id="lbCap"></figcaption></figure>
+  <div class="lb-hint">Esc · click outside · ✕ to close</div>
+</div>
