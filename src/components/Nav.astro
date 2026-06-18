@@ -1,0 +1,18 @@
+---
+import { site } from '../data/site';
+import { nav } from '../data/nav';
+---
+
+<header class="topbar">
+  <div class="brand" data-go="#about">
+    <b>RONALD&nbsp;TERCEROS</b><span class="role">{site.role}</span>
+  </div>
+  <nav class="nav" id="nav">
+    {nav.map((item, i) => <a href={item.href} class={i === 0 ? 'on' : undefined}>{item.label}</a>)}
+    <a href="#" class="cvbtn ph" data-ph="CV PDF — coming soon">CV ↓</a>
+  </nav>
+  <div class="navtools">
+    <div class="clk-wrap"><span class="live"></span><span id="clock">--:--:--</span><span>UTC−4</span></div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu"><i></i><i></i><i></i></button>
+  </div>
+</header>

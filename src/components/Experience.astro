@@ -1,0 +1,38 @@
+---
+import { experience } from '../data/experience';
+---
+
+<section class="sec" id="experience">
+  <div class="sec-head reveal">
+    <div class="eyebrow">01 / Experience</div>
+    <h2>Professional timeline.</h2>
+    <p class="sub">Most recent first — production work across remote teams and international clients.</p>
+  </div>
+  <div class="timeline">
+    {
+      experience.map((co) => (
+        <div class="tl-group reveal">
+          <div class="tl-co">
+            <h3>{co.name}</h3>
+            <span class="meta">{co.meta}</span>
+            <span class="when">{co.when}</span>
+          </div>
+          <div class="tl-items">
+            {co.roles.map((role) => (
+              <article class="tl-card">
+                <div class="ph-row">
+                  <h4>{role.name}</h4>
+                  <span class="tag-cli">{role.client}</span>
+                </div>
+                <p>{role.description}</p>
+                <div class="chips">
+                  {role.tags.map((t) => <span class={t.hot ? 'hot' : undefined}>{t.label}</span>)}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

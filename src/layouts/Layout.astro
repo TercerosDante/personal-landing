@@ -1,13 +1,14 @@
 ---
+import '../styles/global.css';
+import { Font } from 'astro:assets';
+import { site } from '../data/site';
+
 interface Props {
   title?: string;
   description?: string;
 }
 
-const {
-  title = "Ronald Terceros — Full-Stack Engineer",
-  description = "Full-Stack Engineer · TypeScript · React / Next.js · Node.js / NestJS · PostgreSQL · Bolivia (Remote).",
-} = Astro.props;
+const { title = `${site.name} — ${site.role}`, description = site.description } = Astro.props;
 ---
 
 <!doctype html>
@@ -19,8 +20,13 @@ const {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <Font cssVariable="--font-archivo" />
+    <Font cssVariable="--font-mono" />
   </head>
   <body>
     <slot />
+    <script>
+      import '../scripts/client';
+    </script>
   </body>
 </html>
