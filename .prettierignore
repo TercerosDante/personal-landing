@@ -2,3 +2,5 @@ dist
 .astro
 node_modules
 package-lock.json
+# Generated compact design-system stylesheet — keep as-is.
+src/styles/global.css

@@ -2,13 +2,27 @@
 import '../styles/global.css';
 import { Font } from 'astro:assets';
 import { site } from '../data/site';
+import { content } from '../i18n/content';
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const { title = `${site.name} — ${site.role}`, description = site.description } = Astro.props;
+const {
+  title = `${site.name} — ${site.role}`,
+  description = site.description,
+} = Astro.props;
+
+// Spanish copy + the EN-only bits the client needs (typewriter words, mailto
+// status) — embedded once for the in-place language toggle (src/scripts/i18n.ts).
+const i18nData = {
+  es: content.es,
+  enExtra: {
+    tagline: content.en.hero.tagline,
+    opening: content.en.contact.opening,
+  },
+};
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL('/og.png', Astro.site).href;
@@ -62,6 +76,7 @@ const personLd = {
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={`${site.name} — ${site.role}`} />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="es_ES" />
 
     {/* Twitter / X */}
     <meta name="twitter:card" content="summary_large_image" />
@@ -70,12 +85,22 @@ const personLd = {
     <meta name="twitter:image" content={ogImage} />
 
     {/* Structured data — schema.org/Person */}
-    <script type="application/ld+json" is:inline set:html={JSON.stringify(personLd)} />
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(personLd)}
+    />
 
     <Font cssVariable="--font-archivo" />
     <Font cssVariable="--font-mono" />
   </head>
   <body>
+    <script
+      type="application/json"
+      id="i18n-data"
+      is:inline
+      set:html={JSON.stringify(i18nData)}
+    />
     <slot />
     <script>
       import '../scripts/client';

@@ -1,8 +1,9 @@
 ---
 // Brief load overlay; faded out by the client script once the page is ready.
+import { dict } from '../i18n/content';
 ---
 
 <div class="boot" id="boot">
-  <div class="bt">Loading Portfolio</div>
+  <div class="bt" data-i18n="boot.loading">{dict.boot.loading}</div>
   <div class="bbar"><i id="bootBar"></i></div>
 </div>

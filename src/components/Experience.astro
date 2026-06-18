@@ -1,32 +1,48 @@
 ---
 import { experience } from '../data/experience';
+import { dict } from '../i18n/content';
+
+const t = dict.exp;
 ---
 
 <section class="sec" id="experience">
   <div class="sec-head reveal">
-    <div class="eyebrow">01 / Experience</div>
-    <h2>Professional timeline.</h2>
-    <p class="sub">Most recent first — production work across remote teams and international clients.</p>
+    <div class="eyebrow" data-i18n="exp.eyebrow">{t.eyebrow}</div>
+    <h2 data-i18n="exp.title">{t.title}</h2>
+    <p class="sub" data-i18n="exp.sub">{t.sub}</p>
   </div>
   <div class="timeline">
     {
-      experience.map((co) => (
+      experience.map((co, ci) => (
         <div class="tl-group reveal">
           <div class="tl-co">
             <h3>{co.name}</h3>
-            <span class="meta">{co.meta}</span>
-            <span class="when">{co.when}</span>
+            <span class="meta" data-i18n={`exp.companies.${ci}.meta`}>
+              {t.companies[ci].meta}
+            </span>
+            <span class="when" data-i18n={`exp.companies.${ci}.when`}>
+              {t.companies[ci].when}
+            </span>
           </div>
           <div class="tl-items">
-            {co.roles.map((role) => (
+            {co.roles.map((role, ri) => (
               <article class="tl-card">
                 <div class="ph-row">
                   <h4>{role.name}</h4>
-                  <span class="tag-cli">{role.client}</span>
+                  <span
+                    class="tag-cli"
+                    data-i18n={`exp.companies.${ci}.roles.${ri}.client`}
+                  >
+                    {t.companies[ci].roles[ri].client}
+                  </span>
                 </div>
-                <p>{role.description}</p>
+                <p data-i18n={`exp.companies.${ci}.roles.${ri}.desc`}>
+                  {t.companies[ci].roles[ri].desc}
+                </p>
                 <div class="chips">
-                  {role.tags.map((t) => <span class={t.hot ? 'hot' : undefined}>{t.label}</span>)}
+                  {role.tags.map((tag) => (
+                    <span class={tag.hot ? 'hot' : undefined}>{tag.label}</span>
+                  ))}
                 </div>
               </article>
             ))}
