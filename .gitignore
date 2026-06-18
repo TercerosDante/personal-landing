@@ -19,3 +19,7 @@ npm-debug.log*
 .serena
 .DS_Store
 Thumbs.db
+
+# local lighthouse audit exports
+desktop.json
+mobile.json
