@@ -105,7 +105,9 @@ let lang: Lang = 'en';
 function updateToggle(): void {
   const btn = document.getElementById('langToggle');
   if (!btn) return;
-  btn.textContent = lang === 'en' ? 'ES' : 'EN';
+  // Update only the code label so the globe icon is preserved.
+  const code = btn.querySelector('.lang-code');
+  if (code) code.textContent = lang === 'en' ? 'ES' : 'EN';
   btn.setAttribute(
     'aria-label',
     lang === 'en' ? 'Cambiar a español' : 'Switch to English',
