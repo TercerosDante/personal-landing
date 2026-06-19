@@ -46,6 +46,8 @@ export interface Content {
     title: string;
     sub: string;
     view: string;
+    /** `<summary>` label for the expandable technical details. */
+    techDetails: string;
     /** One per group in `src/data/projects.ts` (same order); items match too. */
     groups: {
       label: string;
@@ -55,7 +57,10 @@ export interface Content {
         year: string;
         live?: string;
         alt?: string;
-        desc: string;
+        /** Plain-language product line (visible). */
+        product: string;
+        /** Technical deep-dive (collapsed in a <details>). */
+        tech: string;
       }[];
     }[];
   };
@@ -124,11 +129,11 @@ const en: Content = {
         roles: [
           {
             client: 'JP Client',
-            desc: 'Mobile-first web platform for assisted-transport taxi matching. NestJS + TypeScript + PostgreSQL (Prisma) backend with a modular, event-driven structure and JWT auth (access/refresh) with RBAC. Idempotent Stripe payments layer with HMAC verification, scheduled background jobs, AWS (S3, SES, SNS) and Google Maps integrations. CI/CD on GitHub Actions, deployed on EC2 behind Traefik over HTTPS. Mobile-first client with React Native + Expo.',
+            desc: 'Built the idempotent Stripe payments layer (HMAC-verified) and the event-driven core APIs with JWT access/refresh + RBAC. Wired the AWS (S3, SES, SNS) and Google Maps integrations and scheduled background jobs, and set up CI/CD on GitHub Actions deploying to EC2 behind Traefik. Contributed to the React Native + Expo client.',
           },
           {
             client: 'JP Client',
-            desc: 'SaaS for Shopee seller management. REST API in NestJS 11 + Prisma 6 over PostgreSQL (58 models). Stripe subscriptions with signature-verified webhooks, Shopee integration (OAuth, product/order sync) and a resilient sync framework. Frontend in Next.js 15 + React 19 with MUI, TanStack Query and Zod.',
+            desc: 'Built the REST API in NestJS 11 + Prisma 6 (58-model PostgreSQL schema), the Stripe subscriptions with signature-verified webhooks, and the Shopee OAuth integration with a resilient product/order sync framework. Shipped frontend features in Next.js 15 + React 19 (MUI, TanStack Query, Zod).',
           },
           {
             client: 'JP Client',
@@ -161,6 +166,7 @@ const en: Content = {
     title: "Things I've shipped.",
     sub: 'Products taken from architecture to delivery — side projects shipped solo, plus production builds co-developed with teams for international clients.',
     view: 'Live App',
+    techDetails: 'Technical details',
     groups: [
       {
         label: 'Independent & Freelance',
@@ -171,14 +177,18 @@ const en: Content = {
             year: '2026 · Independent',
             live: 'In production',
             alt: 'Multi-Tenant ERP / POS for Restaurants — interface preview',
-            desc: 'Multi-tenant architecture (AsyncLocalStorage TenantContext, tenantId isolation, JWT with tenant/location claims) with three auth layers. A modular "Lego" system activates core modules (POS, inventory, cash) and industry modules through a catalog and guards. DDD with unit-tested domain logic and event-driven cross-module communication. POS frontend (React 18, Vite, Ant Design, Zustand) runs on Android (Capacitor) and desktop (Electron) from one codebase. pnpm/Turborepo monorepo with shared Zod contracts, GitHub Actions, Docker + Traefik on a VPS.',
+            product:
+              "A point-of-sale and back-office platform that runs a restaurant's registers, inventory and cash from one app — on Android tablets and desktop.",
+            tech: 'Multi-tenant architecture (AsyncLocalStorage TenantContext, tenantId isolation, JWT with tenant/location claims) with three auth layers. A modular "Lego" system activates core modules (POS, inventory, cash) and industry modules through a catalog and guards. DDD with unit-tested domain logic and event-driven cross-module communication. POS frontend (React 18, Vite, Ant Design, Zustand) runs on Android (Capacitor) and desktop (Electron) from one codebase. pnpm/Turborepo monorepo with shared Zod contracts, GitHub Actions, Docker + Traefik on a VPS.',
           },
           {
             title: 'Textile Manufacturing ERP',
             year: '2025 · Freelance · finished',
             live: 'In production',
             alt: 'Textile Manufacturing ERP — interface preview',
-            desc: 'Textile manufacturing domain modeled in PostgreSQL/Prisma — products with variants, size groups, per-order garment matrices, state history and price tiers per client group. Integrated Google Gemini OCR for automatic garment-matrix extraction from images (~85% less order-entry time). NestJS API with 15+ domain modules. React frontend (Vite, Ant Design, TanStack Query, React Hook Form) with drag-and-drop order building (dnd-kit), Cloudinary uploads, WhatsApp share and Word/Excel export.',
+            product:
+              'An ERP for a textile manufacturer — orders, garment matrices, variants and per-client pricing in one system. Google Gemini OCR reads garment matrices straight from photos, cutting order-entry time by ~85%.',
+            tech: 'Textile manufacturing domain modeled in PostgreSQL/Prisma — products with variants, size groups, per-order garment matrices, state history and price tiers per client group. NestJS API with 15+ domain modules. React frontend (Vite, Ant Design, TanStack Query, React Hook Form) with drag-and-drop order building (dnd-kit), Cloudinary uploads, WhatsApp share and Word/Excel export.',
           },
         ],
       },
@@ -191,13 +201,17 @@ const en: Content = {
             year: '2024 · Bolivian Devs',
             live: 'In production',
             alt: 'TsunaGo — interface preview',
-            desc: 'Mobile-first platform that matches passengers with assisted-transport taxis — co-developed with the Bolivian Devs team for a Japanese client. Event-driven NestJS + TypeScript + PostgreSQL (Prisma) backend with JWT access/refresh + RBAC, an idempotent Stripe payments layer (HMAC-verified), scheduled background jobs and AWS (S3, SES, SNS) + Google Maps integrations. CI/CD on GitHub Actions, deployed on EC2 behind Traefik over HTTPS. Mobile-first client in React Native + Expo.',
+            product:
+              'A mobile-first platform that matches passengers with assisted-transport taxis, co-developed for a Japanese client.',
+            tech: 'Event-driven NestJS + TypeScript + PostgreSQL (Prisma) backend with JWT access/refresh + RBAC, an idempotent Stripe payments layer (HMAC-verified), scheduled background jobs and AWS (S3, SES, SNS) + Google Maps integrations. CI/CD on GitHub Actions, deployed on EC2 behind Traefik over HTTPS. Mobile-first client in React Native + Expo.',
           },
           {
             title: 'Makevi — Shopee Seller-Management SaaS',
             year: '2024 · Bolivian Devs',
             live: 'In production',
-            desc: 'SaaS for Shopee seller management, co-developed with the Bolivian Devs team for a Japanese client. REST API in NestJS 11 + Prisma 6 over PostgreSQL (58 models), with Stripe subscriptions (signature-verified webhooks), a Shopee OAuth integration (product/order sync) and a resilient sync framework. Web app in Next.js 15 + React 19 with MUI, TanStack Query and Zod.',
+            product:
+              'A SaaS that helps Shopee sellers run their stores end-to-end — products, orders and subscriptions — co-developed for a Japanese client.',
+            tech: 'REST API in NestJS 11 + Prisma 6 over PostgreSQL (58 models), with Stripe subscriptions (signature-verified webhooks), a Shopee OAuth integration (product/order sync) and a resilient sync framework. Web app in Next.js 15 + React 19 with MUI, TanStack Query and Zod.',
           },
         ],
       },
@@ -290,11 +304,11 @@ const es: Content = {
         roles: [
           {
             client: 'Cliente JP',
-            desc: 'Plataforma web mobile-first para emparejamiento de taxis de transporte asistido. Backend en NestJS + TypeScript + PostgreSQL (Prisma) con una estructura modular orientada a eventos y autenticación JWT (access/refresh) con RBAC. Capa de pagos idempotente con Stripe y verificación HMAC, tareas programadas en segundo plano, integraciones con AWS (S3, SES, SNS) y Google Maps. CI/CD en GitHub Actions, desplegado en EC2 tras Traefik sobre HTTPS. Cliente mobile-first con React Native + Expo.',
+            desc: 'Construí la capa de pagos idempotente con Stripe (verificación HMAC) y las APIs core orientadas a eventos con JWT access/refresh + RBAC. Integré AWS (S3, SES, SNS) y Google Maps, las tareas programadas en segundo plano, y monté el CI/CD en GitHub Actions desplegando en EC2 tras Traefik. Contribuí al cliente en React Native + Expo.',
           },
           {
             client: 'Cliente JP',
-            desc: 'SaaS para la gestión de vendedores de Shopee. API REST en NestJS 11 + Prisma 6 sobre PostgreSQL (58 modelos). Suscripciones de Stripe con webhooks verificados por firma, integración con Shopee (OAuth, sincronización de productos/pedidos) y un framework de sincronización resiliente. Frontend en Next.js 15 + React 19 con MUI, TanStack Query y Zod.',
+            desc: 'Construí la API REST en NestJS 11 + Prisma 6 (esquema PostgreSQL de 58 modelos), las suscripciones de Stripe con webhooks verificados por firma, y la integración con Shopee vía OAuth con un framework de sincronización resiliente de productos/pedidos. Desarrollé funcionalidades de frontend en Next.js 15 + React 19 (MUI, TanStack Query, Zod).',
           },
           {
             client: 'Cliente JP',
@@ -327,6 +341,7 @@ const es: Content = {
     title: 'Lo que he construido.',
     sub: 'Productos llevados de la arquitectura a la entrega — proyectos propios hechos en solitario, y desarrollos en producción co-creados con equipos para clientes internacionales.',
     view: 'App en vivo',
+    techDetails: 'Detalles técnicos',
     groups: [
       {
         label: 'Independiente y Freelance',
@@ -337,14 +352,18 @@ const es: Content = {
             year: '2026 · Independiente',
             live: 'En producción',
             alt: 'ERP / POS Multi-Tenant para Restaurantes — vista previa de la interfaz',
-            desc: 'Arquitectura multi-tenant (TenantContext con AsyncLocalStorage, aislamiento por tenantId, JWT con claims de tenant/ubicación) con tres capas de autenticación. Un sistema modular tipo "Lego" activa módulos núcleo (POS, inventario, caja) y módulos por industria mediante un catálogo y guards. DDD con lógica de dominio probada unitariamente y comunicación entre módulos orientada a eventos. El frontend POS (React 18, Vite, Ant Design, Zustand) corre en Android (Capacitor) y escritorio (Electron) desde una sola base de código. Monorepo pnpm/Turborepo con contratos Zod compartidos, GitHub Actions, Docker + Traefik en un VPS.',
+            product:
+              'Plataforma de punto de venta y back-office que maneja ventas, inventario y caja de un restaurante desde una sola app — en tablets Android y escritorio.',
+            tech: 'Arquitectura multi-tenant (TenantContext con AsyncLocalStorage, aislamiento por tenantId, JWT con claims de tenant/ubicación) con tres capas de autenticación. Un sistema modular tipo "Lego" activa módulos núcleo (POS, inventario, caja) y módulos por industria mediante un catálogo y guards. DDD con lógica de dominio probada unitariamente y comunicación entre módulos orientada a eventos. El frontend POS (React 18, Vite, Ant Design, Zustand) corre en Android (Capacitor) y escritorio (Electron) desde una sola base de código. Monorepo pnpm/Turborepo con contratos Zod compartidos, GitHub Actions, Docker + Traefik en un VPS.',
           },
           {
             title: 'ERP para Manufactura Textil',
             year: '2025 · Freelance · finalizado',
             live: 'En producción',
             alt: 'ERP para Manufactura Textil — vista previa de la interfaz',
-            desc: 'Dominio de manufactura textil modelado en PostgreSQL/Prisma — productos con variantes, grupos de tallas, matrices de prendas por pedido, historial de estados y niveles de precio por grupo de cliente. Integré Google Gemini OCR para la extracción automática de matrices de prendas desde imágenes (~85% menos tiempo de captura de pedidos). API en NestJS con más de 15 módulos de dominio. Frontend en React (Vite, Ant Design, TanStack Query, React Hook Form) con construcción de pedidos por arrastrar y soltar (dnd-kit), subidas a Cloudinary, compartir por WhatsApp y exportación a Word/Excel.',
+            product:
+              'Un ERP para una fábrica textil — pedidos, matrices de prendas, variantes y precios por grupo de cliente en un solo sistema. Google Gemini OCR lee las matrices directo de fotos, reduciendo ~85% el tiempo de captura de pedidos.',
+            tech: 'Dominio de manufactura textil modelado en PostgreSQL/Prisma — productos con variantes, grupos de tallas, matrices de prendas por pedido, historial de estados y niveles de precio por grupo de cliente. API en NestJS con más de 15 módulos de dominio. Frontend en React (Vite, Ant Design, TanStack Query, React Hook Form) con construcción de pedidos por arrastrar y soltar (dnd-kit), subidas a Cloudinary, compartir por WhatsApp y exportación a Word/Excel.',
           },
         ],
       },
@@ -357,13 +376,17 @@ const es: Content = {
             year: '2024 · Bolivian Devs',
             live: 'En producción',
             alt: 'TsunaGo — vista previa de la interfaz',
-            desc: 'Plataforma mobile-first que empareja pasajeros con taxis de transporte asistido — co-desarrollada con el equipo de Bolivian Devs para un cliente japonés. Backend orientado a eventos en NestJS + TypeScript + PostgreSQL (Prisma) con JWT access/refresh + RBAC, una capa de pagos idempotente con Stripe (verificada con HMAC), tareas programadas en segundo plano e integraciones con AWS (S3, SES, SNS) y Google Maps. CI/CD en GitHub Actions, desplegado en EC2 tras Traefik sobre HTTPS. Cliente mobile-first en React Native + Expo.',
+            product:
+              'Plataforma mobile-first que empareja pasajeros con taxis de transporte asistido, co-desarrollada para un cliente japonés.',
+            tech: 'Backend orientado a eventos en NestJS + TypeScript + PostgreSQL (Prisma) con JWT access/refresh + RBAC, una capa de pagos idempotente con Stripe (verificada con HMAC), tareas programadas en segundo plano e integraciones con AWS (S3, SES, SNS) y Google Maps. CI/CD en GitHub Actions, desplegado en EC2 tras Traefik sobre HTTPS. Cliente mobile-first en React Native + Expo.',
           },
           {
             title: 'Makevi — SaaS de Gestión de Vendedores Shopee',
             year: '2024 · Bolivian Devs',
             live: 'En producción',
-            desc: 'SaaS para la gestión de vendedores de Shopee, co-desarrollado con el equipo de Bolivian Devs para un cliente japonés. API REST en NestJS 11 + Prisma 6 sobre PostgreSQL (58 modelos), con suscripciones de Stripe (webhooks verificados por firma), integración con Shopee vía OAuth (sincronización de productos/pedidos) y un framework de sincronización resiliente. Web en Next.js 15 + React 19 con MUI, TanStack Query y Zod.',
+            product:
+              'Un SaaS que ayuda a vendedores de Shopee a gestionar sus tiendas de punta a punta — productos, pedidos y suscripciones — co-desarrollado para un cliente japonés.',
+            tech: 'API REST en NestJS 11 + Prisma 6 sobre PostgreSQL (58 modelos), con suscripciones de Stripe (webhooks verificados por firma), integración con Shopee vía OAuth (sincronización de productos/pedidos) y un framework de sincronización resiliente. Web en Next.js 15 + React 19 con MUI, TanStack Query y Zod.',
           },
         ],
       },
