@@ -5,12 +5,12 @@ import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import Experience from '../components/Experience.astro';
 import Projects from '../components/Projects.astro';
-import Stack from '../components/Stack.astro';
 import Education from '../components/Education.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 import Lightbox from '../components/Lightbox.astro';
 import Boot from '../components/Boot.astro';
+import Colophon from '../components/Colophon.astro';
 ---
 
 <Layout>
@@ -18,12 +18,12 @@ import Boot from '../components/Boot.astro';
   <Nav />
   <main class="wrap">
     <Hero />
-    <Experience />
     <Projects />
-    <Stack />
+    <Experience />
     <Education />
     <Contact />
   </main>
+  <Colophon />
   <Footer />
   <Lightbox />
   <div class="toast" id="toast"></div>
