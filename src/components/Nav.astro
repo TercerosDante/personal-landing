@@ -13,12 +13,9 @@ import { dict } from '../i18n/content';
   <nav class="nav" id="nav">
     {
       nav.map((item, i) => (
-        <a
-          href={item.href}
-          class={i === 0 ? 'on' : undefined}
-          data-i18n={`nav.${item.key}`}
-        >
-          {dict.nav[item.key]}
+        <a href={item.href} class={i === 0 ? 'on' : undefined}>
+          <span class="mnum" aria-hidden="true">{String(i).padStart(2, '0')}</span>
+          <span class="mlabel" data-i18n={`nav.${item.key}`}>{dict.nav[item.key]}</span>
         </a>
       ))
     }
@@ -51,8 +48,13 @@ import { dict } from '../i18n/content';
         >UTC−4</span
       >
     </div>
-    <button class="menu-btn" id="menuBtn" aria-label="Menu"
-      ><i></i><i></i><i></i></button
+    <button
+      class="menu-btn"
+      id="menuBtn"
+      type="button"
+      aria-label="Open menu"
+      aria-controls="nav"
+      aria-expanded="false"><i></i><i></i><i></i></button
     >
   </div>
 </header>

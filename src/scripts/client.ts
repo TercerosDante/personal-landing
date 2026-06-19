@@ -220,7 +220,30 @@ setInterval(tick, 1000);
 (() => {
   const nav = document.getElementById('nav');
   const menuBtn = document.getElementById('menuBtn');
-  menuBtn?.addEventListener('click', () => nav?.classList.toggle('open'));
+  const setMenu = (open: boolean) => {
+    nav?.classList.toggle('open', open);
+    menuBtn?.classList.toggle('open', open);
+    menuBtn?.setAttribute('aria-expanded', String(open));
+    // Lock the page behind the full-screen mobile sheet.
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  menuBtn?.addEventListener('click', () =>
+    setMenu(!nav?.classList.contains('open')),
+  );
+  // Tap the empty sheet area (not a link) to close.
+  nav?.addEventListener('click', (e) => {
+    if (e.target === nav) setMenu(false);
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav?.classList.contains('open')) setMenu(false);
+  });
+  // If the viewport grows back to desktop while open (e.g. rotation), close so
+  // the page never stays scroll-locked behind a hidden sheet.
+  window
+    .matchMedia('(min-width:861px)')
+    .addEventListener('change', (e) => {
+      if (e.matches) setMenu(false);
+    });
   document.querySelectorAll<HTMLElement>('[data-go]').forEach((b) =>
     b.addEventListener('click', () => {
       const sel = b.dataset.go;
@@ -230,9 +253,7 @@ setInterval(tick, 1000);
   if (!nav) return;
   nav
     .querySelectorAll<HTMLAnchorElement>('a[href^="#"]:not(.ph)')
-    .forEach((a) =>
-      a.addEventListener('click', () => nav.classList.remove('open')),
-    );
+    .forEach((a) => a.addEventListener('click', () => setMenu(false)));
   const navMap: Record<string, HTMLAnchorElement> = {};
   nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
     const href = a.getAttribute('href');
