@@ -47,14 +47,17 @@ export interface Content {
     title: string;
     sub: string;
     view: string;
-    linkPending: string;
-    /** One per project in `src/data/projects.ts` (same order). */
-    items: {
-      title: string;
-      year: string;
-      live?: string;
-      alt: string;
-      desc: string;
+    /** One per group in `src/data/projects.ts` (same order); items match too. */
+    groups: {
+      label: string;
+      note: string;
+      items: {
+        title: string;
+        year: string;
+        live?: string;
+        alt?: string;
+        desc: string;
+      }[];
     }[];
   };
   stack: {
@@ -92,6 +95,7 @@ export interface Content {
   footer: { copy: string; tech: string };
   boot: { loading: string };
   lightbox: { hint: string };
+  colophon: { label: string; text: string; source: string };
 }
 
 const en: Content = {
@@ -166,23 +170,48 @@ const en: Content = {
   },
   proj: {
     eyebrow: '02 / Projects',
-    title: 'Independent & freelance work.',
-    sub: 'Side projects shipped end-to-end — architecture, backend, frontend and delivery.',
-    view: 'View project',
-    linkPending: 'Project link — pending',
-    items: [
+    title: "Things I've shipped.",
+    sub: 'Products taken from architecture to delivery — side projects shipped solo, plus production builds co-developed with teams for international clients.',
+    view: 'Live App',
+    groups: [
       {
-        title: 'Multi-Tenant ERP / POS for Restaurants',
-        year: '2026 · Independent',
-        live: 'Live · 2 active clients',
-        alt: 'Multi-Tenant ERP / POS for Restaurants — interface preview',
-        desc: 'Multi-tenant architecture (AsyncLocalStorage TenantContext, tenantId isolation, JWT with tenant/location claims) with three auth layers. A modular "Lego" system activates core modules (POS, inventory, cash) and industry modules through a catalog and guards. DDD with unit-tested domain logic and event-driven cross-module communication. POS frontend (React 18, Vite, Ant Design, Zustand) runs on Android (Capacitor) and desktop (Electron) from one codebase. pnpm/Turborepo monorepo with shared Zod contracts, GitHub Actions, Docker + Traefik on a VPS.',
+        label: 'Independent & Freelance',
+        note: 'Self-shipped',
+        items: [
+          {
+            title: 'Multi-Tenant ERP / POS for Restaurants',
+            year: '2026 · Independent',
+            live: 'In production',
+            alt: 'Multi-Tenant ERP / POS for Restaurants — interface preview',
+            desc: 'Multi-tenant architecture (AsyncLocalStorage TenantContext, tenantId isolation, JWT with tenant/location claims) with three auth layers. A modular "Lego" system activates core modules (POS, inventory, cash) and industry modules through a catalog and guards. DDD with unit-tested domain logic and event-driven cross-module communication. POS frontend (React 18, Vite, Ant Design, Zustand) runs on Android (Capacitor) and desktop (Electron) from one codebase. pnpm/Turborepo monorepo with shared Zod contracts, GitHub Actions, Docker + Traefik on a VPS.',
+          },
+          {
+            title: 'Textile Manufacturing ERP',
+            year: '2025 · Freelance · finished',
+            live: 'In production',
+            alt: 'Textile Manufacturing ERP — interface preview',
+            desc: 'Textile manufacturing domain modeled in PostgreSQL/Prisma — products with variants, size groups, per-order garment matrices, state history and price tiers per client group. Integrated Google Gemini OCR for automatic garment-matrix extraction from images (~85% less order-entry time). NestJS API with 15+ domain modules. React frontend (Vite, Ant Design, TanStack Query, React Hook Form) with drag-and-drop order building (dnd-kit), Cloudinary uploads, WhatsApp share and Word/Excel export.',
+          },
+        ],
       },
       {
-        title: 'Textile Manufacturing ERP',
-        year: '2025 · Freelance · finished',
-        alt: 'Textile Manufacturing ERP — interface preview',
-        desc: 'Textile manufacturing domain modeled in PostgreSQL/Prisma — products with variants, size groups, per-order garment matrices, state history and price tiers per client group. Integrated Google Gemini OCR for automatic garment-matrix extraction from images (~85% less order-entry time). NestJS API with 15+ domain modules. React frontend (Vite, Ant Design, TanStack Query, React Hook Form) with drag-and-drop order building (dnd-kit), Cloudinary uploads, WhatsApp share and Word/Excel export.',
+        label: 'Team & Client Work',
+        note: 'Co-developed',
+        items: [
+          {
+            title: 'TsunaGo — Assisted-Transport Taxi Platform',
+            year: '2024 · Bolivian Devs',
+            live: 'In production',
+            alt: 'TsunaGo — interface preview',
+            desc: 'Mobile-first platform that matches passengers with assisted-transport taxis — co-developed with the Bolivian Devs team for a Japanese client. Event-driven NestJS + TypeScript + PostgreSQL (Prisma) backend with JWT access/refresh + RBAC, an idempotent Stripe payments layer (HMAC-verified), scheduled background jobs and AWS (S3, SES, SNS) + Google Maps integrations. CI/CD on GitHub Actions, deployed on EC2 behind Traefik over HTTPS. Mobile-first client in React Native + Expo.',
+          },
+          {
+            title: 'Makevi — Shopee Seller-Management SaaS',
+            year: '2024 · Bolivian Devs',
+            live: 'In production',
+            desc: 'SaaS for Shopee seller management, co-developed with the Bolivian Devs team for a Japanese client. REST API in NestJS 11 + Prisma 6 over PostgreSQL (58 models), with Stripe subscriptions (signature-verified webhooks), a Shopee OAuth integration (product/order sync) and a resilient sync framework. Web app in Next.js 15 + React 19 with MUI, TanStack Query and Zod.',
+          },
+        ],
       },
     ],
   },
@@ -285,6 +314,11 @@ const en: Content = {
   },
   boot: { loading: 'Loading Portfolio' },
   lightbox: { hint: 'Esc · click outside · ✕ to close' },
+  colophon: {
+    label: 'Colophon',
+    text: 'This very page — built with <b>Astro</b> &amp; <b>TypeScript</b>, a hand-rolled EN/ES i18n layer and <b>zero runtime dependencies</b>. Static, fast, open source.',
+    source: 'View source',
+  },
 };
 
 const es: Content = {
@@ -359,23 +393,48 @@ const es: Content = {
   },
   proj: {
     eyebrow: '02 / Proyectos',
-    title: 'Trabajo independiente y freelance.',
-    sub: 'Proyectos personales entregados de extremo a extremo — arquitectura, backend, frontend y despliegue.',
-    view: 'Ver proyecto',
-    linkPending: 'Enlace del proyecto — pendiente',
-    items: [
+    title: 'Lo que he construido.',
+    sub: 'Productos llevados de la arquitectura a la entrega — proyectos propios hechos en solitario, y desarrollos en producción co-creados con equipos para clientes internacionales.',
+    view: 'App en vivo',
+    groups: [
       {
-        title: 'ERP / POS Multi-Tenant para Restaurantes',
-        year: '2026 · Independiente',
-        live: 'En producción · 2 clientes activos',
-        alt: 'ERP / POS Multi-Tenant para Restaurantes — vista previa de la interfaz',
-        desc: 'Arquitectura multi-tenant (TenantContext con AsyncLocalStorage, aislamiento por tenantId, JWT con claims de tenant/ubicación) con tres capas de autenticación. Un sistema modular tipo "Lego" activa módulos núcleo (POS, inventario, caja) y módulos por industria mediante un catálogo y guards. DDD con lógica de dominio probada unitariamente y comunicación entre módulos orientada a eventos. El frontend POS (React 18, Vite, Ant Design, Zustand) corre en Android (Capacitor) y escritorio (Electron) desde una sola base de código. Monorepo pnpm/Turborepo con contratos Zod compartidos, GitHub Actions, Docker + Traefik en un VPS.',
+        label: 'Independiente y Freelance',
+        note: 'En solitario',
+        items: [
+          {
+            title: 'ERP / POS Multi-Tenant para Restaurantes',
+            year: '2026 · Independiente',
+            live: 'En producción',
+            alt: 'ERP / POS Multi-Tenant para Restaurantes — vista previa de la interfaz',
+            desc: 'Arquitectura multi-tenant (TenantContext con AsyncLocalStorage, aislamiento por tenantId, JWT con claims de tenant/ubicación) con tres capas de autenticación. Un sistema modular tipo "Lego" activa módulos núcleo (POS, inventario, caja) y módulos por industria mediante un catálogo y guards. DDD con lógica de dominio probada unitariamente y comunicación entre módulos orientada a eventos. El frontend POS (React 18, Vite, Ant Design, Zustand) corre en Android (Capacitor) y escritorio (Electron) desde una sola base de código. Monorepo pnpm/Turborepo con contratos Zod compartidos, GitHub Actions, Docker + Traefik en un VPS.',
+          },
+          {
+            title: 'ERP para Manufactura Textil',
+            year: '2025 · Freelance · finalizado',
+            live: 'En producción',
+            alt: 'ERP para Manufactura Textil — vista previa de la interfaz',
+            desc: 'Dominio de manufactura textil modelado en PostgreSQL/Prisma — productos con variantes, grupos de tallas, matrices de prendas por pedido, historial de estados y niveles de precio por grupo de cliente. Integré Google Gemini OCR para la extracción automática de matrices de prendas desde imágenes (~85% menos tiempo de captura de pedidos). API en NestJS con más de 15 módulos de dominio. Frontend en React (Vite, Ant Design, TanStack Query, React Hook Form) con construcción de pedidos por arrastrar y soltar (dnd-kit), subidas a Cloudinary, compartir por WhatsApp y exportación a Word/Excel.',
+          },
+        ],
       },
       {
-        title: 'ERP para Manufactura Textil',
-        year: '2025 · Freelance · finalizado',
-        alt: 'ERP para Manufactura Textil — vista previa de la interfaz',
-        desc: 'Dominio de manufactura textil modelado en PostgreSQL/Prisma — productos con variantes, grupos de tallas, matrices de prendas por pedido, historial de estados y niveles de precio por grupo de cliente. Integré Google Gemini OCR para la extracción automática de matrices de prendas desde imágenes (~85% menos tiempo de captura de pedidos). API en NestJS con más de 15 módulos de dominio. Frontend en React (Vite, Ant Design, TanStack Query, React Hook Form) con construcción de pedidos por arrastrar y soltar (dnd-kit), subidas a Cloudinary, compartir por WhatsApp y exportación a Word/Excel.',
+        label: 'Trabajo en Equipo',
+        note: 'Co-desarrollado',
+        items: [
+          {
+            title: 'TsunaGo — Plataforma de Taxis de Transporte Asistido',
+            year: '2024 · Bolivian Devs',
+            live: 'En producción',
+            alt: 'TsunaGo — vista previa de la interfaz',
+            desc: 'Plataforma mobile-first que empareja pasajeros con taxis de transporte asistido — co-desarrollada con el equipo de Bolivian Devs para un cliente japonés. Backend orientado a eventos en NestJS + TypeScript + PostgreSQL (Prisma) con JWT access/refresh + RBAC, una capa de pagos idempotente con Stripe (verificada con HMAC), tareas programadas en segundo plano e integraciones con AWS (S3, SES, SNS) y Google Maps. CI/CD en GitHub Actions, desplegado en EC2 tras Traefik sobre HTTPS. Cliente mobile-first en React Native + Expo.',
+          },
+          {
+            title: 'Makevi — SaaS de Gestión de Vendedores Shopee',
+            year: '2024 · Bolivian Devs',
+            live: 'En producción',
+            desc: 'SaaS para la gestión de vendedores de Shopee, co-desarrollado con el equipo de Bolivian Devs para un cliente japonés. API REST en NestJS 11 + Prisma 6 sobre PostgreSQL (58 modelos), con suscripciones de Stripe (webhooks verificados por firma), integración con Shopee vía OAuth (sincronización de productos/pedidos) y un framework de sincronización resiliente. Web en Next.js 15 + React 19 con MUI, TanStack Query y Zod.',
+          },
+        ],
       },
     ],
   },
@@ -481,6 +540,11 @@ const es: Content = {
   },
   boot: { loading: 'Cargando Portafolio' },
   lightbox: { hint: 'Esc · clic fuera · ✕ para cerrar' },
+  colophon: {
+    label: 'Colofón',
+    text: 'Esta misma página — hecha con <b>Astro</b> y <b>TypeScript</b>, una capa i18n EN/ES propia y <b>cero dependencias en runtime</b>. Estática, rápida, open source.',
+    source: 'Ver código',
+  },
 };
 
 export type Lang = 'en' | 'es';

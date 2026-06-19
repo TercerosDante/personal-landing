@@ -12,5 +12,6 @@ export const site = {
   linkedinHandle: '@tercerosdante',
   /** Placeholders — wire up when available. */
   github: 'https://github.com/TercerosDante',
+  repo: 'https://github.com/TercerosDante/personal-landing',
   cv: 'https://ronaldterceros.com/resume.pdf',
 } as const;
