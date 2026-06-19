@@ -89,12 +89,16 @@ const t = dict.proj;
                           <span data-i18n={`${base}.live`}>{live}</span>
                         </span>
                       )}
-                      <p data-i18n={`${base}.desc`}>{item.desc}</p>
-                      <div class="chips">
-                        {p.tags.map((tag) => (
-                          <span class={tag.hot ? 'hot' : undefined}>{tag.label}</span>
-                        ))}
-                      </div>
+                      <p class="p-product" data-i18n={`${base}.product`}>{item.product}</p>
+                      <details class="p-tech">
+                        <summary data-i18n="proj.techDetails">{t.techDetails}</summary>
+                        <div class="chips">
+                          {p.tags.map((tag) => (
+                            <span class={tag.hot ? 'hot' : undefined}>{tag.label}</span>
+                          ))}
+                        </div>
+                        <p class="p-tech-body" data-i18n={`${base}.tech`}>{item.tech}</p>
+                      </details>
                       {p.link && (
                         <a class="view" href={p.link} target="_blank" rel="noopener">
                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
