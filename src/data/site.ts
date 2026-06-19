@@ -10,7 +10,7 @@ export const site = {
   whatsapp: 'https://wa.me/59173341014',
   linkedin: 'https://www.linkedin.com/in/tercerosdante',
   linkedinHandle: '@tercerosdante',
-  /** Placeholders — wire up when available. */
+  /** Profile, repository and CV links. */
   github: 'https://github.com/TercerosDante',
   repo: 'https://github.com/TercerosDante/personal-landing',
   cv: 'https://ronaldterceros.com/resume.pdf',
