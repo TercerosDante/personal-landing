@@ -7,15 +7,16 @@ Guidance for working in this repository.
 A premium developer portfolio for **Ronald Terceros** (Full-Stack Engineer) — a single
 **static** page built with **Astro 6**, bilingual (English default, Spanish via an in-place
 toggle), deployed on **Vercel** at `https://ronaldterceros.com`. Optimized for load performance:
-no UI framework, no runtime dependencies beyond Astro, tiny client JS.
+no UI framework, a zero-dependency client bundle, tiny client JS. One on-demand route (the contact
+form) runs server-side as a Vercel Serverless Function via the `@astrojs/vercel` adapter.
 
 ## Commands
 
 | Command            | Action                                             |
 | ------------------ | -------------------------------------------------- |
-| `npm run dev`      | Dev server at `http://localhost:4321`              |
-| `npm run build`    | Static build to `dist/`                            |
-| `npm run preview`  | Serve the production build locally                 |
+| `npm run dev`      | Dev server at `http://localhost:4321` (serves `/api/contact` too) |
+| `npm run build`    | Build to `.vercel/output/` (static pages + contact function) |
+| `npm run preview`  | n/a with the Vercel adapter; use `npm run dev` or `vercel dev` |
 | `npm run check`    | Type-check (`astro check`) — keep this at **0/0/0** |
 | `npm run format`   | Prettier write (see the `global.css` caveat below) |
 
@@ -24,13 +25,16 @@ Node **≥ 22.12** is required (Astro 6); `.nvmrc` pins `22`. Always run `npm ru
 
 ## Architecture
 
-Static Astro, **no adapter** (Vercel auto-detects). `src/pages/index.astro` composes one page from
-section components. There is **no client-side framework** — interactivity is a single bundled
-TypeScript module.
+Static Astro with the **`@astrojs/vercel` adapter**: every page is prerendered to a static file, and
+only the contact endpoint (`src/pages/api/contact.ts`, `prerender = false`) runs on demand as a
+serverless function. `src/pages/index.astro` composes one page from section components. There is **no
+client-side framework** — interactivity is a single bundled TypeScript module.
 
 ```text
 src/
-  pages/index.astro      # composes the page (inside <main>)
+  pages/
+    index.astro          # composes the page (inside <main>)
+    api/contact.ts       # on-demand POST endpoint: Resend send + Zod validation (prerender=false)
   layouts/Layout.astro   # <head>: SEO meta + Fonts API + global.css; embeds ES i18n JSON; loads client.ts
   components/            # Nav, Hero, Experience, Projects, Stack, Education, Contact, Footer
                         # + Background (bg layers + warp canvas), Lightbox, Boot, Icon
@@ -78,7 +82,7 @@ included). `src/scripts/i18n.ts` resolves it, captures the English from the DOM 
 only ES is shipped), sets `<html lang>`, persists `localStorage.lang`, and dispatches `langchange`.
 The toggle button (`#langToggle`, a globe + EN/ES code) lives in `Nav.astro`. The choice is
 re-applied on load **during the boot overlay**, so there's no flash. `client.ts` listens for
-`langchange` to rebuild the typewriter and uses `taglineWords()` / `openingText()` from `i18n.ts`
+`langchange` to rebuild the typewriter and uses `taglineWords()` / `formText()` from `i18n.ts`
 (both embedded via `enExtra` in `Layout.astro` because they aren't present in the DOM as text).
 
 > SEO/meta stay English (the default page is English); the toggle is client-only.
@@ -112,7 +116,8 @@ the icons actually used ship; no icon-font CDN, no runtime JS). Icons are monoch
   Fonts CDN, no `preload` (the boot overlay masks any swap).
 - **Client JS** — one module, `src/scripts/client.ts`, imported once from `Layout.astro`. It owns:
   clock, typewriter, warp-grid canvas, parallax, nav (menu + active link), reveal-on-scroll,
-  placeholder toast, contact `mailto`, lightbox, boot/entrance. No inline `<script>` blobs.
+  placeholder toast, contact form (client validation + `POST /api/contact`), lightbox,
+  boot/entrance. No inline `<script>` blobs.
 
 ### 6. SEO
 
@@ -124,7 +129,8 @@ and JSON-LD `schema.org/Person`. `public/` holds `robots.txt` and a hand-written
 ## Key decisions & rationale
 
 - **Static Astro, no UI framework** — smallest possible payload; the page is content + a little
-  vanilla TS. `astro` is the only runtime dependency.
+  vanilla TS, and the client ships **zero runtime dependencies**. The contact endpoint adds
+  server-only deps (`resend`, `zod`) and the `@astrojs/vercel` adapter; none of them reach the browser.
 - **In-place EN/ES toggle (custom, no library)** — chosen over URL-based routing per the owner;
   trade-off is that both languages' text + the engine ship (~3–4 KB gz), vs. zero for separate URLs.
   No library keeps that to the minimum.
@@ -150,5 +156,8 @@ and JSON-LD `schema.org/Person`. `public/` holds `robots.txt` and a hand-written
 
 ## Deployment
 
-Vercel, zero-config (auto-detects Astro: `astro build` → `dist/`, Node 22). No `vercel.json`, no
-adapter. Domain `ronaldterceros.com` (+ `www`) is configured on the Vercel project.
+Vercel, still zero-config: it auto-detects Astro and the `@astrojs/vercel` adapter, runs
+`astro build` (output in `.vercel/output/`), and serves prerendered pages from the CDN plus the
+`/api/contact` route as a serverless function (Node 22, no `vercel.json`). The function needs two
+env vars on the project: **`RESEND_API_KEY`** and **`CONTACT_EMAIL`** (see `.env.example`; pull them
+locally with `vercel env pull`). Domain `ronaldterceros.com` (+ `www`) is configured on the project.

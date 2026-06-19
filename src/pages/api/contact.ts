@@ -1,0 +1,100 @@
+import type { APIRoute } from 'astro';
+import { Resend } from 'resend';
+import { z } from 'zod';
+
+/**
+ * Contact endpoint for the portfolio.
+ *
+ * This is the only on-demand route: `prerender = false` makes Astro emit it as
+ * a Vercel Serverless Function while every page stays statically prerendered.
+ * It validates input with Zod, screens a honeypot, and relays the message
+ * through Resend. `resend` and `zod` run only here and never reach the browser.
+ */
+export const prerender = false;
+
+/** Single source of truth for what the endpoint accepts. */
+const contactSchema = z.object({
+  name: z.string().trim().min(2).max(100),
+  email: z.string().trim().max(255).pipe(z.email()),
+  message: z.string().trim().min(10).max(3000),
+});
+
+type ContactInput = z.infer<typeof contactSchema>;
+
+// Verified sender on the ronaldterceros.com domain (configured in Resend).
+const FROM = 'Portfolio Contact <hello@ronaldterceros.com>';
+
+const json = (data: unknown, status: number): Response =>
+  new Response(JSON.stringify(data), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function renderHtml(d: ContactInput & { timestamp: string }): string {
+  return `<div style="font-family:system-ui,-apple-system,sans-serif;font-size:14px;color:#222a36;line-height:1.6">
+  <h2 style="margin:0 0 12px;font-size:16px">New portfolio message</h2>
+  <p style="margin:0 0 4px"><strong>Name:</strong> ${escapeHtml(d.name)}</p>
+  <p style="margin:0 0 4px"><strong>Email:</strong> <a href="mailto:${escapeHtml(d.email)}">${escapeHtml(d.email)}</a></p>
+  <p style="margin:0 0 12px;color:#838a99"><strong>Received:</strong> ${escapeHtml(d.timestamp)}</p>
+  <div style="padding:14px 16px;background:#f3f1ec;border-radius:10px;white-space:pre-wrap">${escapeHtml(d.message)}</div>
+</div>`;
+}
+
+export const POST: APIRoute = async ({ request }) => {
+  const apiKey = import.meta.env.RESEND_API_KEY;
+  const to = import.meta.env.CONTACT_EMAIL;
+  if (!apiKey || !to) {
+    console.error('[contact] Missing RESEND_API_KEY or CONTACT_EMAIL.');
+    return json({ error: 'server_error' }, 500);
+  }
+
+  let body: Record<string, unknown>;
+  try {
+    body = (await request.json()) as Record<string, unknown>;
+  } catch {
+    return json({ error: 'invalid_input' }, 400);
+  }
+
+  // Honeypot: a hidden field real users never see. If a bot fills it, accept
+  // the request silently (no signal to the bot) and send nothing.
+  if (typeof body.website === 'string' && body.website.trim() !== '') {
+    return json({ ok: true }, 200);
+  }
+
+  const parsed = contactSchema.safeParse(body);
+  if (!parsed.success) {
+    return json({ error: 'invalid_input' }, 400);
+  }
+
+  const { name, email, message } = parsed.data;
+  const timestamp = new Date().toISOString();
+
+  try {
+    const { error } = await new Resend(apiKey).emails.send({
+      from: FROM,
+      to,
+      replyTo: email,
+      subject: `Portfolio Contact - ${name}`,
+      text: `Name: ${name}\nEmail: ${email}\nReceived: ${timestamp}\n\n${message}`,
+      html: renderHtml({ name, email, message, timestamp }),
+    });
+
+    if (error) {
+      console.error('[contact] Resend error:', error);
+      return json({ error: 'send_failed' }, 502);
+    }
+
+    return json({ ok: true }, 200);
+  } catch (err) {
+    console.error('[contact] Unexpected error:', err);
+    return json({ error: 'server_error' }, 500);
+  }
+};

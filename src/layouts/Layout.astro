@@ -14,13 +14,20 @@ const {
   description = site.description,
 } = Astro.props;
 
-// Spanish copy + the EN-only bits the client needs (typewriter words, mailto
-// status), embedded once for the in-place language toggle (src/scripts/i18n.ts).
+// Spanish copy + the EN-only bits the client needs (typewriter words, contact
+// form states), embedded once for the in-place language toggle (src/scripts/i18n.ts).
 const i18nData = {
   es: content.es,
   enExtra: {
     tagline: content.en.hero.tagline,
-    opening: content.en.contact.opening,
+    form: {
+      sending: content.en.contact.sending,
+      success: content.en.contact.success,
+      errorGeneric: content.en.contact.errorGeneric,
+      invalidName: content.en.contact.invalidName,
+      invalidEmail: content.en.contact.invalidEmail,
+      invalidMessage: content.en.contact.invalidMessage,
+    },
   },
 };
 
