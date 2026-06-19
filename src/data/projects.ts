@@ -19,6 +19,11 @@ export interface Project {
   tags: Tag[];
   /** Empty = no live link (placeholder / NDA-safe). */
   link: string;
+  /**
+   * Repo note: `walkthrough` = own private repo, offer a guided walkthrough
+   * (links to contact). `private` = client/NDA work, just label it private.
+   */
+  repo?: 'walkthrough' | 'private';
 }
 
 export interface ProjectGroup {
@@ -47,6 +52,7 @@ export const projectGroups: ProjectGroup[] = [
           { label: 'DDD · Multi-tenant', hot: true },
         ],
         link: 'https://erp.artd-app.lat',
+        repo: 'walkthrough',
       },
       {
         image: homs,
@@ -63,6 +69,7 @@ export const projectGroups: ProjectGroup[] = [
           { label: 'Cloudinary' },
         ],
         link: 'https://homs-app.lat',
+        repo: 'walkthrough',
       },
     ],
   },
@@ -84,6 +91,7 @@ export const projectGroups: ProjectGroup[] = [
           { label: 'Traefik' },
         ],
         link: 'https://tsuna-gou.jp',
+        repo: 'private',
       },
       {
         glyph: 'M',
@@ -101,6 +109,7 @@ export const projectGroups: ProjectGroup[] = [
           { label: 'Zod' },
         ],
         link: '',
+        repo: 'private',
       },
     ],
   },

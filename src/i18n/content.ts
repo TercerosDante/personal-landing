@@ -48,6 +48,10 @@ export interface Content {
     view: string;
     /** `<summary>` label for the expandable technical details. */
     techDetails: string;
+    /** Link label for "I'll walk you through the private repo" (own projects). */
+    walkthrough: string;
+    /** Static label for client/NDA repos shown as private. */
+    privateRepo: string;
     /** One per group in `src/data/projects.ts` (same order); items match too. */
     groups: {
       label: string;
@@ -172,6 +176,8 @@ const en: Content = {
     sub: 'Products taken from architecture to delivery. Side projects shipped solo, plus production builds co-developed with teams for international clients.',
     view: 'Live App',
     techDetails: 'Technical details',
+    walkthrough: 'Walkthrough on request',
+    privateRepo: 'Private repo',
     groups: [
       {
         label: 'Independent & Freelance',
@@ -353,6 +359,8 @@ const es: Content = {
     sub: 'Productos llevados de la arquitectura a la entrega. Proyectos propios hechos en solitario, y desarrollos en producción co-creados con equipos para clientes internacionales.',
     view: 'App en vivo',
     techDetails: 'Detalles técnicos',
+    walkthrough: 'Te lo muestro al contactar',
+    privateRepo: 'Repo privado',
     groups: [
       {
         label: 'Independiente y Freelance',
