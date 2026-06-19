@@ -83,8 +83,13 @@ export interface Content {
     msgPh: string;
     send: string;
     note: string;
-    /** Status shown while the mail client opens (set from client.ts). */
-    opening: string;
+    /** Live form states (set from client.ts; mirrored in the API). */
+    sending: string;
+    success: string;
+    errorGeneric: string;
+    invalidName: string;
+    invalidEmail: string;
+    invalidMessage: string;
   };
   footer: { copy: string; tech: string };
   boot: { loading: string };
@@ -251,8 +256,14 @@ const en: Content = {
     emailPh: 'you@company.com',
     msgPh: 'Tell me about the role or project…',
     send: 'Send message',
-    note: 'Opens your email client · no data is stored',
-    opening: 'Opening your email client…',
+    note: 'Sends straight to my inbox · I usually reply within a day.',
+    sending: 'Sending your message…',
+    success: "Thanks, your message is on its way. I'll reply soon.",
+    errorGeneric:
+      'Something went wrong sending your message. Please try again or email me directly.',
+    invalidName: 'Please enter your name (at least 2 characters).',
+    invalidEmail: 'Please enter a valid email address.',
+    invalidMessage: 'Please add a short message (at least 10 characters).',
   },
   footer: {
     copy: '© 2026 Ronald Terceros · Full-Stack Engineer',
@@ -262,7 +273,7 @@ const en: Content = {
   lightbox: { hint: 'Esc · click outside · ✕ to close' },
   colophon: {
     label: 'Colophon',
-    text: 'This very page is built with <b>Astro</b> and <b>TypeScript</b>, a hand-rolled EN/ES i18n layer and <b>zero runtime dependencies</b>. Static, fast, open source.',
+    text: 'This very page is built with <b>Astro</b> and <b>TypeScript</b>, a hand-rolled EN/ES i18n layer and a <b>zero-dependency client bundle</b>. Static pages, one serverless endpoint, open source.',
     source: 'View source',
   },
 };
@@ -426,8 +437,14 @@ const es: Content = {
     emailPh: 'tú@empresa.com',
     msgPh: 'Cuéntame sobre el rol o el proyecto…',
     send: 'Enviar mensaje',
-    note: 'Abre tu cliente de correo · no se guardan datos',
-    opening: 'Abriendo tu cliente de correo…',
+    note: 'Llega directo a mi bandeja · suelo responder en un día.',
+    sending: 'Enviando tu mensaje…',
+    success: 'Gracias, tu mensaje está en camino. Te responderé pronto.',
+    errorGeneric:
+      'Algo salió mal al enviar tu mensaje. Inténtalo de nuevo o escríbeme directamente.',
+    invalidName: 'Ingresa tu nombre (al menos 2 caracteres).',
+    invalidEmail: 'Ingresa un correo electrónico válido.',
+    invalidMessage: 'Escribe un mensaje breve (al menos 10 caracteres).',
   },
   footer: {
     copy: '© 2026 Ronald Terceros · Ingeniero Full-Stack',
@@ -437,7 +454,7 @@ const es: Content = {
   lightbox: { hint: 'Esc · clic fuera · ✕ para cerrar' },
   colophon: {
     label: 'Colofón',
-    text: 'Esta misma página está hecha con <b>Astro</b> y <b>TypeScript</b>, una capa i18n EN/ES propia y <b>cero dependencias en runtime</b>. Estática, rápida, open source.',
+    text: 'Esta misma página está hecha con <b>Astro</b> y <b>TypeScript</b>, una capa i18n EN/ES propia y un <b>bundle de cliente sin dependencias</b>. Páginas estáticas, un endpoint serverless, open source.',
     source: 'Ver código',
   },
 };

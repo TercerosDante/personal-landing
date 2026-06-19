@@ -16,17 +16,17 @@ const STORE_KEY = 'lang';
 
 interface Embedded {
   es: Record<string, unknown>;
-  enExtra: { tagline: string[]; opening: string };
+  enExtra: { tagline: string[]; form: Record<string, string> };
 }
 
 const el = document.getElementById('i18n-data');
 const data: Embedded = el?.textContent
   ? (JSON.parse(el.textContent) as Embedded)
-  : { es: {}, enExtra: { tagline: [], opening: '' } };
+  : { es: {}, enExtra: { tagline: [], form: {} } };
 
 const ES = data.es;
 const EN_TAGLINE = data.enExtra?.tagline ?? [];
-const EN_OPENING = data.enExtra?.opening ?? '';
+const EN_FORM = data.enExtra?.form ?? {};
 
 /** Resolve a dotted path (`exp.companies.0.roles.1.desc`) into the ES object. */
 function resolve(path: string): string | undefined {
@@ -140,9 +140,10 @@ export function taglineWords(): string[] {
   return Array.isArray(words) ? (words as string[]) : EN_TAGLINE;
 }
 
-export function openingText(): string {
-  if (lang !== 'es') return EN_OPENING;
-  return resolve('contact.opening') ?? EN_OPENING;
+/** A contact-form string (status / validation) in the active language. */
+export function formText(key: string): string {
+  if (lang !== 'es') return EN_FORM[key] ?? '';
+  return resolve(`contact.${key}`) ?? EN_FORM[key] ?? '';
 }
 
 // Wire the toggle and apply any saved preference (during the boot overlay).

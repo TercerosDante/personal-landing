@@ -2,10 +2,9 @@
  * Client behaviours for the portfolio. Bundled by Astro (imported once from the
  * base Layout). Typed, tree-shaken, no inline blob.
  */
-import { site } from '../data/site';
 // Importing the named helpers also runs the i18n module (toggle wiring + any
 // saved-locale swap) before the behaviours below read the current language.
-import { taglineWords, openingText } from './i18n';
+import { taglineWords, formText } from './i18n';
 
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -288,26 +287,124 @@ setInterval(tick, 1000);
   document.querySelectorAll('.reveal').forEach((el) => rio.observe(el));
 })();
 
-/* ============================== CONTACT FORM (mailto compose) ============================== */
+/* ============================== CONTACT FORM (validate · POST · /api/contact) ============================== */
 (() => {
   const f = document.getElementById('cform') as HTMLFormElement | null;
   if (!f) return;
-  f.addEventListener('submit', (e) => {
+  const btn = f.querySelector<HTMLButtonElement>('.cform-send');
+  const statusEl = document.getElementById('cformStatus');
+  const hp = f.querySelector<HTMLInputElement>('#cf-website');
+
+  type Key = 'name' | 'email' | 'message';
+  const fields: Record<Key, HTMLInputElement | HTMLTextAreaElement | null> = {
+    name: f.querySelector('#cf-name'),
+    email: f.querySelector('#cf-email'),
+    message: f.querySelector('#cf-msg'),
+  };
+  const errEls: Record<Key, HTMLElement | null> = {
+    name: document.getElementById('cf-name-err'),
+    email: document.getElementById('cf-email-err'),
+    message: document.getElementById('cf-msg-err'),
+  };
+
+  // Rules mirror the Zod schema in src/pages/api/contact.ts (kept in sync by
+  // hand so the browser ships no validation library).
+  const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const errorKey: Record<Key, string | null> = {
+    name: null,
+    email: null,
+    message: null,
+  };
+  let statusKey: string | null = null;
+  let statusKind: '' | 'pending' | 'success' | 'error' = '';
+
+  const val = (k: Key) => fields[k]?.value.trim() ?? '';
+
+  function validate(): boolean {
+    const name = val('name');
+    const email = val('email');
+    const message = val('message');
+    errorKey.name = name.length < 2 || name.length > 100 ? 'invalidName' : null;
+    errorKey.email =
+      !EMAIL.test(email) || email.length > 255 ? 'invalidEmail' : null;
+    errorKey.message =
+      message.length < 10 || message.length > 3000 ? 'invalidMessage' : null;
+    return !errorKey.name && !errorKey.email && !errorKey.message;
+  }
+
+  function renderErrors(): void {
+    (Object.keys(errEls) as Key[]).forEach((k) => {
+      const key = errorKey[k];
+      if (errEls[k]) errEls[k]!.textContent = key ? formText(key) : '';
+      fields[k]?.setAttribute('aria-invalid', key ? 'true' : 'false');
+    });
+  }
+
+  function renderStatus(): void {
+    if (!statusEl) return;
+    statusEl.textContent = statusKey ? formText(statusKey) : '';
+    statusEl.dataset.kind = statusKind;
+  }
+
+  // Re-localize any visible messages when the language toggles mid-flow.
+  window.addEventListener('langchange', () => {
+    renderErrors();
+    renderStatus();
+  });
+
+  // Clear a field's error as the visitor corrects it.
+  (Object.keys(fields) as Key[]).forEach((k) =>
+    fields[k]?.addEventListener('input', () => {
+      if (errorKey[k]) {
+        errorKey[k] = null;
+        renderErrors();
+      }
+    }),
+  );
+
+  f.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (!f.reportValidity()) return;
-    const d = new FormData(f);
-    const name = (d.get('name') || '').toString().trim();
-    const email = (d.get('email') || '').toString().trim();
-    const msg = (d.get('message') || '').toString().trim();
-    const subject = encodeURIComponent(
-      `Portfolio contact${name ? ` from ${name}` : ''}`,
-    );
-    const body = encodeURIComponent(
-      `${msg}\n\n${name}${email ? `\n${email}` : ''}`,
-    );
-    const note = document.getElementById('cformNote');
-    if (note) note.textContent = openingText();
-    window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
+    if (statusKind === 'pending') return;
+
+    if (!validate()) {
+      renderErrors();
+      const firstBad = (Object.keys(errorKey) as Key[]).find(
+        (k) => errorKey[k],
+      );
+      if (firstBad) fields[firstBad]?.focus();
+      return;
+    }
+    renderErrors();
+
+    statusKind = 'pending';
+    statusKey = 'sending';
+    btn?.setAttribute('disabled', 'true');
+    btn?.classList.add('is-loading');
+    renderStatus();
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: val('name'),
+          email: val('email'),
+          message: val('message'),
+          website: hp?.value ?? '',
+        }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      statusKind = 'success';
+      statusKey = 'success';
+      f.reset();
+    } catch {
+      statusKind = 'error';
+      statusKey = 'errorGeneric';
+    } finally {
+      btn?.removeAttribute('disabled');
+      btn?.classList.remove('is-loading');
+      renderStatus();
+    }
   });
 })();
 

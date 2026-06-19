@@ -325,6 +325,21 @@ html.ready .intro-id .kicker::before{width:28px}
 .cform-send:hover{transform:translateY(-2px);filter:brightness(1.05)}
 .cform-send svg{width:15px;height:15px}
 .cform-note{font-size:10px;letter-spacing:.02em;color:var(--muted)}
+.hp{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.field-err{font-family:var(--font-mono),monospace;font-size:10.5px;line-height:1.4;color:var(--c-rose);max-height:0;opacity:0;overflow:hidden;transition:opacity .2s,max-height .2s}
+.field-err:not(:empty){max-height:48px;opacity:1;margin-top:1px}
+.field input[aria-invalid="true"],.field textarea[aria-invalid="true"]{border-color:var(--c-rose);box-shadow:0 0 0 3px rgba(176,74,69,.13)}
+.field input[aria-invalid="true"]:focus,.field textarea[aria-invalid="true"]:focus{border-color:var(--c-rose);box-shadow:0 0 0 3px rgba(176,74,69,.2)}
+.cform-send[disabled]{opacity:.72;cursor:progress;transform:none;filter:none}
+.cform-send.is-loading svg{display:none}
+.cform-send.is-loading::after{content:"";width:14px;height:14px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;animation:cfspin .6s linear infinite}
+@keyframes cfspin{to{transform:rotate(360deg)}}
+.cform-status{font-family:var(--font-mono),monospace;font-size:12px;line-height:1.5;letter-spacing:.01em;margin:0}
+.cform-status:empty{display:none}
+.cform-status[data-kind="pending"]{color:var(--muted)}
+.cform-status[data-kind="success"]{color:var(--c-emerald)}
+.cform-status[data-kind="error"]{color:var(--c-rose)}
+@media (prefers-reduced-motion:reduce){.cform-send.is-loading::after{animation:none}.field-err{transition:none}}
 .contact-side{display:flex;flex-direction:column;gap:11px;justify-content:space-between}
 @media (max-width:760px){.contact-wrap{grid-template-columns:1fr;gap:22px}}
 .deploy-row{margin-top:40px;display:flex;flex-wrap:wrap;align-items:center;gap:18px}
