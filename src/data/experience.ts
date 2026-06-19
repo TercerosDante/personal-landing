@@ -75,10 +75,9 @@ export const experience: Company[] = [
         name: 'Cosmic Latte',
         tags: [
           { label: 'Node.js' },
-          { label: 'Fastify' },
           { label: 'MongoDB' },
-          { label: 'Python · FastAPI', hot: true },
-          { label: 'BERT', hot: true },
+          { label: 'Python' },
+          { label: 'Sentiment Analysis', hot: true },
           { label: 'RabbitMQ' },
           { label: 'Docker' },
           { label: 'Kubernetes' },

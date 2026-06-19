@@ -1,6 +1,6 @@
 /**
  * Client behaviours for the portfolio. Bundled by Astro (imported once from the
- * base Layout) — typed, tree-shaken, no inline blob.
+ * base Layout). Typed, tree-shaken, no inline blob.
  */
 import { site } from '../data/site';
 // Importing the named helpers also runs the i18n module (toggle wiring + any
@@ -260,7 +260,7 @@ setInterval(tick, 1000);
   document.querySelectorAll<HTMLElement>('.ph').forEach((el) =>
     el.addEventListener('click', (e) => {
       e.preventDefault();
-      toast.textContent = `🔧 ${el.dataset.ph || 'Placeholder — coming soon'}`;
+      toast.textContent = `🔧 ${el.dataset.ph || 'Placeholder, coming soon'}`;
       const x = Math.min(e.clientX, window.innerWidth - toast.offsetWidth - 20);
       toast.style.left = `${Math.max(12, x)}px`;
       toast.style.top = `${e.clientY + 16}px`;
@@ -300,10 +300,10 @@ setInterval(tick, 1000);
     const email = (d.get('email') || '').toString().trim();
     const msg = (d.get('message') || '').toString().trim();
     const subject = encodeURIComponent(
-      `Portfolio contact${name ? ` — ${name}` : ''}`,
+      `Portfolio contact${name ? ` from ${name}` : ''}`,
     );
     const body = encodeURIComponent(
-      `${msg}\n\n— ${name}${email ? `\n${email}` : ''}`,
+      `${msg}\n\n${name}${email ? `\n${email}` : ''}`,
     );
     const note = document.getElementById('cformNote');
     if (note) note.textContent = openingText();
@@ -321,7 +321,7 @@ setInterval(tick, 1000);
   const open = (src: string, alt: string) => {
     lbImg.src = src;
     lbImg.alt = alt;
-    if (lbCap) lbCap.textContent = alt.replace(/\s*—.*$/, '');
+    if (lbCap) lbCap.textContent = alt.replace(/,.*$/, '');
     lb.classList.add('open');
     document.body.style.overflow = 'hidden';
   };

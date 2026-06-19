@@ -1,5 +1,5 @@
 /**
- * Structural education data — years and proficiency percentages only. Titles,
+ * Structural education data: years and proficiency percentages only. Titles,
  * institutions, language names and levels live in `src/i18n/content.ts` under
  * `edu.items[i]` / `edu.langs[i]` (same order).
  */

@@ -105,7 +105,7 @@ const en: Content = {
   hero: {
     kicker: 'Full-Stack Engineer',
     role: 'Full-Stack Engineer',
-    lead: 'Full-Stack Engineer with <b>6+ years</b> designing, building and operating <b>production-grade TypeScript</b> applications — React &amp; Next.js frontends, NestJS APIs, PostgreSQL and cloud infrastructure on AWS &amp; Linux VPS with Docker, Traefik and CI/CD. I ship scalable multi-tenant systems and business-critical integrations with Stripe, Shopee, Google Maps and AI-powered OCR.',
+    lead: 'Full-Stack Engineer with <b>6+ years</b> building and maintaining web applications in TypeScript, React, Next.js, NestJS, PostgreSQL, Docker and AWS. I deliver end-to-end product features, integrate services like Stripe, Shopee, Google Maps and OCR, and run applications in <b>production</b>. I focus on clean architecture, maintainable code, automation, and solving real business problems with reliable software.',
     coreStack: 'Core stack',
     cv: 'Download CV',
     tagline: [
@@ -121,7 +121,7 @@ const en: Content = {
   exp: {
     eyebrow: '02 / Experience',
     title: 'Professional timeline.',
-    sub: 'Most recent first — production work across remote teams and international clients.',
+    sub: 'Most recent first. Production work across remote teams and international clients.',
     companies: [
       {
         meta: 'Full-Stack Developer · Bolivia (Remote)',
@@ -129,15 +129,15 @@ const en: Content = {
         roles: [
           {
             client: 'JP Client',
-            desc: 'Built the idempotent Stripe payments layer (HMAC-verified) and the event-driven core APIs with JWT access/refresh + RBAC. Wired the AWS (S3, SES, SNS) and Google Maps integrations and scheduled background jobs, and set up CI/CD on GitHub Actions deploying to EC2 behind Traefik. Contributed to the React Native + Expo client.',
+            desc: 'Built the NestJS, TypeScript and PostgreSQL backend with JWT authentication and role-based access for drivers, passengers and admins, plus a reliable Stripe payment flow with webhook handling, automated retries and transaction-consistency safeguards. Added background automation for the ride lifecycle, reminders and notifications, and integrated AWS and Google Maps. Set up CI/CD on GitHub Actions with Docker and Traefik on AWS, and built the React Native and Expo client.',
           },
           {
             client: 'JP Client',
-            desc: 'Built the REST API in NestJS 11 + Prisma 6 (58-model PostgreSQL schema), the Stripe subscriptions with signature-verified webhooks, and the Shopee OAuth integration with a resilient product/order sync framework. Shipped frontend features in Next.js 15 + React 19 (MUI, TanStack Query, Zod).',
+            desc: 'Co-developed a multi-tenant SaaS in NestJS, TypeScript, PostgreSQL and Prisma, working on backend architecture, business logic, authentication and access control. Integrated Stripe subscriptions, Shopee marketplace sync and AWS for billing, e-commerce and customer communications. Built background workflows for data sync and billing automation, shipped a multi-stage Dockerfile to AWS ECR/ECS through GitHub Actions, and contributed frontend features in Next.js and React.',
           },
           {
             client: 'JP Client',
-            desc: 'Restaurant operations platform — full-stack work across backend APIs and frontend features.',
+            desc: 'Restaurant operations platform. Full-stack work in NestJS, Prisma and React across backend APIs and frontend features.',
           },
           {
             client: 'JP Client',
@@ -151,11 +151,11 @@ const en: Content = {
         roles: [
           {
             client: 'BO Client',
-            desc: 'Survey and evaluation platform. Backend services in Node.js (Fastify) with complex MongoDB queries over large datasets. Built a Python/FastAPI sentiment-analysis API serving a pre-trained BERT model, replaced the event emitter with a RabbitMQ messaging layer and designed a webhook delivery system. Containerized with Docker + Kubernetes (MicroK8s), CI/CD on GitLab. Frontend in React and Meteor.',
+            desc: 'Built backend services and API endpoints in Node.js and MongoDB for survey processing and data analysis, plus a Python sentiment-analysis service running a pre-trained model on open-ended responses. Moved messaging to RabbitMQ for more reliable email and notification delivery, and added configurable webhooks for event-driven client updates. Set up Docker, Kubernetes and GitLab CI/CD across staging and production, added automated API integration tests, and built React and Meteor frontend features including real-time dashboards and survey management.',
           },
           {
             client: 'US Client · Outsourcing',
-            desc: 'Building data-tracking application. Built the React + TypeScript frontend (GraphQL, MUI, Redux) and contributed to the NestJS + Firestore backend implementation.',
+            desc: 'Built the React and TypeScript frontend (GraphQL, MUI, Redux) for a building data-tracking application, and contributed to the NestJS and Firestore backend.',
           },
         ],
       },
@@ -164,7 +164,7 @@ const en: Content = {
   proj: {
     eyebrow: '01 / Projects',
     title: "Things I've shipped.",
-    sub: 'Products taken from architecture to delivery — side projects shipped solo, plus production builds co-developed with teams for international clients.',
+    sub: 'Products taken from architecture to delivery. Side projects shipped solo, plus production builds co-developed with teams for international clients.',
     view: 'Live App',
     techDetails: 'Technical details',
     groups: [
@@ -176,19 +176,19 @@ const en: Content = {
             title: 'Multi-Tenant ERP / POS for Restaurants',
             year: '2026 · Independent',
             live: 'In production',
-            alt: 'Multi-Tenant ERP / POS for Restaurants — interface preview',
+            alt: 'Multi-Tenant ERP / POS for Restaurants, interface preview',
             product:
-              "A point-of-sale and back-office platform that runs a restaurant's registers, inventory and cash from one app — on Android tablets and desktop.",
-            tech: 'Multi-tenant architecture (AsyncLocalStorage TenantContext, tenantId isolation, JWT with tenant/location claims) with three auth layers. A modular "Lego" system activates core modules (POS, inventory, cash) and industry modules through a catalog and guards. DDD with unit-tested domain logic and event-driven cross-module communication. POS frontend (React 18, Vite, Ant Design, Zustand) runs on Android (Capacitor) and desktop (Electron) from one codebase. pnpm/Turborepo monorepo with shared Zod contracts, GitHub Actions, Docker + Traefik on a VPS.',
+              "A point-of-sale and back-office platform that runs a restaurant's registers, inventory and cash from one app, on Android tablets and desktop.",
+            tech: 'Multi-tenant backend with tenant isolation, row-level security, JWT auth and role-based access across multiple business locations. A modular system lets each business turn on the capabilities it needs (point of sale, inventory, cash, recipes, kitchen workflows) from one shared platform, with domain-driven design keeping the business logic maintainable as modules grow. The cross-platform POS runs on desktop and touch devices from a single React codebase (Vite, Ant Design, Zustand, Capacitor, Electron). pnpm and Turborepo monorepo with shared Zod contracts, GitHub Actions CI/CD, and Docker and Traefik on a VPS. AI-assisted development was used under direct supervision to speed up delivery.',
           },
           {
             title: 'Textile Manufacturing ERP',
             year: '2025 · Freelance · finished',
             live: 'In production',
-            alt: 'Textile Manufacturing ERP — interface preview',
+            alt: 'Textile Manufacturing ERP, interface preview',
             product:
-              'An ERP for a textile manufacturer — orders, garment matrices, variants and per-client pricing in one system. Google Gemini OCR reads garment matrices straight from photos, cutting order-entry time by ~85%.',
-            tech: 'Textile manufacturing domain modeled in PostgreSQL/Prisma — products with variants, size groups, per-order garment matrices, state history and price tiers per client group. NestJS API with 15+ domain modules. React frontend (Vite, Ant Design, TanStack Query, React Hook Form) with drag-and-drop order building (dnd-kit), Cloudinary uploads, WhatsApp share and Word/Excel export.',
+              'An ERP for a textile manufacturer that brings orders, garment matrices, variants and per-client pricing into one system. Google Gemini OCR reads garment matrices straight from photos, cutting order-entry time by about 85%.',
+            tech: 'Backend in NestJS, TypeScript, PostgreSQL and Prisma, with secure authentication, role-based access control and workflows across the textile domain: products, variants, production attributes, pricing structures and order states. The React frontend (Vite, Ant Design, TanStack Query, React Hook Form) streamlines order management, image handling, client communication and document generation, with drag-and-drop order building (dnd-kit), Cloudinary uploads and Word/Excel export. Delivered from architecture and implementation through deployment and client adoption.',
           },
         ],
       },
@@ -197,21 +197,21 @@ const en: Content = {
         note: 'Co-developed',
         items: [
           {
-            title: 'TsunaGo — Assisted-Transport Taxi Platform',
+            title: 'TsunaGo',
             year: '2024 · Bolivian Devs',
             live: 'In production',
-            alt: 'TsunaGo — interface preview',
+            alt: 'TsunaGo, interface preview',
             product:
               'A mobile-first platform that matches passengers with assisted-transport taxis, co-developed for a Japanese client.',
-            tech: 'Event-driven NestJS + TypeScript + PostgreSQL (Prisma) backend with JWT access/refresh + RBAC, an idempotent Stripe payments layer (HMAC-verified), scheduled background jobs and AWS (S3, SES, SNS) + Google Maps integrations. CI/CD on GitHub Actions, deployed on EC2 behind Traefik over HTTPS. Mobile-first client in React Native + Expo.',
+            tech: 'NestJS, TypeScript and PostgreSQL (Prisma) backend with JWT authentication and role-based access for drivers, passengers and admins. Reliable Stripe payment processing with webhook handling, automated retries and transaction-consistency safeguards. Background automation for the ride lifecycle, reminders and notifications, plus AWS (S3, SES, SNS) and Google Maps integrations. CI/CD on GitHub Actions with Docker and Traefik on AWS. React Native and Expo client with role-based experiences and payment flows.',
           },
           {
-            title: 'Makevi — Shopee Seller-Management SaaS',
+            title: 'Makevi',
             year: '2024 · Bolivian Devs',
             live: 'In production',
             product:
-              'A SaaS that helps Shopee sellers run their stores end-to-end — products, orders and subscriptions — co-developed for a Japanese client.',
-            tech: 'REST API in NestJS 11 + Prisma 6 over PostgreSQL (58 models), with Stripe subscriptions (signature-verified webhooks), a Shopee OAuth integration (product/order sync) and a resilient sync framework. Web app in Next.js 15 + React 19 with MUI, TanStack Query and Zod.',
+              'A SaaS that helps Shopee sellers run their stores end-to-end, from products and orders to subscriptions, co-developed for a Japanese client.',
+            tech: 'Multi-tenant SaaS in NestJS, TypeScript, PostgreSQL and Prisma. Stripe subscriptions, Shopee marketplace synchronization and AWS for billing, e-commerce and customer communications. Background workflows for data synchronization and billing automation, with input validation, structured logging, API documentation, health monitoring and automated testing. Multi-stage Dockerfile shipped to AWS ECR/ECS through GitHub Actions. Frontend features in Next.js and React.',
           },
         ],
       },
@@ -224,15 +224,15 @@ const en: Content = {
     items: [
       {
         title: 'Research & Development Program',
-        inst: 'Jala Foundation — software engineering training within a production project.',
+        inst: 'Jala Foundation. Intensive software engineering training with hands-on development in a production project.',
       },
       {
         title: 'Commercial Software Development Training',
-        inst: 'Jala Foundation — commercial development & engineering best practices.',
+        inst: 'Jala Foundation. Intensive training in commercial software development and engineering best practices.',
       },
       {
         title: 'Higher Technical Degree in Computer Systems',
-        inst: 'CEFTE Institute, Bolivia — 3-year post-secondary technical program.',
+        inst: 'CEFTE Institute, Bolivia. A 3-year post-secondary technical program.',
       },
     ],
     langs: [
@@ -255,14 +255,14 @@ const en: Content = {
     opening: 'Opening your email client…',
   },
   footer: {
-    copy: '© 2026 Ronald Terceros — Full-Stack Engineer',
+    copy: '© 2026 Ronald Terceros · Full-Stack Engineer',
     tech: 'TypeScript · React · NestJS · PostgreSQL · AWS',
   },
   boot: { loading: 'Loading Portfolio' },
   lightbox: { hint: 'Esc · click outside · ✕ to close' },
   colophon: {
     label: 'Colophon',
-    text: 'This very page — built with <b>Astro</b> &amp; <b>TypeScript</b>, a hand-rolled EN/ES i18n layer and <b>zero runtime dependencies</b>. Static, fast, open source.',
+    text: 'This very page is built with <b>Astro</b> and <b>TypeScript</b>, a hand-rolled EN/ES i18n layer and <b>zero runtime dependencies</b>. Static, fast, open source.',
     source: 'View source',
   },
 };
@@ -280,7 +280,7 @@ const es: Content = {
   hero: {
     kicker: 'Ingeniero Full-Stack',
     role: 'Ingeniero Full-Stack',
-    lead: 'Ingeniero Full-Stack con <b>6+ años</b> diseñando, construyendo y operando aplicaciones <b>TypeScript de nivel producción</b> — frontends en React &amp; Next.js, APIs en NestJS, PostgreSQL e infraestructura cloud en AWS &amp; VPS Linux con Docker, Traefik y CI/CD. Despliego sistemas multi-tenant escalables e integraciones críticas para el negocio con Stripe, Shopee, Google Maps y OCR con IA.',
+    lead: 'Ingeniero Full-Stack con <b>6+ años</b> construyendo y manteniendo aplicaciones web en TypeScript, React, Next.js, NestJS, PostgreSQL, Docker y AWS. Desarrollo APIs, integraciones y funcionalidades full-stack, integro servicios como Stripe, Shopee, Google Maps y OCR, y opero aplicaciones en <b>producción</b>. Me enfoco en arquitectura limpia, código mantenible, automatización y en resolver problemas reales de negocio con software confiable.',
     coreStack: 'Stack principal',
     cv: 'Descargar CV',
     tagline: [
@@ -296,7 +296,7 @@ const es: Content = {
   exp: {
     eyebrow: '02 / Experiencia',
     title: 'Trayectoria profesional.',
-    sub: 'Más reciente primero — trabajo en producción con equipos remotos y clientes internacionales.',
+    sub: 'Más reciente primero. Trabajo en producción con equipos remotos y clientes internacionales.',
     companies: [
       {
         meta: 'Desarrollador Full-Stack · Bolivia (Remoto)',
@@ -304,15 +304,15 @@ const es: Content = {
         roles: [
           {
             client: 'Cliente JP',
-            desc: 'Construí la capa de pagos idempotente con Stripe (verificación HMAC) y las APIs core orientadas a eventos con JWT access/refresh + RBAC. Integré AWS (S3, SES, SNS) y Google Maps, las tareas programadas en segundo plano, y monté el CI/CD en GitHub Actions desplegando en EC2 tras Traefik. Contribuí al cliente en React Native + Expo.',
+            desc: 'Construí el backend en NestJS, TypeScript y PostgreSQL con autenticación JWT y acceso por roles para conductores, pasajeros y administradores, además de un flujo de pagos confiable con Stripe (manejo de webhooks, reintentos automáticos y resguardos de consistencia transaccional). Agregué automatización en segundo plano para el ciclo de vida del viaje, recordatorios y notificaciones, e integré AWS y Google Maps. Monté el CI/CD en GitHub Actions con Docker y Traefik en AWS, y construí el cliente en React Native y Expo.',
           },
           {
             client: 'Cliente JP',
-            desc: 'Construí la API REST en NestJS 11 + Prisma 6 (esquema PostgreSQL de 58 modelos), las suscripciones de Stripe con webhooks verificados por firma, y la integración con Shopee vía OAuth con un framework de sincronización resiliente de productos/pedidos. Desarrollé funcionalidades de frontend en Next.js 15 + React 19 (MUI, TanStack Query, Zod).',
+            desc: 'Co-desarrollé un SaaS multi-tenant en NestJS, TypeScript, PostgreSQL y Prisma, trabajando en la arquitectura del backend, la lógica de negocio, la autenticación y el control de acceso. Integré suscripciones de Stripe, sincronización con el marketplace de Shopee y AWS para facturación, e-commerce y comunicaciones con clientes. Construí flujos en segundo plano para sincronización de datos y automatización de facturación, publiqué un Dockerfile multi-etapa a AWS ECR/ECS con GitHub Actions, y aporté funcionalidades de frontend en Next.js y React.',
           },
           {
             client: 'Cliente JP',
-            desc: 'Plataforma de operaciones para restaurantes — trabajo full-stack en APIs de backend y funcionalidades de frontend.',
+            desc: 'Plataforma de operaciones para restaurantes. Trabajo full-stack en NestJS, Prisma y React, en APIs de backend y funcionalidades de frontend.',
           },
           {
             client: 'Cliente JP',
@@ -326,11 +326,11 @@ const es: Content = {
         roles: [
           {
             client: 'Cliente BO',
-            desc: 'Plataforma de encuestas y evaluación. Servicios de backend en Node.js (Fastify) con consultas complejas en MongoDB sobre grandes volúmenes de datos. Construí una API de análisis de sentimiento en Python/FastAPI sirviendo un modelo BERT preentrenado, reemplacé el event emitter por una capa de mensajería RabbitMQ y diseñé un sistema de entrega de webhooks. Contenerizado con Docker + Kubernetes (MicroK8s), CI/CD en GitLab. Frontend en React y Meteor.',
+            desc: 'Construí servicios de backend y endpoints de API en Node.js y MongoDB para el procesamiento de encuestas y el análisis de datos, más un servicio de análisis de sentimiento en Python que corría un modelo preentrenado sobre respuestas abiertas. Moví la mensajería a RabbitMQ para una entrega más confiable de correos y notificaciones, y agregué webhooks configurables para actualizaciones orientadas a eventos. Monté Docker, Kubernetes y CI/CD en GitLab entre staging y producción, agregué pruebas automatizadas de integración de API, y construí funcionalidades de frontend en React y Meteor, incluyendo dashboards en tiempo real y gestión de encuestas.',
           },
           {
             client: 'Cliente US · Outsourcing',
-            desc: 'Aplicación de seguimiento de datos de edificios. Desarrollé el frontend en React + TypeScript (GraphQL, MUI, Redux) y contribuí a la implementación del backend en NestJS + Firestore.',
+            desc: 'Construí el frontend en React y TypeScript (GraphQL, MUI, Redux) para una aplicación de seguimiento de datos de edificios, y contribuí al backend en NestJS y Firestore.',
           },
         ],
       },
@@ -339,7 +339,7 @@ const es: Content = {
   proj: {
     eyebrow: '01 / Proyectos',
     title: 'Lo que he construido.',
-    sub: 'Productos llevados de la arquitectura a la entrega — proyectos propios hechos en solitario, y desarrollos en producción co-creados con equipos para clientes internacionales.',
+    sub: 'Productos llevados de la arquitectura a la entrega. Proyectos propios hechos en solitario, y desarrollos en producción co-creados con equipos para clientes internacionales.',
     view: 'App en vivo',
     techDetails: 'Detalles técnicos',
     groups: [
@@ -351,19 +351,19 @@ const es: Content = {
             title: 'ERP / POS Multi-Tenant para Restaurantes',
             year: '2026 · Independiente',
             live: 'En producción',
-            alt: 'ERP / POS Multi-Tenant para Restaurantes — vista previa de la interfaz',
+            alt: 'ERP / POS Multi-Tenant para Restaurantes, vista previa de la interfaz',
             product:
-              'Plataforma de punto de venta y back-office que maneja ventas, inventario y caja de un restaurante desde una sola app — en tablets Android y escritorio.',
-            tech: 'Arquitectura multi-tenant (TenantContext con AsyncLocalStorage, aislamiento por tenantId, JWT con claims de tenant/ubicación) con tres capas de autenticación. Un sistema modular tipo "Lego" activa módulos núcleo (POS, inventario, caja) y módulos por industria mediante un catálogo y guards. DDD con lógica de dominio probada unitariamente y comunicación entre módulos orientada a eventos. El frontend POS (React 18, Vite, Ant Design, Zustand) corre en Android (Capacitor) y escritorio (Electron) desde una sola base de código. Monorepo pnpm/Turborepo con contratos Zod compartidos, GitHub Actions, Docker + Traefik en un VPS.',
+              'Plataforma de punto de venta y back-office que maneja ventas, inventario y caja de un restaurante desde una sola app, en tablets Android y escritorio.',
+            tech: 'Backend multi-tenant con aislamiento por tenant, seguridad a nivel de fila (RLS), autenticación JWT y acceso por roles en varias ubicaciones de negocio. Un sistema modular permite a cada negocio activar las capacidades que necesita (punto de venta, inventario, caja, recetas, flujos de cocina) desde una sola plataforma compartida, con diseño orientado al dominio que mantiene la lógica de negocio mantenible a medida que crecen los módulos. El POS multiplataforma corre en escritorio y dispositivos táctiles desde una sola base de código React (Vite, Ant Design, Zustand, Capacitor, Electron). Monorepo pnpm y Turborepo con contratos Zod compartidos, CI/CD en GitHub Actions, y Docker y Traefik en un VPS. Usé desarrollo asistido por IA bajo supervisión directa para acelerar la entrega.',
           },
           {
             title: 'ERP para Manufactura Textil',
             year: '2025 · Freelance · finalizado',
             live: 'En producción',
-            alt: 'ERP para Manufactura Textil — vista previa de la interfaz',
+            alt: 'ERP para Manufactura Textil, vista previa de la interfaz',
             product:
-              'Un ERP para una fábrica textil — pedidos, matrices de prendas, variantes y precios por grupo de cliente en un solo sistema. Google Gemini OCR lee las matrices directo de fotos, reduciendo ~85% el tiempo de captura de pedidos.',
-            tech: 'Dominio de manufactura textil modelado en PostgreSQL/Prisma — productos con variantes, grupos de tallas, matrices de prendas por pedido, historial de estados y niveles de precio por grupo de cliente. API en NestJS con más de 15 módulos de dominio. Frontend en React (Vite, Ant Design, TanStack Query, React Hook Form) con construcción de pedidos por arrastrar y soltar (dnd-kit), subidas a Cloudinary, compartir por WhatsApp y exportación a Word/Excel.',
+              'Un ERP para una fábrica textil que reúne pedidos, matrices de prendas, variantes y precios por grupo de cliente en un solo sistema. Google Gemini OCR lee las matrices directo de fotos, reduciendo cerca de 85% el tiempo de captura de pedidos.',
+            tech: 'Backend en NestJS, TypeScript, PostgreSQL y Prisma, con autenticación segura, control de acceso por roles y flujos en todo el dominio textil: productos, variantes, atributos de producción, estructuras de precio y estados de pedido. El frontend en React (Vite, Ant Design, TanStack Query, React Hook Form) agiliza la gestión de pedidos, el manejo de imágenes, la comunicación con el cliente y la generación de documentos, con construcción de pedidos por arrastrar y soltar (dnd-kit), subidas a Cloudinary y exportación a Word/Excel. Entregado desde la arquitectura e implementación hasta el despliegue y la adopción del cliente.',
           },
         ],
       },
@@ -372,21 +372,21 @@ const es: Content = {
         note: 'Co-desarrollado',
         items: [
           {
-            title: 'TsunaGo — Plataforma de Taxis de Transporte Asistido',
+            title: 'TsunaGo',
             year: '2024 · Bolivian Devs',
             live: 'En producción',
-            alt: 'TsunaGo — vista previa de la interfaz',
+            alt: 'TsunaGo, vista previa de la interfaz',
             product:
               'Plataforma mobile-first que empareja pasajeros con taxis de transporte asistido, co-desarrollada para un cliente japonés.',
-            tech: 'Backend orientado a eventos en NestJS + TypeScript + PostgreSQL (Prisma) con JWT access/refresh + RBAC, una capa de pagos idempotente con Stripe (verificada con HMAC), tareas programadas en segundo plano e integraciones con AWS (S3, SES, SNS) y Google Maps. CI/CD en GitHub Actions, desplegado en EC2 tras Traefik sobre HTTPS. Cliente mobile-first en React Native + Expo.',
+            tech: 'Backend en NestJS, TypeScript y PostgreSQL (Prisma) con autenticación JWT y acceso por roles para conductores, pasajeros y administradores. Procesamiento de pagos confiable con Stripe (manejo de webhooks, reintentos automáticos y resguardos de consistencia transaccional). Automatización en segundo plano para el ciclo de vida del viaje, recordatorios y notificaciones, más integraciones con AWS (S3, SES, SNS) y Google Maps. CI/CD en GitHub Actions con Docker y Traefik en AWS. Cliente en React Native y Expo con experiencias por rol y flujos de pago.',
           },
           {
-            title: 'Makevi — SaaS de Gestión de Vendedores Shopee',
+            title: 'Makevi',
             year: '2024 · Bolivian Devs',
             live: 'En producción',
             product:
-              'Un SaaS que ayuda a vendedores de Shopee a gestionar sus tiendas de punta a punta — productos, pedidos y suscripciones — co-desarrollado para un cliente japonés.',
-            tech: 'API REST en NestJS 11 + Prisma 6 sobre PostgreSQL (58 modelos), con suscripciones de Stripe (webhooks verificados por firma), integración con Shopee vía OAuth (sincronización de productos/pedidos) y un framework de sincronización resiliente. Web en Next.js 15 + React 19 con MUI, TanStack Query y Zod.',
+              'Un SaaS que ayuda a vendedores de Shopee a gestionar sus tiendas de punta a punta, desde productos y pedidos hasta suscripciones, co-desarrollado para un cliente japonés.',
+            tech: 'SaaS multi-tenant en NestJS, TypeScript, PostgreSQL y Prisma. Suscripciones de Stripe, sincronización con el marketplace de Shopee y AWS para facturación, e-commerce y comunicaciones con clientes. Flujos en segundo plano para sincronización de datos y automatización de facturación, con validación de entradas, logging estructurado, documentación de API, monitoreo de salud y pruebas automatizadas. Dockerfile multi-etapa publicado a AWS ECR/ECS con GitHub Actions. Funcionalidades de frontend en Next.js y React.',
           },
         ],
       },
@@ -399,15 +399,15 @@ const es: Content = {
     items: [
       {
         title: 'Programa de Investigación y Desarrollo',
-        inst: 'Jala Foundation — formación en ingeniería de software dentro de un proyecto en producción.',
+        inst: 'Jala Foundation. Formación intensiva en ingeniería de software con desarrollo práctico en un proyecto en producción.',
       },
       {
         title: 'Formación en Desarrollo de Software Comercial',
-        inst: 'Jala Foundation — desarrollo comercial y buenas prácticas de ingeniería.',
+        inst: 'Jala Foundation. Formación intensiva en desarrollo de software comercial y buenas prácticas de ingeniería.',
       },
       {
         title: 'Técnico Superior en Sistemas Informáticos',
-        inst: 'Instituto CEFTE, Bolivia — programa técnico superior de 3 años.',
+        inst: 'Instituto CEFTE, Bolivia. Programa técnico superior de 3 años.',
       },
     ],
     langs: [
@@ -430,14 +430,14 @@ const es: Content = {
     opening: 'Abriendo tu cliente de correo…',
   },
   footer: {
-    copy: '© 2026 Ronald Terceros — Ingeniero Full-Stack',
+    copy: '© 2026 Ronald Terceros · Ingeniero Full-Stack',
     tech: 'TypeScript · React · NestJS · PostgreSQL · AWS',
   },
   boot: { loading: 'Cargando Portafolio' },
   lightbox: { hint: 'Esc · clic fuera · ✕ para cerrar' },
   colophon: {
     label: 'Colofón',
-    text: 'Esta misma página — hecha con <b>Astro</b> y <b>TypeScript</b>, una capa i18n EN/ES propia y <b>cero dependencias en runtime</b>. Estática, rápida, open source.',
+    text: 'Esta misma página está hecha con <b>Astro</b> y <b>TypeScript</b>, una capa i18n EN/ES propia y <b>cero dependencias en runtime</b>. Estática, rápida, open source.',
     source: 'Ver código',
   },
 };
