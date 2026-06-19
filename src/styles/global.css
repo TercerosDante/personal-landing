@@ -41,7 +41,7 @@ section{scroll-margin-top:96px}
 .brand{display:flex;align-items:center;gap:11px;font-size:11px;letter-spacing:.12em;cursor:pointer}
 .brand b{font-family:var(--font-archivo),sans-serif;font-weight:700;letter-spacing:.15em;background:var(--slate);color:#f2f4f8;padding:6px 12px;border-radius:6px;font-size:11px;box-shadow:0 4px 14px -6px rgba(43,51,64,.5);transition:.25s}
 .brand:hover b{background:var(--signal)}
-.brand .role{color:var(--muted);text-transform:uppercase;font-size:10px}
+.brand .role{color:var(--muted);text-transform:uppercase;font-size:10px;white-space:nowrap}
 .nav{display:flex;align-items:center;gap:2px}
 .nav a{font-size:10.5px;letter-spacing:.1em;color:var(--ink-soft);padding:8px 11px;border-radius:6px;text-transform:uppercase;transition:.2s;position:relative}
 .nav a:hover{color:var(--ink);background:rgba(43,51,64,.05)}
@@ -50,6 +50,7 @@ section{scroll-margin-top:96px}
 .nav .cvbtn{margin-left:8px;background:var(--slate);color:#f2f4f8;display:inline-flex;align-items:center;gap:7px}
 .nav .cvbtn:hover{background:var(--signal);color:#fff}
 .nav .cvbtn.on::after{display:none}
+.mnum{display:none}
 .navtools{display:flex;align-items:center;gap:14px}
 .lang-toggle{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono),monospace;font-size:10px;font-weight:500;letter-spacing:.12em;color:var(--ink-soft);text-transform:uppercase;border:1px solid var(--hair);border-radius:7px;padding:6px 9px 6px 8px;background:rgba(255,255,255,.45);transition:.2s;line-height:1}
 .lang-toggle .globe{width:13px;height:13px;flex:none;opacity:.85;transition:opacity .2s}
@@ -160,7 +161,7 @@ html.ready .intro-id .kicker::before{width:28px}
 .cchip:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--signal) 55%,transparent);background:#fff;box-shadow:0 12px 22px -14px rgba(40,50,70,.5)}
 .cchip:hover svg,.cchip:hover .cm{color:var(--signal)}
 .intro-actions{margin-top:34px;display:flex;flex-wrap:wrap;gap:13px;align-items:center}
-@media (max-width:560px){.intro-top{gap:16px}.avatar{width:82px}}
+@media (max-width:560px){.intro-top{gap:16px}.avatar{width:82px}.brand .role{display:none}.topbar{padding:0 16px}}
 
 /* ============================== ABOUT ============================== */
 .about-grid{display:grid;grid-template-columns:1.5fr .9fr;gap:48px;align-items:start}
@@ -385,11 +386,25 @@ html.ready .intro-id .kicker::before{width:28px}
   .metrics{display:none}
 }
 @media (max-width:860px){
-  .nav{position:fixed;top:var(--nav-h);right:14px;flex-direction:column;align-items:stretch;gap:3px;background:var(--paper);border:1px solid var(--hair);border-radius:12px;padding:10px;box-shadow:0 20px 40px -20px rgba(43,51,64,.4);transform:translateY(-8px) scale(.98);opacity:0;visibility:hidden;transition:.2s;min-width:200px}
+  /* Drop the blur so the bar is not a containing block for the fixed sheet
+     below (backdrop-filter would otherwise trap position:fixed to the bar). */
+  .topbar{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none}
+  .nav{position:fixed;inset:var(--nav-h) 0 0 0;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;background:var(--paper);border:none;border-radius:0;padding:clamp(16px,5vw,28px) clamp(18px,6vw,30px) calc(28px + env(safe-area-inset-bottom));box-shadow:0 24px 50px -26px rgba(43,51,64,.5);opacity:0;visibility:hidden;transform:translateY(-12px);transition:opacity .26s ease,transform .26s cubic-bezier(.16,.84,.34,1),visibility .26s;overflow-y:auto;min-width:0;z-index:50}
   .nav.open{transform:none;opacity:1;visibility:visible}
+  .nav a{display:flex;align-items:center;gap:16px;font-family:var(--font-archivo),sans-serif;font-size:clamp(21px,6.2vw,27px);font-weight:700;letter-spacing:0;text-transform:none;color:var(--ink);padding:17px 6px;border-radius:0;border-bottom:1px solid var(--hair);transition:color .18s}
+  .nav a:hover{background:none;color:var(--signal)}
+  .nav a.on{color:var(--signal)}
+  .nav a.on::after{display:none}
+  .nav a .mnum{display:block;font-family:var(--font-mono),monospace;font-size:11px;font-weight:500;letter-spacing:.14em;color:var(--faint);min-width:20px;transition:color .18s}
+  .nav a.on .mnum{color:var(--signal)}
+  .nav .cvbtn{margin:22px 0 0;justify-content:center;gap:9px;background:var(--signal-strong);color:#fff;font-family:var(--font-archivo),sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:13px;padding:16px;border-radius:11px;border-bottom:none}
+  .nav .cvbtn:hover{background:var(--signal);color:#fff}
   .menu-btn{display:flex}
+  .menu-btn.open i:nth-child(1){transform:translateY(5.6px) rotate(45deg)}
+  .menu-btn.open i:nth-child(2){opacity:0}
+  .menu-btn.open i:nth-child(3){transform:translateY(-5.6px) rotate(-45deg)}
   .navtools .clk-wrap{display:none}
   .detail{display:none}
   .dock{left:50%;transform:translateX(-50%);width:min(360px,92vw);max-width:92vw;bottom:18px}
 }
-@media (prefers-reduced-motion:reduce){.node,.deco-rings::before,.deco-rings::after{animation:none}.flow{display:none}html{scroll-behavior:auto}}
+@media (prefers-reduced-motion:reduce){.node,.deco-rings::before,.deco-rings::after{animation:none}.flow{display:none}html{scroll-behavior:auto}.nav,.menu-btn i{transition:none}}
