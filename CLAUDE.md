@@ -12,13 +12,13 @@ form) runs server-side as a Vercel Serverless Function via the `@astrojs/vercel`
 
 ## Commands
 
-| Command            | Action                                             |
-| ------------------ | -------------------------------------------------- |
-| `npm run dev`      | Dev server at `http://localhost:4321` (serves `/api/contact` too) |
-| `npm run build`    | Build to `.vercel/output/` (static pages + contact function) |
-| `npm run preview`  | n/a with the Vercel adapter; use `npm run dev` or `vercel dev` |
-| `npm run check`    | Type-check (`astro check`) — keep this at **0/0/0** |
-| `npm run format`   | Prettier write (see the `global.css` caveat below) |
+| Command           | Action                                                            |
+| ----------------- | ----------------------------------------------------------------- |
+| `npm run dev`     | Dev server at `http://localhost:4321` (serves `/api/contact` too) |
+| `npm run build`   | Build to `.vercel/output/` (static pages + contact function)      |
+| `npm run preview` | n/a with the Vercel adapter; use `npm run dev` or `vercel dev`    |
+| `npm run check`   | Type-check (`astro check`) — keep this at **0/0/0**               |
+| `npm run format`  | Prettier write (see the `global.css` caveat below)                |
 
 Node **≥ 22.12** is required (Astro 6); `.nvmrc` pins `22`. Always run `npm run check` and
 `npm run build` before committing.

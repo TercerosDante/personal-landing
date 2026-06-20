@@ -465,7 +465,8 @@ const es: Content = {
     errorVerification:
       'No pudimos confirmar que eres humano. Vuelve a hacer la verificación.',
     errorTooLong: 'Tu mensaje es un poco largo. Acórtalo y vuelve a enviarlo.',
-    errorInvalid: 'Algunos datos no se ven bien. Revisa los campos e inténtalo de nuevo.',
+    errorInvalid:
+      'Algunos datos no se ven bien. Revisa los campos e inténtalo de nuevo.',
     invalidName: 'Ingresa tu nombre (al menos 2 caracteres).',
     invalidEmail: 'Ingresa un correo electrónico válido.',
     invalidMessage: 'Escribe un mensaje breve (al menos 10 caracteres).',

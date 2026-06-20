@@ -44,7 +44,9 @@ describe('contactSchema', () => {
     expect(contactSchema.safeParse(valid).success).toBe(true);
   });
   it('rejects a too-short name', () => {
-    expect(contactSchema.safeParse({ ...valid, name: 'A' }).success).toBe(false);
+    expect(contactSchema.safeParse({ ...valid, name: 'A' }).success).toBe(
+      false,
+    );
   });
   it('rejects an invalid email', () => {
     expect(
@@ -106,7 +108,10 @@ describe('POST /api/contact', () => {
     const res = await post(valid);
     expect(res.status).toBe(200);
     expect(send).toHaveBeenCalledOnce();
-    const payload = send.mock.calls[0][0] as { replyTo: string; subject: string };
+    const payload = send.mock.calls[0][0] as {
+      replyTo: string;
+      subject: string;
+    };
     expect(payload.replyTo).toBe(valid.email);
     expect(payload.subject).toContain(valid.name);
   });
