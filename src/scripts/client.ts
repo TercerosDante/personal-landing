@@ -332,6 +332,41 @@ setInterval(tick, 1000);
   const statusEl = document.getElementById('cformStatus');
   const hp = f.querySelector<HTMLInputElement>('#cf-website');
 
+  // Turnstile (optional, lazy). The widget element only exists when a site key
+  // is configured, so without keys this is a no-op and the form is unaffected.
+  const tsEl = f.querySelector<HTMLElement>('#ts-widget');
+  const tsKey = tsEl?.dataset.sitekey;
+  let tsToken = '';
+  let tsLoaded = false;
+  const loadTurnstile = (): void => {
+    if (!tsEl || !tsKey || tsLoaded) return;
+    tsLoaded = true;
+    window.onTurnstileLoad = () => {
+      window.turnstile?.render(tsEl, {
+        sitekey: tsKey,
+        appearance: 'interaction-only',
+        theme: 'light',
+        callback: (token: string) => {
+          tsToken = token;
+        },
+        'expired-callback': () => {
+          tsToken = '';
+        },
+        'error-callback': () => {
+          tsToken = '';
+        },
+      });
+    };
+    const s = document.createElement('script');
+    s.src =
+      'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit';
+    s.async = true;
+    s.defer = true;
+    document.head.appendChild(s);
+  };
+  // Load the widget on first interaction so it stays off the initial page load.
+  if (tsEl) f.addEventListener('focusin', loadTurnstile, { once: true });
+
   type Key = 'name' | 'email' | 'message';
   const fields: Record<Key, HTMLInputElement | HTMLTextAreaElement | null> = {
     name: f.querySelector('#cf-name'),
@@ -428,6 +463,7 @@ setInterval(tick, 1000);
           email: val('email'),
           message: val('message'),
           website: hp?.value ?? '',
+          turnstileToken: tsToken,
         }),
       });
       if (!res.ok) throw new Error(String(res.status));

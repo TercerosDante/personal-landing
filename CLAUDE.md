@@ -167,5 +167,8 @@ A small **`vercel.json`** sets global **security headers** (`X-Content-Type-Opti
 harden before enforcing). The contact endpoint also rejects oversized bodies (`Content-Length` > 16 KB)
 on top of the Zod caps + honeypot. `package.json` has an `overrides` pin (`path-to-regexp` ≥ 6.3.0) to
 clear a high-severity transitive advisory; remaining `npm audit` items are esbuild **dev-server-only**
-(not shipped to production). Heavier anti-abuse (rate limiting / Turnstile) is intentionally deferred
-until real spam appears.
+(not shipped to production). **Cloudflare Turnstile** is wired but **off by default**: the widget
+renders only when `PUBLIC_TURNSTILE_SITE_KEY` is set (lazy-loaded on first form focus, so Lighthouse is
+untouched), and the server verifies only when `TURNSTILE_SECRET_KEY` is set; with neither, the form
+behaves exactly as before. Set both on the Vercel project to enable it. The endpoint is unit-tested with
+**Vitest** (`npm run test`): schema, honeypot, body cap, Resend success/failure, Turnstile pass/fail.

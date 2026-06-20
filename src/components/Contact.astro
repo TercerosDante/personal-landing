@@ -3,6 +3,7 @@ import { site } from '../data/site';
 import { dict } from '../i18n/content';
 
 const t = dict.contact;
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
 
 <section class="sec contact-sec" id="contact">
@@ -67,6 +68,11 @@ const t = dict.contact;
           autocomplete="off"
         />
       </div>
+      {
+        turnstileKey && (
+          <div id="ts-widget" class="ts-widget" data-sitekey={turnstileKey} />
+        )
+      }
       <div class="cform-foot">
         <button class="cform-send" type="submit">
           <span data-i18n="contact.send">{t.send}</span>

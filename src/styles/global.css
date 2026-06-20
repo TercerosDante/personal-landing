@@ -343,6 +343,7 @@ html.ready .intro-id .kicker::before{width:28px}
 @keyframes cfspin{to{transform:rotate(360deg)}}
 .cform-status{font-family:var(--font-mono),monospace;font-size:12px;line-height:1.5;letter-spacing:.01em;margin:0}
 .cform-status:empty{display:none}
+.ts-widget:empty{display:none}
 .cform-status[data-kind="pending"]{color:var(--muted)}
 .cform-status[data-kind="success"]{color:var(--c-emerald)}
 .cform-status[data-kind="error"]{color:var(--c-rose)}
