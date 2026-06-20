@@ -414,7 +414,9 @@ setInterval(tick, 1000);
 
   function renderStatus(): void {
     if (!statusEl) return;
-    statusEl.textContent = statusKey ? formText(statusKey) : '';
+    const textEl =
+      statusEl.querySelector<HTMLElement>('.cform-status-text') ?? statusEl;
+    textEl.textContent = statusKey ? formText(statusKey) : '';
     statusEl.dataset.kind = statusKind;
   }
 
@@ -466,13 +468,30 @@ setInterval(tick, 1000);
           turnstileToken: tsToken,
         }),
       });
-      if (!res.ok) throw new Error(String(res.status));
-      statusKind = 'success';
-      statusKey = 'success';
-      f.reset();
+      if (res.ok) {
+        statusKind = 'success';
+        statusKey = 'success';
+        f.reset();
+      } else {
+        // Map the coherent server statuses to specific, friendly messages.
+        statusKind = 'error';
+        statusKey =
+          res.status === 403
+            ? 'errorVerification'
+            : res.status === 413
+              ? 'errorTooLong'
+              : res.status === 400
+                ? 'errorInvalid'
+                : 'errorGeneric';
+      }
+      // A used or expired Turnstile token can't be replayed; reset for a clean
+      // retry either way.
+      tsToken = '';
+      window.turnstile?.reset?.();
     } catch {
+      // No response at all (offline, DNS, CORS): a connection problem.
       statusKind = 'error';
-      statusKey = 'errorGeneric';
+      statusKey = 'errorNetwork';
     } finally {
       btn?.removeAttribute('disabled');
       btn?.classList.remove('is-loading');

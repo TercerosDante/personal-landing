@@ -91,6 +91,10 @@ export interface Content {
     sending: string;
     success: string;
     errorGeneric: string;
+    errorNetwork: string;
+    errorVerification: string;
+    errorTooLong: string;
+    errorInvalid: string;
     invalidName: string;
     invalidEmail: string;
     invalidMessage: string;
@@ -267,6 +271,12 @@ const en: Content = {
     success: "Thanks, your message is on its way. I'll reply soon.",
     errorGeneric:
       'Something went wrong sending your message. Please try again or email me directly.',
+    errorNetwork:
+      "Couldn't reach the server. Check your connection and try again.",
+    errorVerification:
+      "Couldn't confirm you're human. Please try the check again.",
+    errorTooLong: 'Your message is a little too long. Shorten it and resend.',
+    errorInvalid: 'Some details look off. Check the fields and try again.',
     invalidName: 'Please enter your name (at least 2 characters).',
     invalidEmail: 'Please enter a valid email address.',
     invalidMessage: 'Please add a short message (at least 10 characters).',
@@ -450,6 +460,12 @@ const es: Content = {
     success: 'Gracias, tu mensaje está en camino. Te responderé pronto.',
     errorGeneric:
       'Algo salió mal al enviar tu mensaje. Inténtalo de nuevo o escríbeme directamente.',
+    errorNetwork:
+      'No se pudo conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.',
+    errorVerification:
+      'No pudimos confirmar que eres humano. Vuelve a hacer la verificación.',
+    errorTooLong: 'Tu mensaje es un poco largo. Acórtalo y vuelve a enviarlo.',
+    errorInvalid: 'Algunos datos no se ven bien. Revisa los campos e inténtalo de nuevo.',
     invalidName: 'Ingresa tu nombre (al menos 2 caracteres).',
     invalidEmail: 'Ingresa un correo electrónico válido.',
     invalidMessage: 'Escribe un mensaje breve (al menos 10 caracteres).',

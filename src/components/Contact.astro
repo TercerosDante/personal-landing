@@ -93,7 +93,34 @@ const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
         id="cformStatus"
         role="status"
         aria-live="polite"
-      ></p>
+      >
+        <span class="cform-status-ico" aria-hidden="true">
+          <span class="st-dot"></span>
+          <svg
+            class="st-ok"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><circle cx="12" cy="12" r="9"></circle><path
+              d="m8.4 12.2 2.4 2.4 4.8-5.4"></path></svg
+          >
+          <svg
+            class="st-err"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><circle cx="12" cy="12" r="9"></circle><path d="M12 7.8v4.6"
+            ></path><path d="M12 16.2h.01"></path></svg
+          >
+        </span>
+        <span class="cform-status-text"></span>
+      </p>
     </form>
     <div class="contact-side reveal" data-d=".1">
       <a class="ccard" href={`mailto:${site.email}`}>

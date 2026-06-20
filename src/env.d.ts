@@ -14,6 +14,7 @@ interface ImportMetaEnv {
 interface Window {
   turnstile?: {
     render(el: HTMLElement, options: Record<string, unknown>): string;
+    reset(widgetId?: string): void;
   };
   onTurnstileLoad?: () => void;
 }
