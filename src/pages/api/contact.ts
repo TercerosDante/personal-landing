@@ -13,7 +13,7 @@ import { z } from 'zod';
 export const prerender = false;
 
 /** Single source of truth for what the endpoint accepts. */
-const contactSchema = z.object({
+export const contactSchema = z.object({
   name: z.string().trim().min(2).max(100),
   email: z.string().trim().max(255).pipe(z.email()),
   message: z.string().trim().min(10).max(3000),
@@ -30,7 +30,7 @@ const json = (data: unknown, status: number): Response =>
     headers: { 'Content-Type': 'application/json' },
   });
 
-function escapeHtml(value: string): string {
+export function escapeHtml(value: string): string {
   return value
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -48,12 +48,45 @@ function renderHtml(d: ContactInput & { timestamp: string }): string {
 </div>`;
 }
 
+/**
+ * Verify a Cloudflare Turnstile token. Only called when TURNSTILE_SECRET_KEY is
+ * set, so the form keeps working until the keys are configured on the project.
+ */
+async function verifyTurnstile(
+  secret: string,
+  token: string,
+  request: Request,
+): Promise<boolean> {
+  if (!token) return false;
+  const form = new URLSearchParams({ secret, response: token });
+  const ip = request.headers.get('cf-connecting-ip');
+  if (ip) form.set('remoteip', ip);
+  try {
+    const res = await fetch(
+      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+      { method: 'POST', body: form },
+    );
+    const data = (await res.json()) as { success?: boolean };
+    return data.success === true;
+  } catch (err) {
+    console.error('[contact] Turnstile verification failed:', err);
+    return false;
+  }
+}
+
 export const POST: APIRoute = async ({ request }) => {
   const apiKey = import.meta.env.RESEND_API_KEY;
   const to = import.meta.env.CONTACT_EMAIL;
   if (!apiKey || !to) {
     console.error('[contact] Missing RESEND_API_KEY or CONTACT_EMAIL.');
     return json({ error: 'server_error' }, 500);
+  }
+
+  // Reject oversized payloads before parsing (cheap anti-abuse). The Zod schema
+  // also caps each field, so a legitimate request is far under this.
+  const contentLength = Number(request.headers.get('content-length') ?? 0);
+  if (contentLength > 16_384) {
+    return json({ error: 'payload_too_large' }, 413);
   }
 
   let body: Record<string, unknown>;
@@ -67,6 +100,16 @@ export const POST: APIRoute = async ({ request }) => {
   // the request silently (no signal to the bot) and send nothing.
   if (typeof body.website === 'string' && body.website.trim() !== '') {
     return json({ ok: true }, 200);
+  }
+
+  // Turnstile check, active only when the secret is configured on the project.
+  const tsSecret = import.meta.env.TURNSTILE_SECRET_KEY;
+  if (tsSecret) {
+    const token =
+      typeof body.turnstileToken === 'string' ? body.turnstileToken : '';
+    if (!(await verifyTurnstile(tsSecret, token, request))) {
+      return json({ error: 'verification_failed' }, 403);
+    }
   }
 
   const parsed = contactSchema.safeParse(body);

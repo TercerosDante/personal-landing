@@ -156,8 +156,19 @@ and JSON-LD `schema.org/Person`. `public/` holds `robots.txt` and a hand-written
 
 ## Deployment
 
-Vercel, still zero-config: it auto-detects Astro and the `@astrojs/vercel` adapter, runs
+Vercel, near zero-config: it auto-detects Astro and the `@astrojs/vercel` adapter, runs
 `astro build` (output in `.vercel/output/`), and serves prerendered pages from the CDN plus the
-`/api/contact` route as a serverless function (Node 22, no `vercel.json`). The function needs two
+`/api/contact` route as a serverless function (Node 22). The function needs two
 env vars on the project: **`RESEND_API_KEY`** and **`CONTACT_EMAIL`** (see `.env.example`; pull them
 locally with `vercel env pull`). Domain `ronaldterceros.com` (+ `www`) is configured on the project.
+
+A small **`vercel.json`** sets global **security headers** (`X-Content-Type-Options`, `X-Frame-Options`,
+`Referrer-Policy`, `Permissions-Policy`, HSTS, and a **CSP in `Content-Security-Policy-Report-Only`** to
+harden before enforcing). The contact endpoint also rejects oversized bodies (`Content-Length` > 16 KB)
+on top of the Zod caps + honeypot. `package.json` has an `overrides` pin (`path-to-regexp` ≥ 6.3.0) to
+clear a high-severity transitive advisory; remaining `npm audit` items are esbuild **dev-server-only**
+(not shipped to production). **Cloudflare Turnstile** is wired but **off by default**: the widget
+renders only when `PUBLIC_TURNSTILE_SITE_KEY` is set (lazy-loaded on first form focus, so Lighthouse is
+untouched), and the server verifies only when `TURNSTILE_SECRET_KEY` is set; with neither, the form
+behaves exactly as before. Set both on the Vercel project to enable it. The endpoint is unit-tested with
+**Vitest** (`npm run test`): schema, honeypot, body cap, Resend success/failure, Turnstile pass/fail.

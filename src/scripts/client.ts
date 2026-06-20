@@ -77,6 +77,7 @@ setInterval(tick, 1000);
   let tmy = -9999;
   let W = 0;
   let H = 0;
+  let raf = 0;
   function resize(): void {
     W = window.innerWidth;
     H = window.innerHeight;
@@ -87,27 +88,6 @@ setInterval(tick, 1000);
     ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   resize();
-  window.addEventListener('resize', resize);
-  window.addEventListener(
-    'pointermove',
-    (e) => {
-      tmx = e.clientX;
-      tmy = e.clientY;
-    },
-    { passive: true },
-  );
-  window.addEventListener(
-    'pointerdown',
-    (e) => {
-      tmx = e.clientX;
-      tmy = e.clientY;
-    },
-    { passive: true },
-  );
-  document.addEventListener('mouseleave', () => {
-    tmx = -9999;
-    tmy = -9999;
-  });
   const warp = (x: number, y: number): [number, number] => {
     const dx = x - mx;
     const dy = y - my;
@@ -137,7 +117,6 @@ setInterval(tick, 1000);
     }
   }
   function frame(): void {
-    requestAnimationFrame(frame);
     mx += (tmx - mx) * 0.1;
     my += (tmy - my) * 0.1;
     ctx!.clearRect(0, 0, W, H);
@@ -161,50 +140,60 @@ setInterval(tick, 1000);
       }
       ctx!.stroke();
     }
+    // Keep animating only while the grid is still easing toward the cursor.
+    // Once settled (or the cursor has left), stop; input wakes it again.
+    raf =
+      Math.abs(tmx - mx) > 0.5 || Math.abs(tmy - my) > 0.5
+        ? requestAnimationFrame(frame)
+        : 0;
   }
+  const wake = (): void => {
+    if (!raf && !REDUCED) raf = requestAnimationFrame(frame);
+  };
+  const onMove = (e: PointerEvent): void => {
+    tmx = e.clientX;
+    tmy = e.clientY;
+    wake();
+  };
+  window.addEventListener('pointermove', onMove, { passive: true });
+  window.addEventListener('pointerdown', onMove, { passive: true });
+  document.addEventListener('mouseleave', () => {
+    tmx = -9999;
+    tmy = -9999;
+    wake();
+  });
+  window.addEventListener('resize', () => {
+    resize();
+    if (REDUCED) drawStatic();
+    else wake();
+  });
   if (REDUCED) drawStatic();
-  else frame();
+  else wake();
 })();
 
-/* ============================== PARALLAX (mouse depth + scroll) ============================== */
+/* ============================== PARALLAX (mouse depth + scroll, self-suspending) ============================== */
 (() => {
   const aura = document.querySelector<HTMLElement>('.aura');
   const avatar = document.querySelector<HTMLElement>('.avatar');
   const name = document.querySelector<HTMLElement>('.intro-id h1');
-  if (REDUCED) {
-    if (aura) aura.style.transform = 'translate3d(0,0,0) scale(1.06)';
-    return;
-  }
+  // The aura's ambient float is now a CSS animation (`auraFloat`), so under
+  // reduced motion there is nothing left for JS to do here.
+  if (REDUCED) return;
   let tmx = 0;
   let tmy = 0;
   let mx = 0;
   let my = 0;
   let tsy = window.scrollY || 0;
   let sy = tsy;
-  let t = 0;
-  window.addEventListener(
-    'pointermove',
-    (e) => {
-      tmx = e.clientX / window.innerWidth - 0.5;
-      tmy = e.clientY / window.innerHeight - 0.5;
-    },
-    { passive: true },
-  );
-  window.addEventListener(
-    'scroll',
-    () => {
-      tsy = window.scrollY;
-    },
-    { passive: true },
-  );
-  const loop = () => {
-    requestAnimationFrame(loop);
+  let raf = 0;
+  const step = () => {
     mx += (tmx - mx) * 0.06;
     my += (tmy - my) * 0.06;
     sy += (tsy - sy) * 0.12;
-    t += 0.0015;
+    // Aura reacts via the individual `translate` property so it composes with
+    // the CSS `auraFloat` transform (the float runs on the compositor, no JS).
     if (aura) {
-      aura.style.transform = `translate3d(${(Math.sin(t) * 2 - mx * 9).toFixed(2)}%,${(Math.cos(t * 0.8) * 1.8 - sy * 0.006 - my * 7).toFixed(2)}%,0) scale(1.08)`;
+      aura.style.translate = `${(-mx * 9).toFixed(2)}% ${(-sy * 0.006 - my * 7).toFixed(2)}%`;
     }
     if (avatar) {
       avatar.style.transform = `translate3d(${(-mx * 16).toFixed(1)}px,${(-my * 12 + sy * 0.05).toFixed(1)}px,0)`;
@@ -212,8 +201,35 @@ setInterval(tick, 1000);
     if (name) {
       name.style.transform = `translate3d(${(mx * 8).toFixed(1)}px,${(my * 5).toFixed(1)}px,0)`;
     }
+    // Keep stepping only while values are still easing toward their target.
+    // Once settled the loop stops; pointer/scroll wakes it again.
+    const moving =
+      Math.abs(tmx - mx) > 0.0002 ||
+      Math.abs(tmy - my) > 0.0002 ||
+      Math.abs(tsy - sy) > 0.05;
+    raf = moving ? requestAnimationFrame(step) : 0;
   };
-  loop();
+  const wake = () => {
+    if (!raf) raf = requestAnimationFrame(step);
+  };
+  window.addEventListener(
+    'pointermove',
+    (e) => {
+      tmx = e.clientX / window.innerWidth - 0.5;
+      tmy = e.clientY / window.innerHeight - 0.5;
+      wake();
+    },
+    { passive: true },
+  );
+  window.addEventListener(
+    'scroll',
+    () => {
+      tsy = window.scrollY;
+      wake();
+    },
+    { passive: true },
+  );
+  wake(); // settle the initial resting state once, then stop
 })();
 
 /* ============================== NAV (menu · smooth scroll · active link) ============================== */
@@ -316,6 +332,41 @@ setInterval(tick, 1000);
   const statusEl = document.getElementById('cformStatus');
   const hp = f.querySelector<HTMLInputElement>('#cf-website');
 
+  // Turnstile (optional, lazy). The widget element only exists when a site key
+  // is configured, so without keys this is a no-op and the form is unaffected.
+  const tsEl = f.querySelector<HTMLElement>('#ts-widget');
+  const tsKey = tsEl?.dataset.sitekey;
+  let tsToken = '';
+  let tsLoaded = false;
+  const loadTurnstile = (): void => {
+    if (!tsEl || !tsKey || tsLoaded) return;
+    tsLoaded = true;
+    window.onTurnstileLoad = () => {
+      window.turnstile?.render(tsEl, {
+        sitekey: tsKey,
+        appearance: 'interaction-only',
+        theme: 'light',
+        callback: (token: string) => {
+          tsToken = token;
+        },
+        'expired-callback': () => {
+          tsToken = '';
+        },
+        'error-callback': () => {
+          tsToken = '';
+        },
+      });
+    };
+    const s = document.createElement('script');
+    s.src =
+      'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit';
+    s.async = true;
+    s.defer = true;
+    document.head.appendChild(s);
+  };
+  // Load the widget on first interaction so it stays off the initial page load.
+  if (tsEl) f.addEventListener('focusin', loadTurnstile, { once: true });
+
   type Key = 'name' | 'email' | 'message';
   const fields: Record<Key, HTMLInputElement | HTMLTextAreaElement | null> = {
     name: f.querySelector('#cf-name'),
@@ -363,7 +414,9 @@ setInterval(tick, 1000);
 
   function renderStatus(): void {
     if (!statusEl) return;
-    statusEl.textContent = statusKey ? formText(statusKey) : '';
+    const textEl =
+      statusEl.querySelector<HTMLElement>('.cform-status-text') ?? statusEl;
+    textEl.textContent = statusKey ? formText(statusKey) : '';
     statusEl.dataset.kind = statusKind;
   }
 
@@ -412,15 +465,33 @@ setInterval(tick, 1000);
           email: val('email'),
           message: val('message'),
           website: hp?.value ?? '',
+          turnstileToken: tsToken,
         }),
       });
-      if (!res.ok) throw new Error(String(res.status));
-      statusKind = 'success';
-      statusKey = 'success';
-      f.reset();
+      if (res.ok) {
+        statusKind = 'success';
+        statusKey = 'success';
+        f.reset();
+      } else {
+        // Map the coherent server statuses to specific, friendly messages.
+        statusKind = 'error';
+        statusKey =
+          res.status === 403
+            ? 'errorVerification'
+            : res.status === 413
+              ? 'errorTooLong'
+              : res.status === 400
+                ? 'errorInvalid'
+                : 'errorGeneric';
+      }
+      // A used or expired Turnstile token can't be replayed; reset for a clean
+      // retry either way.
+      tsToken = '';
+      window.turnstile?.reset?.();
     } catch {
+      // No response at all (offline, DNS, CORS): a connection problem.
       statusKind = 'error';
-      statusKey = 'errorGeneric';
+      statusKey = 'errorNetwork';
     } finally {
       btn?.removeAttribute('disabled');
       btn?.classList.remove('is-loading');
