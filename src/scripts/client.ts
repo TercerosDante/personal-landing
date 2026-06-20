@@ -77,6 +77,7 @@ setInterval(tick, 1000);
   let tmy = -9999;
   let W = 0;
   let H = 0;
+  let raf = 0;
   function resize(): void {
     W = window.innerWidth;
     H = window.innerHeight;
@@ -87,27 +88,6 @@ setInterval(tick, 1000);
     ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   resize();
-  window.addEventListener('resize', resize);
-  window.addEventListener(
-    'pointermove',
-    (e) => {
-      tmx = e.clientX;
-      tmy = e.clientY;
-    },
-    { passive: true },
-  );
-  window.addEventListener(
-    'pointerdown',
-    (e) => {
-      tmx = e.clientX;
-      tmy = e.clientY;
-    },
-    { passive: true },
-  );
-  document.addEventListener('mouseleave', () => {
-    tmx = -9999;
-    tmy = -9999;
-  });
   const warp = (x: number, y: number): [number, number] => {
     const dx = x - mx;
     const dy = y - my;
@@ -137,7 +117,6 @@ setInterval(tick, 1000);
     }
   }
   function frame(): void {
-    requestAnimationFrame(frame);
     mx += (tmx - mx) * 0.1;
     my += (tmy - my) * 0.1;
     ctx!.clearRect(0, 0, W, H);
@@ -161,9 +140,35 @@ setInterval(tick, 1000);
       }
       ctx!.stroke();
     }
+    // Keep animating only while the grid is still easing toward the cursor.
+    // Once settled (or the cursor has left), stop; input wakes it again.
+    raf =
+      Math.abs(tmx - mx) > 0.5 || Math.abs(tmy - my) > 0.5
+        ? requestAnimationFrame(frame)
+        : 0;
   }
+  const wake = (): void => {
+    if (!raf && !REDUCED) raf = requestAnimationFrame(frame);
+  };
+  const onMove = (e: PointerEvent): void => {
+    tmx = e.clientX;
+    tmy = e.clientY;
+    wake();
+  };
+  window.addEventListener('pointermove', onMove, { passive: true });
+  window.addEventListener('pointerdown', onMove, { passive: true });
+  document.addEventListener('mouseleave', () => {
+    tmx = -9999;
+    tmy = -9999;
+    wake();
+  });
+  window.addEventListener('resize', () => {
+    resize();
+    if (REDUCED) drawStatic();
+    else wake();
+  });
   if (REDUCED) drawStatic();
-  else frame();
+  else wake();
 })();
 
 /* ============================== PARALLAX (mouse depth + scroll, self-suspending) ============================== */
