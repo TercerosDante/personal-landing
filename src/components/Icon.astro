@@ -35,7 +35,11 @@ let attributes: Record<string, string>;
 const override = OVERRIDES[name];
 if (override) {
   body = override.body;
-  attributes = { width: String(size), height: String(size), viewBox: override.viewBox };
+  attributes = {
+    width: String(size),
+    height: String(size),
+    viewBox: override.viewBox,
+  };
 } else {
   const data = getIconData(icons, name);
   if (!data) {

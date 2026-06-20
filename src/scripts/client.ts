@@ -255,11 +255,9 @@ setInterval(tick, 1000);
   });
   // If the viewport grows back to desktop while open (e.g. rotation), close so
   // the page never stays scroll-locked behind a hidden sheet.
-  window
-    .matchMedia('(min-width:861px)')
-    .addEventListener('change', (e) => {
-      if (e.matches) setMenu(false);
-    });
+  window.matchMedia('(min-width:861px)').addEventListener('change', (e) => {
+    if (e.matches) setMenu(false);
+  });
   document.querySelectorAll<HTMLElement>('[data-go]').forEach((b) =>
     b.addEventListener('click', () => {
       const sel = b.dataset.go;
