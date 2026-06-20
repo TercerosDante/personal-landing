@@ -56,6 +56,13 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ error: 'server_error' }, 500);
   }
 
+  // Reject oversized payloads before parsing (cheap anti-abuse). The Zod schema
+  // also caps each field, so a legitimate request is far under this.
+  const contentLength = Number(request.headers.get('content-length') ?? 0);
+  if (contentLength > 16_384) {
+    return json({ error: 'payload_too_large' }, 413);
+  }
+
   let body: Record<string, unknown>;
   try {
     body = (await request.json()) as Record<string, unknown>;
