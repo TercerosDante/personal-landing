@@ -1,0 +1,39 @@
+name: CI
+
+# Runs on pushes to main and on pull requests targeting main. For PRs the
+# pull_request event covers opening the PR and every later push to it
+# (synchronize) plus reopen.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  # One sequential job: a single `npm ci` feeds the checks below. Splitting into
+  # parallel jobs would re-install dependencies in each, which is slower here.
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install (clean, from lockfile)
+        run: npm ci
+      - name: Type-check
+        run: npm run check
+      - name: Test
+        run: npm test
+      # Fail only on high/critical: the remaining lows are esbuild's
+      # dev-server-only advisory, which never reaches production.
+      - name: Audit (production deps)
+        run: npm audit --omit=dev --audit-level=high
