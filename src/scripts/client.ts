@@ -166,45 +166,29 @@ setInterval(tick, 1000);
   else frame();
 })();
 
-/* ============================== PARALLAX (mouse depth + scroll) ============================== */
+/* ============================== PARALLAX (mouse depth + scroll, self-suspending) ============================== */
 (() => {
   const aura = document.querySelector<HTMLElement>('.aura');
   const avatar = document.querySelector<HTMLElement>('.avatar');
   const name = document.querySelector<HTMLElement>('.intro-id h1');
-  if (REDUCED) {
-    if (aura) aura.style.transform = 'translate3d(0,0,0) scale(1.06)';
-    return;
-  }
+  // The aura's ambient float is now a CSS animation (`auraFloat`), so under
+  // reduced motion there is nothing left for JS to do here.
+  if (REDUCED) return;
   let tmx = 0;
   let tmy = 0;
   let mx = 0;
   let my = 0;
   let tsy = window.scrollY || 0;
   let sy = tsy;
-  let t = 0;
-  window.addEventListener(
-    'pointermove',
-    (e) => {
-      tmx = e.clientX / window.innerWidth - 0.5;
-      tmy = e.clientY / window.innerHeight - 0.5;
-    },
-    { passive: true },
-  );
-  window.addEventListener(
-    'scroll',
-    () => {
-      tsy = window.scrollY;
-    },
-    { passive: true },
-  );
-  const loop = () => {
-    requestAnimationFrame(loop);
+  let raf = 0;
+  const step = () => {
     mx += (tmx - mx) * 0.06;
     my += (tmy - my) * 0.06;
     sy += (tsy - sy) * 0.12;
-    t += 0.0015;
+    // Aura reacts via the individual `translate` property so it composes with
+    // the CSS `auraFloat` transform (the float runs on the compositor, no JS).
     if (aura) {
-      aura.style.transform = `translate3d(${(Math.sin(t) * 2 - mx * 9).toFixed(2)}%,${(Math.cos(t * 0.8) * 1.8 - sy * 0.006 - my * 7).toFixed(2)}%,0) scale(1.08)`;
+      aura.style.translate = `${(-mx * 9).toFixed(2)}% ${(-sy * 0.006 - my * 7).toFixed(2)}%`;
     }
     if (avatar) {
       avatar.style.transform = `translate3d(${(-mx * 16).toFixed(1)}px,${(-my * 12 + sy * 0.05).toFixed(1)}px,0)`;
@@ -212,8 +196,35 @@ setInterval(tick, 1000);
     if (name) {
       name.style.transform = `translate3d(${(mx * 8).toFixed(1)}px,${(my * 5).toFixed(1)}px,0)`;
     }
+    // Keep stepping only while values are still easing toward their target.
+    // Once settled the loop stops; pointer/scroll wakes it again.
+    const moving =
+      Math.abs(tmx - mx) > 0.0002 ||
+      Math.abs(tmy - my) > 0.0002 ||
+      Math.abs(tsy - sy) > 0.05;
+    raf = moving ? requestAnimationFrame(step) : 0;
   };
-  loop();
+  const wake = () => {
+    if (!raf) raf = requestAnimationFrame(step);
+  };
+  window.addEventListener(
+    'pointermove',
+    (e) => {
+      tmx = e.clientX / window.innerWidth - 0.5;
+      tmy = e.clientY / window.innerHeight - 0.5;
+      wake();
+    },
+    { passive: true },
+  );
+  window.addEventListener(
+    'scroll',
+    () => {
+      tsy = window.scrollY;
+      wake();
+    },
+    { passive: true },
+  );
+  wake(); // settle the initial resting state once, then stop
 })();
 
 /* ============================== NAV (menu · smooth scroll · active link) ============================== */

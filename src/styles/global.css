@@ -30,7 +30,7 @@ section{scroll-margin-top:96px}
   radial-gradient(460px 460px at 18% 26%,rgba(47,111,143,.13),transparent 68%),
   radial-gradient(540px 540px at 82% 56%,rgba(216,98,63,.11),transparent 70%),
   radial-gradient(400px 400px at 60% 88%,rgba(47,125,94,.11),transparent 70%);
-  will-change:transform}
+  will-change:transform,translate;animation:auraFloat 28s ease-in-out infinite alternate}
 #warp{display:block;-webkit-mask-image:radial-gradient(ellipse 96% 74% at 50% 32%,#000 56%,transparent 100%);mask-image:radial-gradient(ellipse 96% 74% at 50% 32%,#000 56%,transparent 100%)}
 .grain{opacity:.04;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 @keyframes gridDrift{from{background-position:0 0,0 0}to{background-position:40px -40px,40px -40px}}
@@ -85,7 +85,7 @@ html.ready .name-reveal{clip-path:inset(0 0 -8% 0)}
 /* kicker hairline draws in */
 .intro-id .kicker::before{width:0;transition:width .75s cubic-bezier(.16,.84,.34,1) .58s}
 html.ready .intro-id .kicker::before{width:28px}
-@media (prefers-reduced-motion:reduce){.load-fx,.topbar{opacity:1;transform:none;filter:none;transition:none}.name-reveal{clip-path:none}.intro-id .kicker::before{width:28px;transition:none}}
+@media (prefers-reduced-motion:reduce){.load-fx,.topbar{opacity:1;transform:none;filter:none;transition:none}.name-reveal{clip-path:none}.intro-id .kicker::before{width:28px;transition:none}.aura{animation:none;transform:translate3d(0,0,0) scale(1.06)}}
 
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chips span{font-size:9.5px;letter-spacing:.05em;color:var(--ink-soft);border:1px solid var(--hair);background:rgba(255,255,255,.45);border-radius:20px;padding:5px 11px}
