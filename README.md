@@ -4,12 +4,14 @@ Personal portfolio for **Ronald Terceros** (Full-Stack Engineer), built with
 [Astro](https://astro.build) as a fully **static**, bilingual (EN/ES) site and deployed on Vercel at
 **[ronaldterceros.com](https://ronaldterceros.com)**.
 
-Performance-first: no UI framework, `astro` is the only runtime dependency, and the client ships a
-single ~3 KB (gzipped) script.
+Performance-first: no UI framework and a zero-dependency client bundle (a single ~3 KB gzipped
+script). The only server-side code is the contact endpoint, which runs as a Vercel Serverless
+Function via the `@astrojs/vercel` adapter; every page is still prerendered to static HTML.
 
 ## Highlights
 
-- **Static Astro 6** — no adapter, Vercel zero-config.
+- **Static Astro 6 with the `@astrojs/vercel` adapter** — every page prerendered; only the contact
+  form runs on demand as a serverless function.
 - **Bilingual** — English by default with an in-place EN ⇄ ES toggle (no reload, no i18n library).
 - **Optimized assets** — `astro:assets` AVIF/WebP responsive images, self-hosted subset fonts
   (Astro Fonts API), build-time inlined SVG icons. No third-party CDNs.
@@ -23,20 +25,22 @@ single ~3 KB (gzipped) script.
 
 ## Commands
 
-| Command           | Action                                          |
-| ----------------- | ----------------------------------------------- |
-| `npm install`     | Install dependencies                            |
-| `npm run dev`     | Dev server at `http://localhost:4321`           |
-| `npm run build`   | Build the static site to `dist/`                |
-| `npm run preview` | Preview the production build locally            |
-| `npm run check`   | Type-check the project (`astro check`)          |
-| `npm run format`  | Format with Prettier                            |
+| Command          | Action                                                            |
+| ---------------- | ----------------------------------------------------------------- |
+| `npm install`    | Install dependencies                                              |
+| `npm run dev`    | Dev server at `http://localhost:4321` (serves `/api/contact` too) |
+| `npm run build`  | Build to `.vercel/output/` (static pages + contact function)      |
+| `npm run check`  | Type-check the project (`astro check`)                            |
+| `npm run test`   | Run the endpoint unit tests (Vitest)                              |
+| `npm run format` | Format with Prettier                                              |
 
 ## Project structure
 
 ```text
 src/
-  pages/index.astro      # the single page (composes the section components)
+  pages/
+    index.astro          # the single page (composes the section components)
+    api/contact.ts       # on-demand POST endpoint: Resend + Zod (prerender=false)
   layouts/Layout.astro   # <head> (SEO + fonts), embeds the ES i18n payload, loads the client script
   components/            # Nav · Hero · Experience · Projects · Stack · Education · Contact · Footer
                         # + Background · Lightbox · Boot · Icon
@@ -57,5 +61,15 @@ and Spanish trees in sync. The `src/data/*.ts` files hold only non-text structur
 
 ## Deployment (Vercel)
 
-Vercel auto-detects Astro (build `astro build`, output `dist/`, Node 22) — **no adapter and no
-`vercel.json`** for a static site. The production domain is configured on the Vercel project.
+Vercel auto-detects Astro and the **`@astrojs/vercel` adapter** (build `astro build`, output
+`.vercel/output/`, Node 22). Prerendered pages are served from the CDN; the contact form runs as a
+serverless function and needs `RESEND_API_KEY` + `CONTACT_EMAIL` set on the project. A small
+`vercel.json` adds global security headers. The production domain is configured on the Vercel project.
+
+## Built with AI, under direction
+
+This repository was developed with **[Claude Code](https://claude.com/claude-code)** (Anthropic) as a
+hands-on collaborator, not an autopilot. I directed the work and kept the engineering judgment:
+architecture, trade-offs, and the call on what actually shipped were mine, and every change was
+reviewed and tested before it landed. The AI made the work faster — the criteria behind it stayed
+human.
