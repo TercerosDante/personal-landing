@@ -49,9 +49,7 @@ export interface Content {
     view: string;
     /** `<summary>` label for the expandable technical details. */
     techDetails: string;
-    /** Link label for "I'll walk you through the private repo" (own projects). */
-    walkthrough: string;
-    /** Static label for client/NDA repos shown as private. */
+    /** Repo label. Own/freelance repos link to contact; client repos are static. */
     privateRepo: string;
     /** One per group in `src/data/projects.ts` (same order); items match too. */
     groups: {
@@ -190,11 +188,10 @@ const en: Content = {
   },
   proj: {
     eyebrow: '01 / Projects',
-    title: "Things I've shipped.",
-    sub: 'Products taken from architecture to delivery. Side projects shipped solo, plus production builds co-developed with teams for international clients.',
+    title: 'Featured projects.',
+    sub: 'Side projects I shipped solo, and products co-developed with teams for international clients, all running in production.',
     view: 'Live App',
     techDetails: 'Technical details',
-    walkthrough: 'Walkthrough on request',
     privateRepo: 'Private repo',
     groups: [
       {
@@ -203,7 +200,7 @@ const en: Content = {
         items: [
           {
             title: 'Multi-Tenant ERP / POS for Restaurants',
-            year: '2026 · Independent',
+            year: '2026 · Freelance',
             live: 'In production',
             alt: 'Multi-Tenant ERP / POS for Restaurants, interface preview',
             product:
@@ -212,7 +209,7 @@ const en: Content = {
           },
           {
             title: 'Textile Manufacturing ERP',
-            year: '2025 · Freelance · finished',
+            year: '2025 · Freelance',
             live: 'In production',
             alt: 'Textile Manufacturing ERP, interface preview',
             product:
@@ -226,7 +223,7 @@ const en: Content = {
         note: 'Co-developed',
         items: [
           {
-            title: 'TsunaGo',
+            title: 'TsunaGo · Assisted-transport taxi matching',
             year: '2024 · Bolivian Devs',
             live: 'In production',
             alt: 'TsunaGo, interface preview',
@@ -235,7 +232,7 @@ const en: Content = {
             tech: 'NestJS, TypeScript and PostgreSQL (Prisma) backend with JWT authentication and role-based access for drivers, passengers and admins. Reliable Stripe payment processing with webhook handling, automated retries and transaction-consistency safeguards. Background automation for the ride lifecycle, reminders and notifications, plus AWS (S3, SES, SNS) and Google Maps integrations. CI/CD on GitHub Actions with Docker and Traefik on AWS. React Native and Expo client with role-based experiences and payment flows.',
           },
           {
-            title: 'Makevi',
+            title: 'Makevi · Shopee seller management',
             year: '2024 · Bolivian Devs',
             live: 'In production',
             product:
@@ -265,7 +262,7 @@ const en: Content = {
       },
     ],
     langs: [
-      { name: 'English', level: 'Professional' },
+      { name: 'English', level: 'Upper-intermediate' },
       { name: 'Spanish', level: 'Native' },
     ],
   },
@@ -393,11 +390,10 @@ const es: Content = {
   },
   proj: {
     eyebrow: '01 / Proyectos',
-    title: 'Lo que he construido.',
-    sub: 'Productos llevados de la arquitectura a la entrega. Proyectos propios hechos en solitario, y desarrollos en producción co-creados con equipos para clientes internacionales.',
+    title: 'Proyectos destacados.',
+    sub: 'Proyectos personales que desarrollé solo, y productos co-desarrollados con equipos para clientes internacionales, todos en producción.',
     view: 'App en vivo',
     techDetails: 'Detalles técnicos',
-    walkthrough: 'Te lo muestro al contactar',
     privateRepo: 'Repo privado',
     groups: [
       {
@@ -406,7 +402,7 @@ const es: Content = {
         items: [
           {
             title: 'ERP / POS Multi-Tenant para Restaurantes',
-            year: '2026 · Independiente',
+            year: '2026 · Freelance',
             live: 'En producción',
             alt: 'ERP / POS Multi-Tenant para Restaurantes, vista previa de la interfaz',
             product:
@@ -415,7 +411,7 @@ const es: Content = {
           },
           {
             title: 'ERP para Manufactura Textil',
-            year: '2025 · Freelance · finalizado',
+            year: '2025 · Freelance',
             live: 'En producción',
             alt: 'ERP para Manufactura Textil, vista previa de la interfaz',
             product:
@@ -429,7 +425,7 @@ const es: Content = {
         note: 'Co-desarrollado',
         items: [
           {
-            title: 'TsunaGo',
+            title: 'TsunaGo · Emparejamiento de taxis de transporte asistido',
             year: '2024 · Bolivian Devs',
             live: 'En producción',
             alt: 'TsunaGo, vista previa de la interfaz',
@@ -438,7 +434,7 @@ const es: Content = {
             tech: 'Backend en NestJS, TypeScript y PostgreSQL (Prisma) con autenticación JWT y acceso por roles para conductores, pasajeros y administradores. Procesamiento de pagos confiable con Stripe (manejo de webhooks, reintentos automáticos y resguardos de consistencia transaccional). Automatización en segundo plano para el ciclo de vida del viaje, recordatorios y notificaciones, más integraciones con AWS (S3, SES, SNS) y Google Maps. CI/CD en GitHub Actions con Docker y Traefik en AWS. Cliente en React Native y Expo con experiencias por rol y flujos de pago.',
           },
           {
-            title: 'Makevi',
+            title: 'Makevi · Gestión de vendedores de Shopee',
             year: '2024 · Bolivian Devs',
             live: 'En producción',
             product:
@@ -468,7 +464,7 @@ const es: Content = {
       },
     ],
     langs: [
-      { name: 'Inglés', level: 'Profesional' },
+      { name: 'Inglés', level: 'Intermedio-alto' },
       { name: 'Español', level: 'Nativo' },
     ],
   },
@@ -520,7 +516,7 @@ const es: Content = {
   lightbox: { hint: 'Esc · clic fuera · ✕ para cerrar' },
   colophon: {
     label: 'Colofón',
-    text: 'Esta misma página está hecha con <b>Astro</b> y <b>TypeScript</b>, una capa i18n EN/ES propia y un <b>bundle de cliente sin dependencias</b>. Páginas estáticas, un endpoint serverless, open source.',
+    text: 'Esta página está hecha con <b>Astro</b> y <b>TypeScript</b>, una capa i18n EN/ES propia y un <b>bundle de cliente sin dependencias</b>. Páginas estáticas, un endpoint serverless, open source.',
     source: 'Ver código',
   },
 };
