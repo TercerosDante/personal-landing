@@ -18,6 +18,11 @@ const OVERRIDES: Record<string, { viewBox: string; body: string }> = {
     viewBox: '0 0 24 24',
     body: '<circle cx="12" cy="12" r="2.05" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="1"><ellipse cx="12" cy="12" rx="11" ry="4.2"/><ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(120 12 12)"/></g>',
   },
+  // CI/CD: the DevOps infinity loop (no logo exists for the practice itself).
+  cicd: {
+    viewBox: '0 0 24 24',
+    body: '<path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M12 12C10.8 9.9 9.3 8.5 7.2 8.5a3.5 3.5 0 0 0 0 7c2.1 0 3.6-1.4 4.8-3.5m0 0c1.2 2.1 2.7 3.5 4.8 3.5a3.5 3.5 0 0 0 0-7c-2.1 0-3.6 1.4-4.8 3.5"/>',
+  },
 };
 
 interface Props {

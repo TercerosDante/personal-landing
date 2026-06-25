@@ -168,7 +168,7 @@ html.ready .intro-id .kicker::before{width:28px}
 .intro-id .title .tagline{font-family:var(--font-mono),monospace;font-weight:400;font-size:12px;color:var(--muted)}
 .intro-id .title .tw{color:var(--c-emerald);border-right:2px solid var(--c-emerald);padding-right:3px;white-space:nowrap}
 .intro-id .loc{margin-top:16px}
-.intro .about-lead{margin-top:clamp(40px,6.5vw,84px);max-width:720px;font-size:clamp(15px,1.85vw,19px);line-height:1.6}
+.intro .about-lead{margin-top:clamp(40px,2vw,84px);max-width:720px;font-size:clamp(15px,1.85vw,19px);line-height:1.6}
 .core{margin-top:36px}
 .core-l{font-size:9px;letter-spacing:.22em;color:var(--faint);text-transform:uppercase;margin-bottom:13px}
 .core-chips{display:flex;flex-wrap:wrap;gap:9px}
