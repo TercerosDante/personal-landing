@@ -36,9 +36,15 @@ const t = dict.exp;
                     {t.companies[ci].roles[ri].client}
                   </span>
                 </div>
-                <p data-i18n={`exp.companies.${ci}.roles.${ri}.desc`}>
-                  {t.companies[ci].roles[ri].desc}
-                </p>
+                <ul class="tl-bullets">
+                  {t.companies[ci].roles[ri].bullets.map((b, bi) => (
+                    <li
+                      data-i18n={`exp.companies.${ci}.roles.${ri}.bullets.${bi}`}
+                    >
+                      {b}
+                    </li>
+                  ))}
+                </ul>
                 <div class="chips">
                   {role.tags.map((tag) => (
                     <span class={tag.hot ? 'hot' : undefined}>{tag.label}</span>
