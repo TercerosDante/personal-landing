@@ -7,15 +7,12 @@ import type { ImageMetadata } from 'astro';
 import pos from '../assets/pos.png';
 import homs from '../assets/homs.png';
 import tsunago from '../assets/tsunago.png';
+import makevi from '../assets/makevi.png';
 import type { Tag } from './experience';
 
 export interface Project {
-  /** Real screenshot. Omit for client work shown WITHOUT exposing the product. */
-  image?: ImageMetadata;
-  /** Abstract blueprint thumbnail when there is no shareable screenshot. */
-  glyph?: string;
-  /** Small caption on the abstract thumbnail. */
-  tag?: string;
+  /** Project screenshot. */
+  image: ImageMetadata;
   tags: Tag[];
   /** Empty = no live link (placeholder / NDA-safe). */
   link: string;
@@ -94,8 +91,7 @@ export const projectGroups: ProjectGroup[] = [
         repo: 'private',
       },
       {
-        glyph: 'M',
-        tag: 'Shopee SaaS · JP',
+        image: makevi,
         tags: [
           { label: 'NestJS 11' },
           { label: 'Prisma 6' },

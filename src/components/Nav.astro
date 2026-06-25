@@ -6,9 +6,7 @@ import { dict } from '../i18n/content';
 
 <header class="topbar">
   <div class="brand" data-go="#about">
-    <b>RONALD&nbsp;TERCEROS</b><span class="role" data-i18n="hero.role"
-      >{dict.hero.role}</span
-    >
+    <b>RONALD&nbsp;TERCEROS</b>
   </div>
   <nav class="nav" id="nav">
     {
@@ -24,10 +22,10 @@ import { dict } from '../i18n/content';
       ))
     }
     <a
-      href={site.cv}
+      href={site.cv.en}
       class="cvbtn"
-      target="_blank"
-      rel="noopener"
+      data-cv-dl
+      download="Ronald-Terceros-CV-EN.pdf"
       data-i18n="nav.cv">{dict.nav.cv}</a
     >
   </nav>
@@ -52,11 +50,6 @@ import { dict } from '../i18n/content';
       >
       <span class="lang-code">ES</span>
     </button>
-    <div class="clk-wrap">
-      <span class="live"></span><span id="clock">--:--:--</span><span
-        >UTC−4</span
-      >
-    </div>
     <button
       class="menu-btn"
       id="menuBtn"

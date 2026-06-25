@@ -11,11 +11,7 @@ export const coreStack: CoreChip[] = [
   { label: 'Next.js', icon: 'nextjs' },
   { label: 'Node.js', icon: 'nodejs' },
   { label: 'NestJS', icon: 'nestjs' },
-  { label: 'GraphQL', icon: 'graphql' },
   { label: 'PostgreSQL', icon: 'postgresql' },
-  { label: 'Prisma', mono: 'Pr' },
-  { label: 'MongoDB', icon: 'mongodb' },
-  { label: 'AWS', mono: 'AWS' },
   { label: 'Docker', icon: 'docker' },
-  { label: 'Kubernetes', icon: 'kubernetes' },
+  { label: 'CI/CD', icon: 'cicd' },
 ];

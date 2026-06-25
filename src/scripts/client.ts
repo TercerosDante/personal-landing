@@ -4,22 +4,9 @@
  */
 // Importing the named helpers also runs the i18n module (toggle wiring + any
 // saved-locale swap) before the behaviours below read the current language.
-import { taglineWords, formText } from './i18n';
+import { taglineWords, formText, getLang } from './i18n';
 
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-/* ============================== CLOCK ============================== */
-function tick(): void {
-  const el = document.getElementById('clock');
-  if (!el) return;
-  const now = new Date();
-  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-  const bo = new Date(utc - 4 * 3600000);
-  const p = (x: number) => String(x).padStart(2, '0');
-  el.textContent = `${p(bo.getHours())}:${p(bo.getMinutes())}:${p(bo.getSeconds())}`;
-}
-tick();
-setInterval(tick, 1000);
 
 /* ============================== TYPEWRITER ============================== */
 (() => {
@@ -529,6 +516,69 @@ setInterval(tick, 1000);
   });
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && lb.classList.contains('open')) close();
+  });
+})();
+
+/* ============================== CV DOWNLOAD (language-aware + picker) ============================== */
+(() => {
+  const opts = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>('.cv-opt'),
+  );
+  const dls = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>('[data-cv-dl]'),
+  );
+  if (!dls.length) return;
+
+  // Source of truth: the rendered picker options (lang -> href + filename).
+  const map: Record<string, { href: string; file: string }> = {};
+  opts.forEach((o) => {
+    const lang = o.dataset.cvLang;
+    if (lang)
+      map[lang] = {
+        href: o.getAttribute('href') ?? '',
+        file: o.getAttribute('download') ?? '',
+      };
+  });
+
+  // Point the quick-download links (nav pill + hero main) at the shown language.
+  const apply = (): void => {
+    const lang = getLang();
+    const cur = map[lang] ?? map.en;
+    if (cur)
+      dls.forEach((a) => {
+        a.setAttribute('href', cur.href);
+        a.setAttribute('download', cur.file);
+      });
+    opts.forEach((o) =>
+      o.classList.toggle('is-current', o.dataset.cvLang === lang),
+    );
+  };
+  apply();
+  window.addEventListener('langchange', apply);
+
+  // Hero picker: the caret opens the two-language menu.
+  const menu = document.querySelector<HTMLElement>('[data-cv-menu]');
+  const caret = menu?.querySelector<HTMLButtonElement>('.cv-caret');
+  const pop = menu?.querySelector<HTMLElement>('.cv-pop');
+  if (!menu || !caret || !pop) return;
+  const setOpen = (open: boolean): void => {
+    pop.hidden = !open;
+    menu.classList.toggle('open', open);
+    caret.setAttribute('aria-expanded', String(open));
+  };
+  caret.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setOpen(!menu.classList.contains('open'));
+  });
+  pop.addEventListener('click', () => setOpen(false));
+  document.addEventListener('click', (e) => {
+    if (!menu.contains(e.target as Node)) setOpen(false);
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !pop.hidden) {
+      setOpen(false);
+      caret.focus();
+    }
   });
 })();
 

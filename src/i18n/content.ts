@@ -17,6 +17,7 @@ export interface Content {
     experience: string;
     projects: string;
     education: string;
+    aiDev: string;
     contact: string;
     cv: string;
   };
@@ -38,7 +39,7 @@ export interface Content {
     companies: {
       meta: string;
       when: string;
-      roles: { client: string; desc: string }[];
+      roles: { client: string; bullets: string[] }[];
     }[];
   };
   proj: {
@@ -48,9 +49,7 @@ export interface Content {
     view: string;
     /** `<summary>` label for the expandable technical details. */
     techDetails: string;
-    /** Link label for "I'll walk you through the private repo" (own projects). */
-    walkthrough: string;
-    /** Static label for client/NDA repos shown as private. */
+    /** Repo label. Own/freelance repos link to contact; client repos are static. */
     privateRepo: string;
     /** One per group in `src/data/projects.ts` (same order); items match too. */
     groups: {
@@ -74,6 +73,18 @@ export interface Content {
     languages: string;
     items: { title: string; inst: string }[];
     langs: { name: string; level: string }[];
+  };
+  aiDev: {
+    eyebrow: string;
+    title: string;
+    /** Lead paragraph (rendered as the section sub). */
+    lead: string;
+    /** Flowing body paragraphs. */
+    body: string[];
+    /** Accountability statement, pulled out as a callout. */
+    accountable: string;
+    /** Closing line. */
+    close: string;
   };
   contact: {
     eyebrow: string;
@@ -112,13 +123,14 @@ const en: Content = {
     experience: 'Experience',
     projects: 'Projects',
     education: 'Education',
+    aiDev: 'AI & Dev',
     contact: 'Contact',
     cv: 'CV ↓',
   },
   hero: {
     kicker: 'Full-Stack Engineer',
     role: 'Full-Stack Engineer',
-    lead: 'Full-Stack Engineer with <b>6+ years</b> building and maintaining web applications in TypeScript, React, Next.js, NestJS, PostgreSQL, Docker and AWS. I deliver end-to-end product features, integrate services like Stripe, Shopee, Google Maps and OCR, and run applications in <b>production</b>. I focus on clean architecture, maintainable code, automation, and solving real business problems with reliable software.',
+    lead: "I build modern web applications from <b>concept to production</b>. With <b>6+ years</b> of experience working with TypeScript, React/Next.js, NestJS, and PostgreSQL, I deliver reliable products across the full development lifecycle, from architecture and implementation to deployment and maintenance. I've integrated services such as Stripe, Shopee, Google Maps, and OCR solutions while leading backend architecture and technical decisions across multiple projects.",
     coreStack: 'Core stack',
     cv: 'Download CV',
     tagline: [
@@ -142,19 +154,33 @@ const en: Content = {
         roles: [
           {
             client: 'JP Client',
-            desc: 'Built the NestJS, TypeScript and PostgreSQL backend with JWT authentication and role-based access for drivers, passengers and admins, plus a reliable Stripe payment flow with webhook handling, automated retries and transaction-consistency safeguards. Added background automation for the ride lifecycle, reminders and notifications, and integrated AWS and Google Maps. Set up CI/CD on GitHub Actions with Docker and Traefik on AWS, and built the React Native and Expo client.',
+            bullets: [
+              'Led delivery and owned backend architecture across auth, payments and the ride lifecycle.',
+              'Built the NestJS and PostgreSQL backend with JWT auth and role-based access for drivers, passengers and admins.',
+              'Shipped a reliable Stripe flow with webhooks, automated retries and transaction-consistency safeguards.',
+              'Automated the ride lifecycle and notifications, and integrated AWS and Google Maps.',
+              'Set up GitHub Actions CI/CD with Docker and Traefik on AWS, and built the React Native and Expo client.',
+            ],
           },
           {
             client: 'JP Client',
-            desc: 'Co-developed a multi-tenant SaaS in NestJS, TypeScript, PostgreSQL and Prisma, working on backend architecture, business logic, authentication and access control. Integrated Stripe subscriptions, Shopee marketplace sync and AWS for billing, e-commerce and customer communications. Built background workflows for data sync and billing automation, shipped a multi-stage Dockerfile to AWS ECR/ECS through GitHub Actions, and contributed frontend features in Next.js and React.',
+            bullets: [
+              'Co-developed a multi-tenant SaaS in NestJS, PostgreSQL and Prisma: backend architecture, business logic, auth and access control.',
+              'Hardened Stripe subscriptions and Shopee marketplace sync, resolving edge cases in background workflows for reliable billing and e-commerce.',
+              'Built reusable UI and user-facing features on the Next.js and React frontend.',
+            ],
           },
           {
             client: 'JP Client',
-            desc: 'Restaurant operations platform. Full-stack work in NestJS, Prisma and React across backend APIs and frontend features.',
+            bullets: [
+              'Full-stack work across backend APIs and frontend features for a restaurant operations platform.',
+            ],
           },
           {
             client: 'JP Client',
-            desc: 'Enterprise integration platform (iPaaS). Authored OpenAPI specifications to onboard services into an existing adapter-generation pipeline.',
+            bullets: [
+              'Authored OpenAPI specifications to onboard services into an existing adapter-generation pipeline.',
+            ],
           },
         ],
       },
@@ -164,11 +190,21 @@ const en: Content = {
         roles: [
           {
             client: 'BO Client',
-            desc: 'Built backend services and API endpoints in Node.js and MongoDB for survey processing and data analysis, plus a Python sentiment-analysis service running a pre-trained model on open-ended responses. Moved messaging to RabbitMQ for more reliable email and notification delivery, and added configurable webhooks for event-driven client updates. Set up Docker, Kubernetes and GitLab CI/CD across staging and production, added automated API integration tests, and built React and Meteor frontend features including real-time dashboards and survey management.',
+            bullets: [
+              'Built Node.js and MongoDB backend services and APIs for survey processing and data analysis.',
+              'Built a Python sentiment-analysis service running a pre-trained model on open-ended responses.',
+              'Moved messaging to RabbitMQ for reliable email and notification delivery, and added configurable webhooks for event-driven updates.',
+              'Ran Docker, Kubernetes and GitLab CI/CD across staging and production, with automated API integration tests.',
+              'Built React and Meteor frontend features: real-time dashboards, data visualizations and survey management.',
+              'Mentored developers through regular code reviews.',
+            ],
           },
           {
             client: 'US Client · Outsourcing',
-            desc: 'Built the React and TypeScript frontend (GraphQL, MUI, Redux) for a building data-tracking application, and contributed to the NestJS and Firestore backend.',
+            bullets: [
+              'Built the React and TypeScript frontend (GraphQL, MUI, Redux) for a building data-tracking app.',
+              'Contributed to the NestJS and Firestore backend.',
+            ],
           },
         ],
       },
@@ -176,11 +212,10 @@ const en: Content = {
   },
   proj: {
     eyebrow: '01 / Projects',
-    title: "Things I've shipped.",
-    sub: 'Products taken from architecture to delivery. Side projects shipped solo, plus production builds co-developed with teams for international clients.',
+    title: 'Featured projects.',
+    sub: 'Side projects I shipped solo, and products co-developed with teams for international clients, all running in production.',
     view: 'Live App',
     techDetails: 'Technical details',
-    walkthrough: 'Walkthrough on request',
     privateRepo: 'Private repo',
     groups: [
       {
@@ -189,7 +224,7 @@ const en: Content = {
         items: [
           {
             title: 'Multi-Tenant ERP / POS for Restaurants',
-            year: '2026 · Independent',
+            year: '2026 · Freelance',
             live: 'In production',
             alt: 'Multi-Tenant ERP / POS for Restaurants, interface preview',
             product:
@@ -198,7 +233,7 @@ const en: Content = {
           },
           {
             title: 'Textile Manufacturing ERP',
-            year: '2025 · Freelance · finished',
+            year: '2025 · Freelance',
             live: 'In production',
             alt: 'Textile Manufacturing ERP, interface preview',
             product:
@@ -212,7 +247,7 @@ const en: Content = {
         note: 'Co-developed',
         items: [
           {
-            title: 'TsunaGo',
+            title: 'TsunaGo · Assisted-transport taxi matching',
             year: '2024 · Bolivian Devs',
             live: 'In production',
             alt: 'TsunaGo, interface preview',
@@ -221,9 +256,10 @@ const en: Content = {
             tech: 'NestJS, TypeScript and PostgreSQL (Prisma) backend with JWT authentication and role-based access for drivers, passengers and admins. Reliable Stripe payment processing with webhook handling, automated retries and transaction-consistency safeguards. Background automation for the ride lifecycle, reminders and notifications, plus AWS (S3, SES, SNS) and Google Maps integrations. CI/CD on GitHub Actions with Docker and Traefik on AWS. React Native and Expo client with role-based experiences and payment flows.',
           },
           {
-            title: 'Makevi',
+            title: 'Makevi · Shopee seller management',
             year: '2024 · Bolivian Devs',
             live: 'In production',
+            alt: 'Makevi, interface preview',
             product:
               'A SaaS that helps Shopee sellers run their stores end-to-end, from products and orders to subscriptions, co-developed for a Japanese client.',
             tech: 'Multi-tenant SaaS in NestJS, TypeScript, PostgreSQL and Prisma. Stripe subscriptions, Shopee marketplace synchronization and AWS for billing, e-commerce and customer communications. Background workflows for data synchronization and billing automation, with input validation, structured logging, API documentation, health monitoring and automated testing. Multi-stage Dockerfile shipped to AWS ECR/ECS through GitHub Actions. Frontend features in Next.js and React.',
@@ -233,7 +269,7 @@ const en: Content = {
     ],
   },
   edu: {
-    eyebrow: '03 / Education',
+    eyebrow: '04 / Education',
     title: 'Training & languages.',
     languages: 'Languages',
     items: [
@@ -251,12 +287,25 @@ const en: Content = {
       },
     ],
     langs: [
-      { name: 'English', level: 'Professional' },
+      { name: 'English', level: 'Upper-intermediate' },
       { name: 'Spanish', level: 'Native' },
     ],
   },
+  aiDev: {
+    eyebrow: '03 / AI & Dev',
+    title: 'AI as a productivity multiplier.',
+    lead: 'I use AI across the entire software development lifecycle to boost productivity and cut down on repetitive work.',
+    body: [
+      'It supports me with implementation, testing, documentation, debugging, code analysis, and technical research.',
+      "By offloading routine tasks, I can focus on what really matters: architecture, scalability, product requirements, and solving complex engineering problems. AI helps me move faster, but it doesn't replace engineering judgment.",
+    ],
+    accountable:
+      'I stay fully accountable for every line of code that reaches production. Every AI-assisted contribution is reviewed, validated, and adapted to meet my standards for quality, security, and maintainability.',
+    close:
+      "For me, the real value of AI isn't automation. It's the freedom to spend more energy on the problems that create the greatest impact.",
+  },
   contact: {
-    eyebrow: '04 / Contact',
+    eyebrow: '05 / Contact',
     title: "Let's build something.",
     sub: 'Open to full-stack roles and freelance projects. Fastest reply via email or WhatsApp.',
     name: 'Name',
@@ -301,13 +350,14 @@ const es: Content = {
     experience: 'Experiencia',
     projects: 'Proyectos',
     education: 'Educación',
+    aiDev: 'IA & Dev',
     contact: 'Contacto',
     cv: 'CV ↓',
   },
   hero: {
     kicker: 'Ingeniero Full-Stack',
     role: 'Ingeniero Full-Stack',
-    lead: 'Ingeniero Full-Stack con <b>6+ años</b> construyendo y manteniendo aplicaciones web en TypeScript, React, Next.js, NestJS, PostgreSQL, Docker y AWS. Desarrollo APIs, integraciones y funcionalidades full-stack, integro servicios como Stripe, Shopee, Google Maps y OCR, y opero aplicaciones en <b>producción</b>. Me enfoco en arquitectura limpia, código mantenible, automatización y en resolver problemas reales de negocio con software confiable.',
+    lead: 'Construyo aplicaciones web modernas <b>desde el concepto hasta la producción</b>. Con <b>más de 6 años</b> de experiencia trabajando con TypeScript, React/Next.js, NestJS y PostgreSQL, entrego productos confiables en todo el ciclo de desarrollo, desde la arquitectura y la implementación hasta el despliegue y el mantenimiento. He integrado servicios como Stripe, Shopee, Google Maps y soluciones de OCR, liderando la arquitectura de backend y las decisiones técnicas en múltiples proyectos.',
     coreStack: 'Stack principal',
     cv: 'Descargar CV',
     tagline: [
@@ -331,19 +381,33 @@ const es: Content = {
         roles: [
           {
             client: 'Cliente JP',
-            desc: 'Construí el backend en NestJS, TypeScript y PostgreSQL con autenticación JWT y acceso por roles para conductores, pasajeros y administradores, además de un flujo de pagos confiable con Stripe (manejo de webhooks, reintentos automáticos y resguardos de consistencia transaccional). Agregué automatización en segundo plano para el ciclo de vida del viaje, recordatorios y notificaciones, e integré AWS y Google Maps. Monté el CI/CD en GitHub Actions con Docker y Traefik en AWS, y construí el cliente en React Native y Expo.',
+            bullets: [
+              'Lideré la entrega y fui responsable de la arquitectura de backend en autenticación, pagos y ciclo de vida del viaje.',
+              'Construí el backend en NestJS y PostgreSQL con autenticación JWT y acceso por roles para conductores, pasajeros y administradores.',
+              'Entregué un flujo de pagos confiable con Stripe: webhooks, reintentos automáticos y resguardos de consistencia transaccional.',
+              'Automaticé el ciclo de vida del viaje y las notificaciones, e integré AWS y Google Maps.',
+              'Monté CI/CD en GitHub Actions con Docker y Traefik en AWS, y construí el cliente en React Native y Expo.',
+            ],
           },
           {
             client: 'Cliente JP',
-            desc: 'Co-desarrollé un SaaS multi-tenant en NestJS, TypeScript, PostgreSQL y Prisma, trabajando en la arquitectura del backend, la lógica de negocio, la autenticación y el control de acceso. Integré suscripciones de Stripe, sincronización con el marketplace de Shopee y AWS para facturación, e-commerce y comunicaciones con clientes. Construí flujos en segundo plano para sincronización de datos y automatización de facturación, publiqué un Dockerfile multi-etapa a AWS ECR/ECS con GitHub Actions, y aporté funcionalidades de frontend en Next.js y React.',
+            bullets: [
+              'Co-desarrollé un SaaS multi-tenant en NestJS, PostgreSQL y Prisma: arquitectura de backend, lógica de negocio, autenticación y control de acceso.',
+              'Endurecí las suscripciones de Stripe y la sincronización con el marketplace de Shopee, resolviendo casos límite en flujos en segundo plano para una facturación y un e-commerce confiables.',
+              'Construí UI reutilizable y funcionalidades de cara al usuario en el frontend de Next.js y React.',
+            ],
           },
           {
             client: 'Cliente JP',
-            desc: 'Plataforma de operaciones para restaurantes. Trabajo full-stack en NestJS, Prisma y React, en APIs de backend y funcionalidades de frontend.',
+            bullets: [
+              'Trabajo full-stack en APIs de backend y funcionalidades de frontend para una plataforma de operaciones de restaurantes.',
+            ],
           },
           {
             client: 'Cliente JP',
-            desc: 'Plataforma de integración empresarial (iPaaS). Redacté especificaciones OpenAPI para incorporar servicios a un pipeline existente de generación de adaptadores.',
+            bullets: [
+              'Redacté especificaciones OpenAPI para incorporar servicios a un pipeline existente de generación de adaptadores.',
+            ],
           },
         ],
       },
@@ -353,11 +417,21 @@ const es: Content = {
         roles: [
           {
             client: 'Cliente BO',
-            desc: 'Construí servicios de backend y endpoints de API en Node.js y MongoDB para el procesamiento de encuestas y el análisis de datos, más un servicio de análisis de sentimiento en Python que corría un modelo preentrenado sobre respuestas abiertas. Moví la mensajería a RabbitMQ para una entrega más confiable de correos y notificaciones, y agregué webhooks configurables para actualizaciones orientadas a eventos. Monté Docker, Kubernetes y CI/CD en GitLab entre staging y producción, agregué pruebas automatizadas de integración de API, y construí funcionalidades de frontend en React y Meteor, incluyendo dashboards en tiempo real y gestión de encuestas.',
+            bullets: [
+              'Construí servicios de backend y APIs en Node.js y MongoDB para el procesamiento de encuestas y el análisis de datos.',
+              'Construí un servicio de análisis de sentimiento en Python que corría un modelo preentrenado sobre respuestas abiertas.',
+              'Moví la mensajería a RabbitMQ para una entrega confiable de correos y notificaciones, y agregué webhooks configurables para actualizaciones orientadas a eventos.',
+              'Operé Docker, Kubernetes y CI/CD en GitLab entre staging y producción, con pruebas automatizadas de integración de API.',
+              'Construí funcionalidades de frontend en React y Meteor: dashboards en tiempo real, visualizaciones de datos y gestión de encuestas.',
+              'Mentoreé a desarrolladores mediante revisiones de código.',
+            ],
           },
           {
             client: 'Cliente US · Outsourcing',
-            desc: 'Construí el frontend en React y TypeScript (GraphQL, MUI, Redux) para una aplicación de seguimiento de datos de edificios, y contribuí al backend en NestJS y Firestore.',
+            bullets: [
+              'Construí el frontend en React y TypeScript (GraphQL, MUI, Redux) para una aplicación de seguimiento de datos de edificios.',
+              'Contribuí al backend en NestJS y Firestore.',
+            ],
           },
         ],
       },
@@ -365,11 +439,10 @@ const es: Content = {
   },
   proj: {
     eyebrow: '01 / Proyectos',
-    title: 'Lo que he construido.',
-    sub: 'Productos llevados de la arquitectura a la entrega. Proyectos propios hechos en solitario, y desarrollos en producción co-creados con equipos para clientes internacionales.',
+    title: 'Proyectos destacados.',
+    sub: 'Proyectos personales que desarrollé solo, y productos co-desarrollados con equipos para clientes internacionales, todos en producción.',
     view: 'App en vivo',
     techDetails: 'Detalles técnicos',
-    walkthrough: 'Te lo muestro al contactar',
     privateRepo: 'Repo privado',
     groups: [
       {
@@ -378,7 +451,7 @@ const es: Content = {
         items: [
           {
             title: 'ERP / POS Multi-Tenant para Restaurantes',
-            year: '2026 · Independiente',
+            year: '2026 · Freelance',
             live: 'En producción',
             alt: 'ERP / POS Multi-Tenant para Restaurantes, vista previa de la interfaz',
             product:
@@ -387,7 +460,7 @@ const es: Content = {
           },
           {
             title: 'ERP para Manufactura Textil',
-            year: '2025 · Freelance · finalizado',
+            year: '2025 · Freelance',
             live: 'En producción',
             alt: 'ERP para Manufactura Textil, vista previa de la interfaz',
             product:
@@ -401,7 +474,7 @@ const es: Content = {
         note: 'Co-desarrollado',
         items: [
           {
-            title: 'TsunaGo',
+            title: 'TsunaGo · Emparejamiento de taxis de transporte asistido',
             year: '2024 · Bolivian Devs',
             live: 'En producción',
             alt: 'TsunaGo, vista previa de la interfaz',
@@ -410,9 +483,10 @@ const es: Content = {
             tech: 'Backend en NestJS, TypeScript y PostgreSQL (Prisma) con autenticación JWT y acceso por roles para conductores, pasajeros y administradores. Procesamiento de pagos confiable con Stripe (manejo de webhooks, reintentos automáticos y resguardos de consistencia transaccional). Automatización en segundo plano para el ciclo de vida del viaje, recordatorios y notificaciones, más integraciones con AWS (S3, SES, SNS) y Google Maps. CI/CD en GitHub Actions con Docker y Traefik en AWS. Cliente en React Native y Expo con experiencias por rol y flujos de pago.',
           },
           {
-            title: 'Makevi',
+            title: 'Makevi · Gestión de vendedores de Shopee',
             year: '2024 · Bolivian Devs',
             live: 'En producción',
+            alt: 'Makevi, vista previa de la interfaz',
             product:
               'Un SaaS que ayuda a vendedores de Shopee a gestionar sus tiendas de punta a punta, desde productos y pedidos hasta suscripciones, co-desarrollado para un cliente japonés.',
             tech: 'SaaS multi-tenant en NestJS, TypeScript, PostgreSQL y Prisma. Suscripciones de Stripe, sincronización con el marketplace de Shopee y AWS para facturación, e-commerce y comunicaciones con clientes. Flujos en segundo plano para sincronización de datos y automatización de facturación, con validación de entradas, logging estructurado, documentación de API, monitoreo de salud y pruebas automatizadas. Dockerfile multi-etapa publicado a AWS ECR/ECS con GitHub Actions. Funcionalidades de frontend en Next.js y React.',
@@ -422,7 +496,7 @@ const es: Content = {
     ],
   },
   edu: {
-    eyebrow: '03 / Educación',
+    eyebrow: '04 / Educación',
     title: 'Formación e idiomas.',
     languages: 'Idiomas',
     items: [
@@ -440,12 +514,25 @@ const es: Content = {
       },
     ],
     langs: [
-      { name: 'Inglés', level: 'Profesional' },
+      { name: 'Inglés', level: 'Intermedio-alto' },
       { name: 'Español', level: 'Nativo' },
     ],
   },
+  aiDev: {
+    eyebrow: '03 / IA & Dev',
+    title: 'La IA como multiplicador de productividad.',
+    lead: 'Uso IA en todo el ciclo de vida del desarrollo de software para ganar productividad y reducir el trabajo repetitivo.',
+    body: [
+      'Me apoya en implementación, pruebas, documentación, depuración, análisis de código e investigación técnica.',
+      'Al delegar las tareas rutinarias, puedo concentrarme en lo que de verdad importa: arquitectura, escalabilidad, requisitos de producto y la resolución de problemas de ingeniería complejos. La IA me hace ir más rápido, pero no reemplaza el criterio de ingeniería.',
+    ],
+    accountable:
+      'Soy plenamente responsable de cada línea de código que llega a producción. Cada contribución asistida por IA la reviso, valido y adapto para que cumpla mis estándares de calidad, seguridad y mantenibilidad.',
+    close:
+      'Para mí, el verdadero valor de la IA no es la automatización. Es la libertad de poner más energía en los problemas que generan el mayor impacto.',
+  },
   contact: {
-    eyebrow: '04 / Contacto',
+    eyebrow: '05 / Contacto',
     title: 'Construyamos algo.',
     sub: 'Disponible para roles full-stack y proyectos freelance. Respuesta más rápida por email o WhatsApp.',
     name: 'Nombre',
@@ -479,7 +566,7 @@ const es: Content = {
   lightbox: { hint: 'Esc · clic fuera · ✕ para cerrar' },
   colophon: {
     label: 'Colofón',
-    text: 'Esta misma página está hecha con <b>Astro</b> y <b>TypeScript</b>, una capa i18n EN/ES propia y un <b>bundle de cliente sin dependencias</b>. Páginas estáticas, un endpoint serverless, open source.',
+    text: 'Esta página está hecha con <b>Astro</b> y <b>TypeScript</b>, una capa i18n EN/ES propia y un <b>bundle de cliente sin dependencias</b>. Páginas estáticas, un endpoint serverless, open source.',
     source: 'Ver código',
   },
 };
