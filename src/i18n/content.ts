@@ -17,6 +17,7 @@ export interface Content {
     experience: string;
     projects: string;
     education: string;
+    aiDev: string;
     contact: string;
     cv: string;
   };
@@ -75,6 +76,18 @@ export interface Content {
     items: { title: string; inst: string }[];
     langs: { name: string; level: string }[];
   };
+  aiDev: {
+    eyebrow: string;
+    title: string;
+    /** Lead paragraph (rendered as the section sub). */
+    lead: string;
+    /** Flowing body paragraphs. */
+    body: string[];
+    /** Accountability statement, pulled out as a callout. */
+    accountable: string;
+    /** Closing line. */
+    close: string;
+  };
   contact: {
     eyebrow: string;
     title: string;
@@ -112,6 +125,7 @@ const en: Content = {
     experience: 'Experience',
     projects: 'Projects',
     education: 'Education',
+    aiDev: 'AI & Dev',
     contact: 'Contact',
     cv: 'CV ↓',
   },
@@ -233,7 +247,7 @@ const en: Content = {
     ],
   },
   edu: {
-    eyebrow: '03 / Education',
+    eyebrow: '04 / Education',
     title: 'Training & languages.',
     languages: 'Languages',
     items: [
@@ -255,8 +269,21 @@ const en: Content = {
       { name: 'Spanish', level: 'Native' },
     ],
   },
+  aiDev: {
+    eyebrow: '03 / AI & Dev',
+    title: 'AI as a productivity multiplier.',
+    lead: 'I use AI across the entire software development lifecycle to boost productivity and cut down on repetitive work.',
+    body: [
+      'It supports me with implementation, testing, documentation, debugging, code analysis, and technical research.',
+      "By offloading routine tasks, I can focus on what really matters: architecture, scalability, product requirements, and solving complex engineering problems. AI helps me move faster, but it doesn't replace engineering judgment.",
+    ],
+    accountable:
+      'I stay fully accountable for every line of code that reaches production. Every AI-assisted contribution is reviewed, validated, and adapted to meet my standards for quality, security, and maintainability.',
+    close:
+      "For me, the real value of AI isn't automation. It's the freedom to spend more energy on the problems that create the greatest impact.",
+  },
   contact: {
-    eyebrow: '04 / Contact',
+    eyebrow: '05 / Contact',
     title: "Let's build something.",
     sub: 'Open to full-stack roles and freelance projects. Fastest reply via email or WhatsApp.',
     name: 'Name',
@@ -301,6 +328,7 @@ const es: Content = {
     experience: 'Experiencia',
     projects: 'Proyectos',
     education: 'Educación',
+    aiDev: 'IA & Dev',
     contact: 'Contacto',
     cv: 'CV ↓',
   },
@@ -422,7 +450,7 @@ const es: Content = {
     ],
   },
   edu: {
-    eyebrow: '03 / Educación',
+    eyebrow: '04 / Educación',
     title: 'Formación e idiomas.',
     languages: 'Idiomas',
     items: [
@@ -444,8 +472,21 @@ const es: Content = {
       { name: 'Español', level: 'Nativo' },
     ],
   },
+  aiDev: {
+    eyebrow: '03 / IA & Dev',
+    title: 'La IA como multiplicador de productividad.',
+    lead: 'Uso IA en todo el ciclo de vida del desarrollo de software para ganar productividad y reducir el trabajo repetitivo.',
+    body: [
+      'Me apoya en implementación, pruebas, documentación, depuración, análisis de código e investigación técnica.',
+      'Al delegar las tareas rutinarias, puedo concentrarme en lo que de verdad importa: arquitectura, escalabilidad, requisitos de producto y la resolución de problemas de ingeniería complejos. La IA me hace ir más rápido, pero no reemplaza el criterio de ingeniería.',
+    ],
+    accountable:
+      'Soy plenamente responsable de cada línea de código que llega a producción. Cada contribución asistida por IA la reviso, valido y adapto para que cumpla mis estándares de calidad, seguridad y mantenibilidad.',
+    close:
+      'Para mí, el verdadero valor de la IA no es la automatización. Es la libertad de poner más energía en los problemas que generan el mayor impacto.',
+  },
   contact: {
-    eyebrow: '04 / Contacto',
+    eyebrow: '05 / Contacto',
     title: 'Construyamos algo.',
     sub: 'Disponible para roles full-stack y proyectos freelance. Respuesta más rápida por email o WhatsApp.',
     name: 'Nombre',

@@ -8,19 +8,6 @@ import { taglineWords, formText, getLang } from './i18n';
 
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ============================== CLOCK ============================== */
-function tick(): void {
-  const el = document.getElementById('clock');
-  if (!el) return;
-  const now = new Date();
-  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-  const bo = new Date(utc - 4 * 3600000);
-  const p = (x: number) => String(x).padStart(2, '0');
-  el.textContent = `${p(bo.getHours())}:${p(bo.getMinutes())}:${p(bo.getSeconds())}`;
-}
-tick();
-setInterval(tick, 1000);
-
 /* ============================== TYPEWRITER ============================== */
 (() => {
   const el = document.getElementById('tw');

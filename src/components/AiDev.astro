@@ -1,0 +1,22 @@
+---
+import { dict } from '../i18n/content';
+
+const t = dict.aiDev;
+---
+
+<section class="sec" id="ai-dev">
+  <div class="sec-head reveal">
+    <div class="eyebrow" data-i18n="aiDev.eyebrow">{t.eyebrow}</div>
+    <h2 data-i18n="aiDev.title">{t.title}</h2>
+  </div>
+  <div class="aidev-body reveal" data-d=".1">
+    <p data-i18n="aiDev.lead">{t.lead}</p>
+    {
+      t.body.map((p, i) => (
+        <p data-i18n={`aiDev.body.${i}`}>{p}</p>
+      ))
+    }
+    <p data-i18n="aiDev.accountable">{t.accountable}</p>
+    <p data-i18n="aiDev.close">{t.close}</p>
+  </div>
+</section>
