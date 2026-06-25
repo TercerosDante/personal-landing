@@ -49,42 +49,21 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   });
 })();
 
-/* ============================== WARP GRID (mouse-gravity background) ============================== */
+/* ============================== BLUEPRINT GRID (static background) ============================== */
 (() => {
   const cv = document.getElementById('warp') as HTMLCanvasElement | null;
   const ctx = cv?.getContext('2d');
   if (!cv || !ctx) return;
   const GAP = 46;
-  const R = 250;
-  const MAXPULL = 20;
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  let mx = -9999;
-  let my = -9999;
-  let tmx = -9999;
-  let tmy = -9999;
-  let W = 0;
-  let H = 0;
-  let raf = 0;
-  function resize(): void {
-    W = window.innerWidth;
-    H = window.innerHeight;
+  function draw(): void {
+    const W = window.innerWidth;
+    const H = window.innerHeight;
     cv!.width = W * dpr;
     cv!.height = H * dpr;
     cv!.style.width = `${W}px`;
     cv!.style.height = `${H}px`;
     ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-  resize();
-  const warp = (x: number, y: number): [number, number] => {
-    const dx = x - mx;
-    const dy = y - my;
-    const d = Math.hypot(dx, dy);
-    if (d > R || d < 0.001) return [x, y];
-    const f = 1 - d / R;
-    const pull = f * f * MAXPULL;
-    return [x - (dx / d) * pull, y - (dy / d) * pull];
-  };
-  function drawStatic(): void {
     ctx!.clearRect(0, 0, W, H);
     ctx!.lineWidth = 1;
     ctx!.strokeStyle = 'rgba(48,66,96,0.07)';
@@ -103,59 +82,8 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       ctx!.stroke();
     }
   }
-  function frame(): void {
-    mx += (tmx - mx) * 0.1;
-    my += (tmy - my) * 0.1;
-    ctx!.clearRect(0, 0, W, H);
-    ctx!.lineWidth = 1;
-    ctx!.strokeStyle = 'rgba(48,66,96,0.07)';
-    const cols = Math.ceil(W / GAP) + 2;
-    const rows = Math.ceil(H / GAP) + 2;
-    for (let r = 0; r < rows; r++) {
-      ctx!.beginPath();
-      for (let c = 0; c < cols; c++) {
-        const p = warp(c * GAP, r * GAP);
-        c ? ctx!.lineTo(p[0], p[1]) : ctx!.moveTo(p[0], p[1]);
-      }
-      ctx!.stroke();
-    }
-    for (let c = 0; c < cols; c++) {
-      ctx!.beginPath();
-      for (let r = 0; r < rows; r++) {
-        const p = warp(c * GAP, r * GAP);
-        r ? ctx!.lineTo(p[0], p[1]) : ctx!.moveTo(p[0], p[1]);
-      }
-      ctx!.stroke();
-    }
-    // Keep animating only while the grid is still easing toward the cursor.
-    // Once settled (or the cursor has left), stop; input wakes it again.
-    raf =
-      Math.abs(tmx - mx) > 0.5 || Math.abs(tmy - my) > 0.5
-        ? requestAnimationFrame(frame)
-        : 0;
-  }
-  const wake = (): void => {
-    if (!raf && !REDUCED) raf = requestAnimationFrame(frame);
-  };
-  const onMove = (e: PointerEvent): void => {
-    tmx = e.clientX;
-    tmy = e.clientY;
-    wake();
-  };
-  window.addEventListener('pointermove', onMove, { passive: true });
-  window.addEventListener('pointerdown', onMove, { passive: true });
-  document.addEventListener('mouseleave', () => {
-    tmx = -9999;
-    tmy = -9999;
-    wake();
-  });
-  window.addEventListener('resize', () => {
-    resize();
-    if (REDUCED) drawStatic();
-    else wake();
-  });
-  if (REDUCED) drawStatic();
-  else wake();
+  draw();
+  window.addEventListener('resize', draw);
 })();
 
 /* ============================== PARALLAX (mouse depth + scroll, self-suspending) ============================== */
