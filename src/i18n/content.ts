@@ -259,6 +259,7 @@ const en: Content = {
             title: 'Makevi · Shopee seller management',
             year: '2024 · Bolivian Devs',
             live: 'In production',
+            alt: 'Makevi, interface preview',
             product:
               'A SaaS that helps Shopee sellers run their stores end-to-end, from products and orders to subscriptions, co-developed for a Japanese client.',
             tech: 'Multi-tenant SaaS in NestJS, TypeScript, PostgreSQL and Prisma. Stripe subscriptions, Shopee marketplace synchronization and AWS for billing, e-commerce and customer communications. Background workflows for data synchronization and billing automation, with input validation, structured logging, API documentation, health monitoring and automated testing. Multi-stage Dockerfile shipped to AWS ECR/ECS through GitHub Actions. Frontend features in Next.js and React.',
@@ -485,6 +486,7 @@ const es: Content = {
             title: 'Makevi · Gestión de vendedores de Shopee',
             year: '2024 · Bolivian Devs',
             live: 'En producción',
+            alt: 'Makevi, vista previa de la interfaz',
             product:
               'Un SaaS que ayuda a vendedores de Shopee a gestionar sus tiendas de punta a punta, desde productos y pedidos hasta suscripciones, co-desarrollado para un cliente japonés.',
             tech: 'SaaS multi-tenant en NestJS, TypeScript, PostgreSQL y Prisma. Suscripciones de Stripe, sincronización con el marketplace de Shopee y AWS para facturación, e-commerce y comunicaciones con clientes. Flujos en segundo plano para sincronización de datos y automatización de facturación, con validación de entradas, logging estructurado, documentación de API, monitoreo de salud y pruebas automatizadas. Dockerfile multi-etapa publicado a AWS ECR/ECS con GitHub Actions. Funcionalidades de frontend en Next.js y React.',
