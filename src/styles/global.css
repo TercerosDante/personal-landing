@@ -113,6 +113,25 @@ html.ready .intro-id .kicker::before{width:28px}
 .btn:hover{border-color:var(--slate);background:rgba(43,51,64,.05);transform:translateY(-2px)}
 .btn.solid{background:var(--signal-strong);color:#fff;border-color:var(--signal-strong);box-shadow:0 14px 26px -14px rgba(216,98,63,.6)}
 .btn.solid:hover{filter:brightness(1.05);background:var(--signal-strong)}
+.cv-menu{position:relative;display:inline-flex;vertical-align:top;transition:transform .22s}
+.cv-menu:hover{transform:translateY(-2px)}
+.cv-menu:hover .cv-main,.cv-menu:hover .cv-caret{transform:none}
+.cv-menu .cv-main{border-radius:9px 0 0 9px}
+.cv-menu .cv-caret{padding:12px 10px;border-radius:0 9px 9px 0;border-left:1px solid rgba(255,255,255,.25)}
+.cv-caret svg{width:14px;height:14px;transition:transform .25s}
+.cv-menu.open .cv-caret svg{transform:rotate(180deg)}
+.cv-pop{position:absolute;top:calc(100% + 8px);right:0;z-index:30;min-width:212px;padding:5px;background:var(--paper);border:1px solid var(--hair);border-radius:11px;box-shadow:0 1px 2px rgba(43,51,64,.05),0 22px 44px -24px rgba(43,51,64,.5)}
+.cv-pop[hidden]{display:none}
+.cv-pop:not([hidden]){animation:cvPopIn .18s cubic-bezier(.2,.7,.2,1)}
+@keyframes cvPopIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.cv-opt{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:7px;color:var(--ink-soft);transition:background .18s,color .18s}
+.cv-opt:hover{background:var(--signal-soft);color:var(--ink)}
+.cv-code{font-family:var(--font-mono),monospace;font-size:10px;font-weight:600;letter-spacing:.12em;color:var(--faint);min-width:18px;transition:color .18s}
+.cv-name{font-family:var(--font-archivo),sans-serif;font-weight:600;font-size:13px;color:var(--ink);flex:1}
+.cv-ext{font-family:var(--font-mono),monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.cv-opt.is-current .cv-code{color:var(--signal)}
+.cv-caret:focus-visible,.cv-opt:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.cv-menu,.cv-caret svg{transition:none}.cv-pop:not([hidden]){animation:none}}
 .hero .mini-stack{margin-top:22px}
 .hero .mini-stack .ms-l{font-size:9px;letter-spacing:.2em;color:var(--faint);text-transform:uppercase;margin-bottom:9px}
 .hero .mini-stack .ms-row{display:flex;flex-wrap:wrap;gap:7px}

@@ -97,17 +97,66 @@ import { dict } from '../i18n/content';
       >
       GitHub
     </a>
-    <a class="btn solid" href={site.cv} target="_blank" rel="noopener">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.8"
-        ><path
-          d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
-        ></path></svg
+    <div class="cv-menu" data-cv-menu>
+      <a
+        class="btn solid cv-main"
+        data-cv-dl
+        href={site.cv.en}
+        download="Ronald-Terceros-CV-EN.pdf"
       >
-      <span data-i18n="hero.cv">{dict.hero.cv}</span>
-    </a>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          ><path
+            d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+          ></path></svg
+        >
+        <span data-i18n="hero.cv">{dict.hero.cv}</span>
+      </a>
+      <button
+        class="btn solid cv-caret"
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded="false"
+        aria-controls="cvPop"
+        aria-label="Choose CV language"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg
+        >
+      </button>
+      <div class="cv-pop" id="cvPop" role="menu" hidden>
+        <a
+          class="cv-opt"
+          role="menuitem"
+          data-cv-lang="en"
+          href={site.cv.en}
+          download="Ronald-Terceros-CV-EN.pdf"
+        >
+          <span class="cv-code">EN</span>
+          <span class="cv-name">English</span>
+          <span class="cv-ext">PDF</span>
+        </a>
+        <a
+          class="cv-opt"
+          role="menuitem"
+          data-cv-lang="es"
+          href={site.cv.es}
+          download="Ronald-Terceros-CV-ES.pdf"
+        >
+          <span class="cv-code">ES</span>
+          <span class="cv-name">Español</span>
+          <span class="cv-ext">PDF</span>
+        </a>
+      </div>
+    </div>
   </div>
 </section>

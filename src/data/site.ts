@@ -10,8 +10,8 @@ export const site = {
   whatsapp: 'https://wa.me/59173341014',
   linkedin: 'https://www.linkedin.com/in/tercerosdante',
   linkedinHandle: '@tercerosdante',
-  /** Profile, repository and CV links. */
+  /** Profile, repository and per-language CV links (served from `public/`). */
   github: 'https://github.com/TercerosDante',
   repo: 'https://github.com/TercerosDante/personal-landing',
-  cv: 'https://ronaldterceros.com/resume.pdf',
+  cv: { en: '/resume-en.pdf', es: '/resume-es.pdf' },
 } as const;
