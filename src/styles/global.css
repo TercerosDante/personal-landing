@@ -228,7 +228,7 @@ html.ready .intro-id .kicker::before{width:28px}
 .proj .live{display:inline-flex;align-items:center;gap:7px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--c-emerald);border:1px solid rgba(47,125,94,.3);background:rgba(47,125,94,.08);padding:5px 11px;border-radius:20px;margin-top:16px}
 .proj .live i{width:6px;height:6px;border-radius:50%;background:var(--c-emerald);box-shadow:0 0 8px var(--c-emerald);animation:pulse 1.8s ease-in-out infinite}
 .proj p{font-size:13.5px;line-height:1.85;color:var(--ink-soft);margin:20px 0 24px;max-width:52ch}
-.proj .p-product{font-size:14.5px;line-height:1.68;color:var(--ink);margin:20px 0 18px;max-width:52ch}
+.proj .p-product{font-size:14.5px;line-height:1.68;color:var(--ink);margin:20px 0 18px;max-width:none}
 .proj .p-tech .chips{margin:14px 0 0}
 .p-tech{margin:0 0 24px}
 .p-tech>summary{display:inline-flex;align-items:center;gap:8px;width:fit-content;cursor:pointer;list-style:none;font-family:var(--font-mono),monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:6px 0;transition:color .2s}
@@ -237,20 +237,23 @@ html.ready .intro-id .kicker::before{width:28px}
 .p-tech[open]>summary::before{content:"−"}
 .p-tech>summary:hover{color:var(--ink)}
 .p-tech>summary:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:4px}
-.proj .p-tech-body{font-size:12.5px;line-height:1.85;color:var(--ink-soft);margin:14px 0 0;max-width:52ch}
-.p-tech::details-content{block-size:0;overflow:hidden;opacity:0;transition:block-size .42s cubic-bezier(.2,.7,.2,1),opacity .32s ease,content-visibility .42s allow-discrete}
-.p-tech[open]::details-content{block-size:auto;opacity:1}
+.proj .p-tech-body{font-size:12.5px;line-height:1.85;color:var(--ink-soft);margin:14px 0 0;max-width:none}
+.p-tech::details-content{opacity:0;transition:opacity .32s ease,content-visibility .32s allow-discrete}
+.p-tech[open]::details-content{opacity:1}
 @media (prefers-reduced-motion:reduce){.p-tech::details-content{transition:none}}
 .proj .view{display:inline-flex;align-items:center;gap:9px;font-family:var(--font-archivo),sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);border:1px solid var(--hair2);border-radius:9px;padding:12px 21px;transition:.22s}
 .proj .view:hover{background:var(--slate);color:#f2f4f8;border-color:var(--slate)}
 .proj .view svg{width:13px;height:13px}
-.proj .p-links{display:flex;flex-wrap:wrap;align-items:center;gap:11px;margin-top:22px}
+.proj .p-links{display:flex;flex-wrap:wrap;align-items:stretch;gap:11px;margin-top:22px}
+.proj .p-links>*{flex:1 1 0;justify-content:center}
+.proj .p-links>*:only-child{flex:0 0 auto}
 .proj .repo{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono),monospace;font-weight:500;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;transition:.22s}
 .proj a.repo:hover{color:var(--signal);border-color:var(--signal);border-style:solid}
 .proj .repo.is-locked{cursor:default}
 .proj .repo svg{width:13px;height:13px}
-.proj-thumb{float:right;width:clamp(280px,45%,540px);margin:5px 0 18px clamp(26px,4vw,52px);position:relative;aspect-ratio:16/11;border-radius:14px;overflow:hidden;border:1px solid var(--hair2);box-shadow:0 1px 2px rgba(43,51,64,.05),0 32px 64px -36px rgba(43,51,64,.5);transition:box-shadow .4s ease}
-@media (max-width:820px){.proj-thumb{float:none;width:100%;margin:0 0 20px;aspect-ratio:16/10}}
+.proj-figure{float:left;width:clamp(280px,45%,540px);margin:5px clamp(26px,4vw,32px) 8px 0}
+.proj-thumb{width:100%;position:relative;aspect-ratio:16/11;border-radius:14px;overflow:hidden;border:1px solid var(--hair2);box-shadow:0 1px 2px rgba(43,51,64,.05),0 32px 64px -36px rgba(43,51,64,.5);transition:box-shadow .4s ease}
+@media (max-width:820px){.proj{display:flex;flex-direction:column}.proj-figure{display:contents}.proj-thumb{order:0;margin:0 0 16px;aspect-ratio:16/10}.proj-body{order:1}.proj .p-links{order:2}}
 .proj-thumb:hover{box-shadow:0 1px 2px rgba(43,51,64,.06),0 40px 72px -34px rgba(43,51,64,.6)}
 .proj-thumb{cursor:zoom-in}
 .proj-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
