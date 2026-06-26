@@ -224,13 +224,15 @@ html.ready .intro-id .kicker::before{width:28px}
 .proj-body{min-width:0}
 .proj .p-top{display:flex;align-items:flex-start;gap:12px}
 .proj .p-year{font-family:var(--font-mono),monospace;font-size:10.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
-.proj h3{font-family:var(--font-archivo),sans-serif;font-weight:800;font-size:clamp(23px,2.8vw,33px);color:var(--ink);margin:15px 0 0;letter-spacing:-.02em;line-height:1.12}
-.proj .live{display:inline-flex;align-items:center;gap:7px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--c-emerald);border:1px solid rgba(47,125,94,.3);background:rgba(47,125,94,.08);padding:5px 11px;border-radius:20px;margin-top:16px}
+.proj h3{font-family:var(--font-archivo),sans-serif;font-weight:800;font-size:clamp(20px,2.4vw,28px);color:var(--ink);margin:9px 0 0;letter-spacing:-.02em;line-height:1.1}
+.proj .live{display:inline-flex;align-items:center;gap:7px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--c-emerald);border:1px solid rgba(47,125,94,.3);background:rgba(47,125,94,.08);padding:5px 11px;border-radius:20px;margin-top:10px}
 .proj .live i{width:6px;height:6px;border-radius:50%;background:var(--c-emerald);box-shadow:0 0 8px var(--c-emerald);animation:pulse 1.8s ease-in-out infinite}
 .proj p{font-size:13.5px;line-height:1.85;color:var(--ink-soft);margin:20px 0 24px;max-width:52ch}
-.proj .p-product{font-size:14.5px;line-height:1.68;color:var(--ink);margin:20px 0 18px;max-width:none;white-space:pre-line}
+.proj .p-product{margin:11px 0 12px;max-width:none}
+.proj .p-product p{font-size:13.5px;line-height:1.5;color:var(--ink);margin:0;max-width:none}
+.proj .p-product p+p{margin-top:11px}
 .proj .p-tech .chips{margin:14px 0 0}
-.p-tech{margin:0 0 24px}
+.p-tech{margin:0 0 14px}
 .p-tech>summary{display:inline-flex;align-items:center;gap:8px;width:fit-content;cursor:pointer;list-style:none;font-family:var(--font-mono),monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:6px 0;transition:color .2s}
 .p-tech>summary::-webkit-details-marker{display:none}
 .p-tech>summary::before{content:"+";font-family:var(--font-archivo),sans-serif;font-weight:700;font-size:13px;line-height:1;color:var(--signal);width:12px;text-align:center}

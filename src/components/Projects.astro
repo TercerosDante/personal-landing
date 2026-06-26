@@ -155,9 +155,11 @@ const t = dict.proj;
                           <span data-i18n={`${base}.live`}>{live}</span>
                         </span>
                       )}
-                      <p class="p-product" data-i18n={`${base}.product`}>
-                        {item.product}
-                      </p>
+                      <div class="p-product">
+                        {item.product.map((par, pi) => (
+                          <p data-i18n={`${base}.product.${pi}`}>{par}</p>
+                        ))}
+                      </div>
                       <details class="p-tech">
                         <summary data-i18n="proj.techDetails">
                           {t.techDetails}
