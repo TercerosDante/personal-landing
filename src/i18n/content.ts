@@ -228,9 +228,7 @@ const en: Content = {
             live: 'In production',
             alt: 'Multi-Tenant ERP / POS for Restaurants, interface preview',
             product: [
-              'An ERP and POS for restaurants and small businesses that brings the whole day into one place, from setting up your products to charging the customer and closing the register at night.',
-              'Instead of typing in your menu item by item, you snap a photo from your phone and the system reads it for you to review, or start from a ready-made catalog and adjust it to fit. From there it takes shape like building blocks: switch on only what you need, keep each location on its own, and give every person the right access.',
-              'It adapts to how you work: organize your catalog, take orders, watch the register, and check built-in reports at a glance.',
+              'ERP and POS system for restaurants and small businesses that unifies daily operations in a single platform from product setup to payments and end-of-day closing. Menu items can be created from photos or a ready catalog and adjusted quickly to fit each business. The system is modular, supports multiple locations, and lets you enable only the features you need. It covers orders, inventory, and cash register management in real time, with simple reports to understand performance at a glance.',
             ],
             tech: 'Multi-tenant backend with tenant isolation, row-level security, JWT auth and role-based access across multiple business locations. A modular system lets each business turn on the capabilities it needs (point of sale, inventory, cash, recipes, kitchen workflows) from one shared platform, with domain-driven design keeping the business logic maintainable as modules grow. The cross-platform POS runs on desktop and touch devices from a single React codebase (Vite, Ant Design, Zustand, Capacitor, Electron). pnpm and Turborepo monorepo with shared Zod contracts, GitHub Actions CI/CD, and Docker and Traefik on a VPS. AI-assisted development was used under direct supervision to speed up delivery.',
           },
@@ -240,9 +238,7 @@ const en: Content = {
             live: 'In production',
             alt: 'Textile Manufacturing ERP, interface preview',
             product: [
-              'An ERP for a textile manufacturer that brings the whole order workflow into one place, from the first photo of a garment to the finished order.',
-              'Instead of typing every detail, you photograph the garment matrix and the system reads it for you, filling in the data for you to review. Photos are stored in the cloud, and orders appear as a scrollable gallery, like a photo album, so any one is easy to find among hundreds.',
-              'It adapts to the workshop: define your own size groups, follow each order through its stages (moving several at once in batches), and check built-in reports to see how the business is doing.',
+              'ERP for a textile manufacturer that centralizes the entire order workflow in one place from the first photo of a garment to the finished order. Instead of entering details manually, you take a photo of the garment matrix and the system reads it automatically, generating the data for review. All images are stored in the cloud, and orders are shown as a visual gallery, making them easy to find even at scale. It adapts to each workshop with custom size groups, batch processing, and stage tracking, plus built-in reports to monitor business performance.',
             ],
             tech: 'Backend in NestJS, TypeScript, PostgreSQL and Prisma, with secure authentication, role-based access control and workflows across the textile domain: products, variants, production attributes, pricing structures and order states. The React frontend (Vite, Ant Design, TanStack Query, React Hook Form) streamlines order management, image handling, client communication and document generation, with drag-and-drop order building (dnd-kit), Cloudinary uploads and Word/Excel export. Delivered from architecture and implementation through deployment and client adoption.',
           },
@@ -253,24 +249,22 @@ const en: Content = {
         note: 'Co-developed',
         items: [
           {
-            title: 'TsunaGo · Assisted-transport taxi matching',
+            title: 'TsunaGo',
             year: '2024 · Bolivian Devs',
             live: 'In production',
             alt: 'TsunaGo, interface preview',
             product: [
-              'An app that connects people who need assisted transport (patients, older adults, and their companions) with available drivers nearby. You request a ride, choose the type of care needed, get matched with a driver, and pay in the app.',
-              "The matching is based on care needs, not just location: you specify what's required and the app pairs you with a driver who fits. You can review the trip details and complete payment in the same flow.",
-              'It also supports booking in advance, viewing past trips, rating drivers, and managing your account. Drivers can register, set their schedule, and track their earnings.',
+              'TsunaGo is an app that connects people who need assisted transportation such as patients or older adults with nearby drivers who can provide the required support. Users request a ride, define the level of assistance needed, and are matched with a suitable driver. The full process from booking to payment happens inside the app. Matching is based on care needs rather than only location, ensuring better trip fit. Users can schedule rides, view history, and rate drivers, while drivers manage availability and earnings.',
             ],
             tech: 'NestJS, TypeScript and PostgreSQL (Prisma) backend with JWT authentication and role-based access for drivers, passengers and admins. Reliable Stripe payment processing with webhook handling, automated retries and transaction-consistency safeguards. Background automation for the ride lifecycle, reminders and notifications, plus AWS (S3, SES, SNS) and Google Maps integrations. CI/CD on GitHub Actions with Docker and Traefik on AWS. React Native and Expo client with role-based experiences and payment flows.',
           },
           {
-            title: 'Makevi · Shopee seller management',
+            title: 'Makevi',
             year: '2024 · Bolivian Devs',
             live: 'In production',
             alt: 'Makevi, interface preview',
             product: [
-              'Makevi is an all-in-one platform designed to simplify the day-to-day management of Shopee stores. It centralizes product listings, inventory, order processing, and sales analytics into a single system, reducing manual work and providing a more efficient, organized workflow for marketplace operations.',
+              'Makevi is a platform that simplifies Shopee store management by bringing all core operations into one place. It centralizes product listings, inventory, order processing, and sales analytics in a single system, reducing manual work and improving operational efficiency.',
             ],
             tech: 'Multi-tenant SaaS in NestJS, TypeScript, PostgreSQL and Prisma. Stripe subscriptions, Shopee marketplace synchronization and AWS for billing, e-commerce and customer communications. Background workflows for data synchronization and billing automation, with input validation, structured logging, API documentation, health monitoring and automated testing. Multi-stage Dockerfile shipped to AWS ECR/ECS through GitHub Actions. Frontend features in Next.js and React.',
           },
@@ -465,9 +459,7 @@ const es: Content = {
             live: 'En producción',
             alt: 'ERP / POS Multi-Tenant para Restaurantes, vista previa de la interfaz',
             product: [
-              'Un ERP y POS para restaurantes y pequeños negocios que reúne todo el día en un solo lugar, desde configurar tus productos hasta cobrar al cliente y cerrar la caja por la noche.',
-              'En lugar de cargar tu menú producto por producto, tomas una foto desde tu teléfono y el sistema lo lee para que lo revises, o empiezas desde un catálogo listo y lo ajustas a tu medida. A partir de ahí se arma como bloques: activa solo lo que necesitas, mantén cada sucursal por separado y da a cada persona el acceso correcto.',
-              'Se adapta a cómo trabajas: organiza tu catálogo, toma pedidos, vigila la caja y consulta los reportes integrados de un vistazo.',
+              'Sistema ERP y POS para restaurantes y pequeños negocios que unifica todas las operaciones diarias en una sola plataforma, desde la creación de productos hasta los pagos y el cierre de caja. Los productos del menú se pueden crear a partir de fotos o desde un catálogo base, y ajustarlos rápidamente según cada negocio. El sistema es modular, soporta múltiples sucursales y permite activar solo las funciones necesarias. Cubre pedidos, inventario y gestión de caja en tiempo real, con reportes simples para entender el desempeño del negocio.',
             ],
             tech: 'Backend multi-tenant con aislamiento por tenant, seguridad a nivel de fila (RLS), autenticación JWT y acceso por roles en varias ubicaciones de negocio. Un sistema modular permite a cada negocio activar las capacidades que necesita (punto de venta, inventario, caja, recetas, flujos de cocina) desde una sola plataforma compartida, con diseño orientado al dominio que mantiene la lógica de negocio mantenible a medida que crecen los módulos. El POS multiplataforma corre en escritorio y dispositivos táctiles desde una sola base de código React (Vite, Ant Design, Zustand, Capacitor, Electron). Monorepo pnpm y Turborepo con contratos Zod compartidos, CI/CD en GitHub Actions, y Docker y Traefik en un VPS. Usé desarrollo asistido por IA bajo supervisión directa para acelerar la entrega.',
           },
@@ -477,9 +469,7 @@ const es: Content = {
             live: 'En producción',
             alt: 'ERP para Manufactura Textil, vista previa de la interfaz',
             product: [
-              'Un ERP para un fabricante textil que reúne todo el flujo de pedidos en un solo lugar, desde la primera foto de una prenda hasta el pedido terminado.',
-              'En lugar de escribir cada detalle, fotografías la matriz de la prenda y el sistema la lee por ti, completando los datos para que los revises. Las fotos se guardan en la nube y los pedidos aparecen como una galería desplazable, como un álbum de fotos, para que cualquiera sea fácil de encontrar entre cientos.',
-              'Se adapta al taller: define tus propios grupos de tallas, sigue cada pedido por sus etapas (moviendo varios a la vez en lotes) y consulta los reportes integrados para ver cómo va el negocio.',
+              'ERP para fabricantes textiles que centraliza todo el flujo de pedidos en un solo lugar, desde la primera foto de una prenda hasta el pedido final. En lugar de ingresar los datos manualmente, se toma una foto de la matriz de la prenda y el sistema la interpreta automáticamente, generando la información para revisión. Todas las imágenes se almacenan en la nube y los pedidos se muestran como una galería visual, lo que facilita encontrarlos incluso cuando hay muchos. Se adapta a cada taller con grupos de tallas personalizados, procesamiento por lotes y seguimiento por etapas, además de reportes integrados para monitorear el negocio.',
             ],
             tech: 'Backend en NestJS, TypeScript, PostgreSQL y Prisma, con autenticación segura, control de acceso por roles y flujos en todo el dominio textil: productos, variantes, atributos de producción, estructuras de precio y estados de pedido. El frontend en React (Vite, Ant Design, TanStack Query, React Hook Form) agiliza la gestión de pedidos, el manejo de imágenes, la comunicación con el cliente y la generación de documentos, con construcción de pedidos por arrastrar y soltar (dnd-kit), subidas a Cloudinary y exportación a Word/Excel. Entregado desde la arquitectura e implementación hasta el despliegue y la adopción del cliente.',
           },
@@ -490,24 +480,22 @@ const es: Content = {
         note: 'Co-desarrollado',
         items: [
           {
-            title: 'TsunaGo · Emparejamiento de taxis de transporte asistido',
+            title: 'TsunaGo',
             year: '2024 · Bolivian Devs',
             live: 'En producción',
             alt: 'TsunaGo, vista previa de la interfaz',
             product: [
-              'Una app que conecta a personas que necesitan transporte asistido (pacientes, adultos mayores y sus acompañantes) con conductores disponibles cerca. Pides un viaje, eliges el tipo de cuidado necesario, te emparejan con un conductor y pagas en la app.',
-              'El emparejamiento se basa en las necesidades de cuidado, no solo en la ubicación: indicas lo que se requiere y la app te asigna un conductor que encaja. Puedes revisar los detalles del viaje y completar el pago en el mismo flujo.',
-              'También permite reservar con anticipación, ver viajes anteriores, calificar conductores y administrar tu cuenta. Los conductores pueden registrarse, definir su horario y seguir sus ganancias.',
+              'TsunaGo es una aplicación que conecta a personas que necesitan transporte asistido, como pacientes o adultos mayores, con conductores cercanos que pueden brindar ese apoyo. Los usuarios solicitan un viaje, definen el nivel de asistencia requerido y son asignados a un conductor adecuado. Todo el proceso, desde la reserva hasta el pago, se realiza dentro de la app. La asignación se basa en las necesidades de cuidado y no solo en la ubicación, asegurando una mejor experiencia. Los usuarios pueden programar viajes, ver historial y calificar conductores, mientras los conductores gestionan su disponibilidad e ingresos.',
             ],
             tech: 'Backend en NestJS, TypeScript y PostgreSQL (Prisma) con autenticación JWT y acceso por roles para conductores, pasajeros y administradores. Procesamiento de pagos confiable con Stripe (manejo de webhooks, reintentos automáticos y resguardos de consistencia transaccional). Automatización en segundo plano para el ciclo de vida del viaje, recordatorios y notificaciones, más integraciones con AWS (S3, SES, SNS) y Google Maps. CI/CD en GitHub Actions con Docker y Traefik en AWS. Cliente en React Native y Expo con experiencias por rol y flujos de pago.',
           },
           {
-            title: 'Makevi · Gestión de vendedores de Shopee',
+            title: 'Makevi',
             year: '2024 · Bolivian Devs',
             live: 'En producción',
             alt: 'Makevi, vista previa de la interfaz',
             product: [
-              'Makevi es una plataforma todo en uno pensada para simplificar la gestión diaria de tiendas en Shopee. Centraliza la publicación de productos, el inventario, el procesamiento de pedidos y el análisis de ventas en un solo sistema, reduciendo el trabajo manual y ofreciendo un flujo más eficiente y organizado para operar en el marketplace.',
+              'Makevi es una plataforma que simplifica la gestión de tiendas en Shopee al centralizar todas las operaciones principales en un solo lugar. Reúne productos, inventario, pedidos y análisis de ventas en un sistema unificado, reduciendo el trabajo manual y mejorando la eficiencia operativa.',
             ],
             tech: 'SaaS multi-tenant en NestJS, TypeScript, PostgreSQL y Prisma. Suscripciones de Stripe, sincronización con el marketplace de Shopee y AWS para facturación, e-commerce y comunicaciones con clientes. Flujos en segundo plano para sincronización de datos y automatización de facturación, con validación de entradas, logging estructurado, documentación de API, monitoreo de salud y pruebas automatizadas. Dockerfile multi-etapa publicado a AWS ECR/ECS con GitHub Actions. Funcionalidades de frontend en Next.js y React.',
           },
