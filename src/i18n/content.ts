@@ -298,15 +298,15 @@ const en: Content = {
   aiDev: {
     eyebrow: '03 / AI & Dev',
     title: 'AI as a productivity multiplier.',
-    lead: 'I use AI across the entire software development lifecycle to boost productivity and cut down on repetitive work.',
+    lead: 'I use AI throughout the software development lifecycle to improve productivity and reduce repetitive work.',
     body: [
-      'It supports me with implementation, testing, documentation, debugging, code analysis, and technical research.',
-      "By offloading routine tasks, I can focus on what really matters: architecture, scalability, product requirements, and solving complex engineering problems. AI helps me move faster, but it doesn't replace engineering judgment.",
+      'It supports me in implementation, testing, documentation, debugging, code analysis, and technical research.',
+      'By automating routine tasks, I can focus on what matters most: system architecture, scalability, product requirements, and solving complex engineering problems. AI helps me move faster, but it does not replace engineering judgment.',
     ],
     accountable:
-      'I stay fully accountable for every line of code that reaches production. Every AI-assisted contribution is reviewed, validated, and adapted to meet my standards for quality, security, and maintainability.',
+      'I remain fully responsible for every line of code that goes to production. Every AI-assisted contribution is carefully reviewed, validated, and adapted to meet my standards for quality, security, and maintainability.',
     close:
-      "For me, the real value of AI isn't automation. It's the freedom to spend more energy on the problems that create the greatest impact.",
+      'For me, the real value of AI is not automation itself, but the ability to spend more time and energy on problems that create real impact.',
   },
   contact: {
     eyebrow: '05 / Contact',
@@ -529,15 +529,15 @@ const es: Content = {
   aiDev: {
     eyebrow: '03 / IA & Dev',
     title: 'La IA como multiplicador de productividad.',
-    lead: 'Uso IA en todo el ciclo de vida del desarrollo de software para ganar productividad y reducir el trabajo repetitivo.',
+    lead: 'Uso la inteligencia artificial en todo el ciclo de desarrollo de software para aumentar la productividad y reducir el trabajo repetitivo.',
     body: [
-      'Me apoya en implementación, pruebas, documentación, depuración, análisis de código e investigación técnica.',
-      'Al delegar las tareas rutinarias, puedo concentrarme en lo que de verdad importa: arquitectura, escalabilidad, requisitos de producto y la resolución de problemas de ingeniería complejos. La IA me hace ir más rápido, pero no reemplaza el criterio de ingeniería.',
+      'Me ayuda en tareas como implementación, testing, documentación, debugging, análisis de código e investigación técnica.',
+      'Al automatizar tareas rutinarias, puedo enfocarme en lo más importante: arquitectura de sistemas, escalabilidad, requisitos del producto y resolución de problemas de ingeniería complejos. La IA me ayuda a avanzar más rápido, pero no reemplaza el criterio de ingeniería.',
     ],
     accountable:
-      'Soy plenamente responsable de cada línea de código que llega a producción. Cada contribución asistida por IA la reviso, valido y adapto para que cumpla mis estándares de calidad, seguridad y mantenibilidad.',
+      'Soy completamente responsable de cada línea de código que llega a producción. Todo lo generado con asistencia de IA es revisado, validado y ajustado para cumplir con estándares de calidad, seguridad y mantenibilidad.',
     close:
-      'Para mí, el verdadero valor de la IA no es la automatización. Es la libertad de poner más energía en los problemas que generan el mayor impacto.',
+      'Para mí, el valor real de la IA no es la automatización en sí, sino poder dedicar más tiempo y energía a los problemas que generan mayor impacto.',
   },
   contact: {
     eyebrow: '05 / Contacto',
