@@ -130,7 +130,7 @@ const en: Content = {
   hero: {
     kicker: 'Full-Stack Engineer',
     role: 'Full-Stack Engineer',
-    lead: "I build modern web applications from <b>concept to production</b>. With <b>6+ years</b> of experience working with TypeScript, React/Next.js, NestJS, and PostgreSQL, I deliver reliable products across the full development lifecycle, from architecture and implementation to deployment and maintenance. I've integrated services such as Stripe, Shopee, Google Maps, and OCR solutions while leading backend architecture and technical decisions across multiple projects.",
+    lead: "I build modern web applications from <b>concept to production</b>. With <b>6+ years</b> of experience using TypeScript, React/Next.js, NestJS, and PostgreSQL, I work across the full development lifecycle, from architecture and implementation to deployment and ongoing maintenance. I've integrated services such as Stripe, Shopee, Google Maps, and OCR solutions, and have contributed to backend architecture as well as key technical decisions across different projects.",
     coreStack: 'Core stack',
     cv: 'Download CV',
     tagline: [
@@ -361,7 +361,7 @@ const es: Content = {
   hero: {
     kicker: 'Ingeniero Full-Stack',
     role: 'Ingeniero Full-Stack',
-    lead: 'Construyo aplicaciones web modernas <b>desde el concepto hasta la producción</b>. Con <b>más de 6 años</b> de experiencia trabajando con TypeScript, React/Next.js, NestJS y PostgreSQL, entrego productos confiables en todo el ciclo de desarrollo, desde la arquitectura y la implementación hasta el despliegue y el mantenimiento. He integrado servicios como Stripe, Shopee, Google Maps y soluciones de OCR, liderando la arquitectura de backend y las decisiones técnicas en múltiples proyectos.',
+    lead: 'Desarrollo aplicaciones web modernas <b>desde la idea hasta producción</b>. Con <b>más de 6 años</b> de experiencia trabajando con TypeScript, React/Next.js, NestJS y PostgreSQL, participo en todo el ciclo de desarrollo, desde la arquitectura e implementación hasta el despliegue y el mantenimiento continuo. He integrado servicios como Stripe, Shopee, Google Maps y soluciones de OCR, y he contribuido a la arquitectura backend y a decisiones técnicas clave en distintos proyectos.',
     coreStack: 'Stack principal',
     cv: 'Descargar CV',
     tagline: [
