@@ -65,7 +65,7 @@ export const projectGroups: ProjectGroup[] = [
           { label: 'dnd-kit' },
           { label: 'Cloudinary' },
         ],
-        link: 'https://homs-app.lat',
+        link: 'https://konfek.com',
         repo: 'walkthrough',
       },
     ],
