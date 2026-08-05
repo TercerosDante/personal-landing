@@ -223,24 +223,25 @@ const en: Content = {
         note: 'Self-shipped',
         items: [
           {
-            title: 'Multi-Tenant ERP / POS for Restaurants',
+            title: 'Khash - Multi-Tenant ERP / POS for Restaurants',
             year: '2026 · Freelance',
             live: 'In production',
-            alt: 'Multi-Tenant ERP / POS for Restaurants, interface preview',
+            alt: 'Khash, Multi-Tenant ERP / POS for Restaurants, interface preview',
             product: [
-              'ERP and POS system for restaurants and small businesses that unifies daily operations in a single platform from product setup to payments and end-of-day closing. Menu items can be created from photos or a ready catalog and adjusted quickly to fit each business. The system is modular, supports multiple locations, and lets you enable only the features you need. It covers orders, inventory, and cash register management in real time, with simple reports to understand performance at a glance.',
+              'Multi-tenant SaaS ERP and POS for restaurants and small businesses that unifies daily operations in a single platform from product setup to payments and end-of-day closing. Menu items can be created from photos or a ready catalog and adjusted quickly to fit each business. The system is modular, supports multiple locations, and lets you enable only the features you need. It covers orders, inventory, and cash register management in real time, with simple reports to understand performance at a glance.',
             ],
-            tech: 'Multi-tenant backend with tenant isolation, row-level security, JWT auth and role-based access across multiple business locations. A modular system lets each business turn on the capabilities it needs (point of sale, inventory, cash, recipes, kitchen workflows) from one shared platform, with domain-driven design keeping the business logic maintainable as modules grow. The cross-platform POS runs on desktop and touch devices from a single React codebase (Vite, Ant Design, Zustand, Capacitor, Electron). pnpm and Turborepo monorepo with shared Zod contracts, GitHub Actions CI/CD, and Docker and Traefik on a VPS. AI-assisted development was used under direct supervision to speed up delivery.',
+            tech: 'Multi-tenant backend in NestJS, TypeScript, PostgreSQL and Prisma with tenant isolation, row-level security, JWT auth and role-based access across multiple business locations. A modular system lets each business turn on the capabilities it needs (point of sale, inventory, cash, recipes, kitchen workflows) from one shared platform, with domain-driven design keeping the business logic maintainable as modules grow. The cross-platform POS runs on desktop and touch devices from a single React codebase (Vite, Ant Design, Zustand, Capacitor, Electron). pnpm and Turborepo monorepo with shared Zod contracts, GitHub Actions CI/CD, and Docker and Traefik on a VPS. AI-assisted development was used under direct supervision to speed up delivery.',
           },
           {
-            title: 'Textile Manufacturing ERP',
+            title: 'Konfek - Multi-Tenant ERP for Textile Manufacturing',
             year: '2025 · Freelance',
             live: 'In production',
-            alt: 'Textile Manufacturing ERP, interface preview',
+            alt: 'Konfek, Multi-Tenant ERP for Textile Manufacturing, interface preview',
             product: [
-              'ERP for a textile manufacturer that centralizes the entire order workflow in one place from the first photo of a garment to the finished order. Instead of entering details manually, you take a photo of the garment matrix and the system reads it automatically, generating the data for review. All images are stored in the cloud, and orders are shown as a visual gallery, making them easy to find even at scale. It adapts to each workshop with custom size groups, batch processing, and stage tracking, plus built-in reports to monitor business performance.',
+              'Multi-tenant SaaS ERP for textile manufacturers that centralizes the entire order workflow in one place from the first photo of a garment to the finished order. Instead of entering details manually, you take a photo of the garment matrix and the system reads it automatically, generating the data for review. All images are stored in the cloud, and orders are shown as a visual gallery, making them easy to find even at scale. It adapts to each workshop with custom size groups, batch processing, and stage tracking, plus built-in reports to monitor business performance.',
+              'Konfek ships as a complete product: a landing page (konfek.com), an admin console (admin.konfek.com) and the app itself (app.konfek.com), with self-serve signup and a 45-day free trial. 32 businesses registered to date.',
             ],
-            tech: 'Backend in NestJS, TypeScript, PostgreSQL and Prisma, with secure authentication, role-based access control and workflows across the textile domain: products, variants, production attributes, pricing structures and order states. The React frontend (Vite, Ant Design, TanStack Query, React Hook Form) streamlines order management, image handling, client communication and document generation, with drag-and-drop order building (dnd-kit), Cloudinary uploads and Word/Excel export. Delivered from architecture and implementation through deployment and client adoption.',
+            tech: 'Multi-tenant SaaS backend in NestJS, TypeScript, PostgreSQL and Prisma, with tenant isolation enforced at the query level, row-level security (RLS) on a Neon Postgres database, and AsyncLocalStorage (ALS) carrying per-request tenant context. Secure authentication, role-based access control and workflows across the textile domain: products, variants, production attributes, pricing structures and order states. The React frontend (Vite, Ant Design, TanStack Query, React Hook Form) installs as a PWA and streamlines order management, image handling and document generation, with drag-and-drop order building (dnd-kit), Cloudinary uploads and Word/Excel export. GitHub Actions CI/CD with Docker and Traefik on a VPS (Contabo).',
           },
         ],
       },
@@ -249,20 +250,20 @@ const en: Content = {
         note: 'Co-developed',
         items: [
           {
-            title: 'TsunaGo',
+            title: 'TsunaGo - Assisted Transportation App',
             year: '2024 · Bolivian Devs',
             live: 'In production',
-            alt: 'TsunaGo, interface preview',
+            alt: 'TsunaGo, Assisted Transportation App, interface preview',
             product: [
               'TsunaGo is an app that connects people who need assisted transportation such as patients or older adults with nearby drivers who can provide the required support. Users request a ride, define the level of assistance needed, and are matched with a suitable driver. The full process from booking to payment happens inside the app. Matching is based on care needs rather than only location, ensuring better trip fit. Users can schedule rides, view history, and rate drivers, while drivers manage availability and earnings.',
             ],
             tech: 'NestJS, TypeScript and PostgreSQL (Prisma) backend with JWT authentication and role-based access for drivers, passengers and admins. Reliable Stripe payment processing with webhook handling, automated retries and transaction-consistency safeguards. Background automation for the ride lifecycle, reminders and notifications, plus AWS (S3, SES, SNS) and Google Maps integrations. CI/CD on GitHub Actions with Docker and Traefik on AWS. React Native and Expo client with role-based experiences and payment flows.',
           },
           {
-            title: 'Makevi',
+            title: 'Makevi - SaaS for Shopee Store Management',
             year: '2024 · Bolivian Devs',
             live: 'In production',
-            alt: 'Makevi, interface preview',
+            alt: 'Makevi, SaaS for Shopee Store Management, interface preview',
             product: [
               'Makevi is a platform that simplifies Shopee store management by bringing all core operations into one place. It centralizes product listings, inventory, order processing, and sales analytics in a single system, reducing manual work and improving operational efficiency.',
             ],
@@ -454,24 +455,25 @@ const es: Content = {
         note: 'En solitario',
         items: [
           {
-            title: 'ERP / POS Multi-Tenant para Restaurantes',
+            title: 'Khash - ERP / POS Multi-Tenant para Restaurantes',
             year: '2026 · Freelance',
             live: 'En producción',
-            alt: 'ERP / POS Multi-Tenant para Restaurantes, vista previa de la interfaz',
+            alt: 'Khash, ERP / POS Multi-Tenant para Restaurantes, vista previa de la interfaz',
             product: [
-              'Sistema ERP y POS para restaurantes y pequeños negocios que unifica todas las operaciones diarias en una sola plataforma, desde la creación de productos hasta los pagos y el cierre de caja. Los productos del menú se pueden crear a partir de fotos o desde un catálogo base, y ajustarlos rápidamente según cada negocio. El sistema es modular, soporta múltiples sucursales y permite activar solo las funciones necesarias. Cubre pedidos, inventario y gestión de caja en tiempo real, con reportes simples para entender el desempeño del negocio.',
+              'ERP y POS SaaS multi-tenant para restaurantes y pequeños negocios que unifica todas las operaciones diarias en una sola plataforma, desde la creación de productos hasta los pagos y el cierre de caja. Los productos del menú se pueden crear a partir de fotos o desde un catálogo base, y ajustarlos rápidamente según cada negocio. El sistema es modular, soporta múltiples sucursales y permite activar solo las funciones necesarias. Cubre pedidos, inventario y gestión de caja en tiempo real, con reportes simples para entender el desempeño del negocio.',
             ],
-            tech: 'Backend multi-tenant con aislamiento por tenant, seguridad a nivel de fila (RLS), autenticación JWT y acceso por roles en varias ubicaciones de negocio. Un sistema modular permite a cada negocio activar las capacidades que necesita (punto de venta, inventario, caja, recetas, flujos de cocina) desde una sola plataforma compartida, con diseño orientado al dominio que mantiene la lógica de negocio mantenible a medida que crecen los módulos. El POS multiplataforma corre en escritorio y dispositivos táctiles desde una sola base de código React (Vite, Ant Design, Zustand, Capacitor, Electron). Monorepo pnpm y Turborepo con contratos Zod compartidos, CI/CD en GitHub Actions, y Docker y Traefik en un VPS. Usé desarrollo asistido por IA bajo supervisión directa para acelerar la entrega.',
+            tech: 'Backend multi-tenant en NestJS, TypeScript, PostgreSQL y Prisma con aislamiento por tenant, seguridad a nivel de fila (RLS), autenticación JWT y acceso por roles en varias ubicaciones de negocio. Un sistema modular permite a cada negocio activar las capacidades que necesita (punto de venta, inventario, caja, recetas, flujos de cocina) desde una sola plataforma compartida, con diseño orientado al dominio que mantiene la lógica de negocio mantenible a medida que crecen los módulos. El POS multiplataforma corre en escritorio y dispositivos táctiles desde una sola base de código React (Vite, Ant Design, Zustand, Capacitor, Electron). Monorepo pnpm y Turborepo con contratos Zod compartidos, CI/CD en GitHub Actions, y Docker y Traefik en un VPS. Usé desarrollo asistido por IA bajo supervisión directa para acelerar la entrega.',
           },
           {
-            title: 'ERP para Manufactura Textil',
+            title: 'Konfek - ERP Multi-Tenant para Manufactura Textil',
             year: '2025 · Freelance',
             live: 'En producción',
-            alt: 'ERP para Manufactura Textil, vista previa de la interfaz',
+            alt: 'Konfek, ERP Multi-Tenant para Manufactura Textil, vista previa de la interfaz',
             product: [
-              'ERP para fabricantes textiles que centraliza todo el flujo de pedidos en un solo lugar, desde la primera foto de una prenda hasta el pedido final. En lugar de ingresar los datos manualmente, se toma una foto de la matriz de la prenda y el sistema la interpreta automáticamente, generando la información para revisión. Todas las imágenes se almacenan en la nube y los pedidos se muestran como una galería visual, lo que facilita encontrarlos incluso cuando hay muchos. Se adapta a cada taller con grupos de tallas personalizados, procesamiento por lotes y seguimiento por etapas, además de reportes integrados para monitorear el negocio.',
+              'ERP SaaS multi-tenant para fabricantes textiles que centraliza todo el flujo de pedidos en un solo lugar, desde la primera foto de una prenda hasta el pedido final. En lugar de ingresar los datos manualmente, se toma una foto de la matriz de la prenda y el sistema la interpreta automáticamente, generando la información para revisión. Todas las imágenes se almacenan en la nube y los pedidos se muestran como una galería visual, lo que facilita encontrarlos incluso cuando hay muchos. Se adapta a cada taller con grupos de tallas personalizados, procesamiento por lotes y seguimiento por etapas, además de reportes integrados para monitorear el negocio.',
+              'Konfek se ofrece como un producto completo: landing page (konfek.com), consola de administración (admin.konfek.com) y la aplicación en sí (app.konfek.com), con registro autoservicio y 45 días de prueba gratuita. 32 empresas registradas a la fecha.',
             ],
-            tech: 'Backend en NestJS, TypeScript, PostgreSQL y Prisma, con autenticación segura, control de acceso por roles y flujos en todo el dominio textil: productos, variantes, atributos de producción, estructuras de precio y estados de pedido. El frontend en React (Vite, Ant Design, TanStack Query, React Hook Form) agiliza la gestión de pedidos, el manejo de imágenes, la comunicación con el cliente y la generación de documentos, con construcción de pedidos por arrastrar y soltar (dnd-kit), subidas a Cloudinary y exportación a Word/Excel. Entregado desde la arquitectura e implementación hasta el despliegue y la adopción del cliente.',
+            tech: 'Backend SaaS multi-tenant en NestJS, TypeScript, PostgreSQL y Prisma, con aislamiento por tenant aplicado a nivel de query, seguridad a nivel de fila (RLS) sobre una base de datos Postgres en Neon, y AsyncLocalStorage (ALS) para el contexto de tenant por request. Autenticación segura, control de acceso por roles y flujos en todo el dominio textil: productos, variantes, atributos de producción, estructuras de precio y estados de pedido. El frontend en React (Vite, Ant Design, TanStack Query, React Hook Form) se instala como PWA y agiliza la gestión de pedidos, el manejo de imágenes y la generación de documentos, con construcción de pedidos por arrastrar y soltar (dnd-kit), subidas a Cloudinary y exportación a Word/Excel. CI/CD en GitHub Actions con Docker y Traefik en un VPS (Contabo).',
           },
         ],
       },
@@ -480,20 +482,20 @@ const es: Content = {
         note: 'Co-desarrollado',
         items: [
           {
-            title: 'TsunaGo',
+            title: 'TsunaGo - App de Transporte Asistido',
             year: '2024 · Bolivian Devs',
             live: 'En producción',
-            alt: 'TsunaGo, vista previa de la interfaz',
+            alt: 'TsunaGo, App de Transporte Asistido, vista previa de la interfaz',
             product: [
               'TsunaGo es una aplicación que conecta a personas que necesitan transporte asistido, como pacientes o adultos mayores, con conductores cercanos que pueden brindar ese apoyo. Los usuarios solicitan un viaje, definen el nivel de asistencia requerido y son asignados a un conductor adecuado. Todo el proceso, desde la reserva hasta el pago, se realiza dentro de la app. La asignación se basa en las necesidades de cuidado y no solo en la ubicación, asegurando una mejor experiencia. Los usuarios pueden programar viajes, ver historial y calificar conductores, mientras los conductores gestionan su disponibilidad e ingresos.',
             ],
             tech: 'Backend en NestJS, TypeScript y PostgreSQL (Prisma) con autenticación JWT y acceso por roles para conductores, pasajeros y administradores. Procesamiento de pagos confiable con Stripe (manejo de webhooks, reintentos automáticos y resguardos de consistencia transaccional). Automatización en segundo plano para el ciclo de vida del viaje, recordatorios y notificaciones, más integraciones con AWS (S3, SES, SNS) y Google Maps. CI/CD en GitHub Actions con Docker y Traefik en AWS. Cliente en React Native y Expo con experiencias por rol y flujos de pago.',
           },
           {
-            title: 'Makevi',
+            title: 'Makevi - SaaS para Gestión de Tiendas Shopee',
             year: '2024 · Bolivian Devs',
             live: 'En producción',
-            alt: 'Makevi, vista previa de la interfaz',
+            alt: 'Makevi, SaaS para Gestión de Tiendas Shopee, vista previa de la interfaz',
             product: [
               'Makevi es una plataforma que simplifica la gestión de tiendas en Shopee al centralizar todas las operaciones principales en un solo lugar. Reúne productos, inventario, pedidos y análisis de ventas en un sistema unificado, reduciendo el trabajo manual y mejorando la eficiencia operativa.',
             ],
