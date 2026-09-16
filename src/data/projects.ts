@@ -86,7 +86,7 @@ export const projectGroups: ProjectGroup[] = [
           { label: 'Expo' },
           { label: 'Traefik' },
         ],
-        link: 'https://lillytest-nursetaxi.com',
+        link: 'https://tsuna-gou.jp',
         repo: 'private',
       },
       {
