@@ -50,8 +50,8 @@ const variantFor = (kind: string, i: number) =>
                   variant === 'feature'
                     ? '(max-width:1180px) 92vw, 1100px'
                     : variant === 'split'
-                      ? '(max-width:900px) 92vw, 600px'
-                      : '(max-width:900px) 92vw, 540px';
+                      ? '(max-width:900px) 92vw, 540px'
+                      : '(max-width:900px) 92vw, 520px';
                 return (
                   <article class={`proj is-${variant} reveal`}>
                     <div class="proj-thumb">
@@ -61,7 +61,7 @@ const variantFor = (kind: string, i: number) =>
                         data-i18n-attr={`alt:${base}.alt`}
                         formats={['avif', 'webp']}
                         fallbackFormat="webp"
-                        widths={[480, 760, 1100, 1600]}
+                        widths={[480, 560, 760, 1100, 1600]}
                         sizes={sizes}
                       />
                       <span class="zoom-hint">
