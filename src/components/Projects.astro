@@ -78,11 +78,18 @@ const variantFor = (kind: string, i: number) =>
                         <h4 class="p-title" data-i18n={`${base}.title`}>
                           {item.title}
                         </h4>
-                        {live && (
-                          <span class="live">
-                            <i />
-                            <span data-i18n={`${base}.live`}>{live}</span>
-                          </span>
+                        {(live || p.model) && (
+                          <div class="p-badges">
+                            {live && (
+                              <span class="live">
+                                <i />
+                                <span data-i18n={`${base}.live`}>{live}</span>
+                              </span>
+                            )}
+                            {p.model?.map((m) => (
+                              <span class="p-model">{m}</span>
+                            ))}
+                          </div>
                         )}
                         {(p.link || p.repo) && (
                           <div class="p-links">
@@ -117,15 +124,18 @@ const variantFor = (kind: string, i: number) =>
                         )}
                       </div>
                       <div class="proj-text">
-                        <div class="p-product">
-                          {item.product.map((par, pi) => (
-                            <p data-i18n={`${base}.product.${pi}`}>{par}</p>
-                          ))}
-                        </div>
+                        <p class="p-summary" data-i18n={`${base}.summary`}>
+                          {item.summary}
+                        </p>
                         <details class="p-tech">
                           <summary data-i18n="proj.techDetails">
                             {t.techDetails}
                           </summary>
+                          <div class="p-product">
+                            {item.product.map((par, pi) => (
+                              <p data-i18n={`${base}.product.${pi}`}>{par}</p>
+                            ))}
+                          </div>
                           <p class="p-tech-body" data-i18n={`${base}.tech`}>
                             {item.tech}
                           </p>

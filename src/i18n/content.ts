@@ -58,7 +58,9 @@ export interface Content {
         year: string;
         live?: string;
         alt?: string;
-        /** Plain-language product description, one entry per paragraph (visible). */
+        /** Short visible summary (max 25 words). */
+        summary: string;
+        /** Full product description, one entry per paragraph (inside the details disclosure). */
         product: string[];
         /** Technical deep-dive (collapsed in a <details>). */
         tech: string;
@@ -125,7 +127,7 @@ const en: Content = {
   hero: {
     role: 'Full-Stack Engineer',
     sub: '6+ years building TypeScript products from concept to production with React, Next.js, NestJS and PostgreSQL.',
-    lead: "I build modern web applications from <b>concept to production</b>. With <b>6+ years</b> of experience using TypeScript, React/Next.js, NestJS, and PostgreSQL, I work across the full development lifecycle, from architecture and implementation to deployment and ongoing maintenance. I've integrated services such as Stripe, Gemini, AWS S3, Cloudinary, and Google Maps, among others, and have contributed to backend architecture as well as key technical decisions across different projects.",
+    lead: 'I work across the <b>full lifecycle</b>, from architecture to deployment and maintenance, integrating services like Stripe, Gemini, AWS S3, Cloudinary and Google Maps.',
     coreStack: 'Core stack',
     tagline: [
       'TypeScript',
@@ -207,7 +209,7 @@ const en: Content = {
     title: 'Featured projects.',
     sub: 'Side projects I shipped solo, and products co-developed with teams for international clients, all running in production.',
     view: 'Live App',
-    techDetails: 'Technical details',
+    techDetails: 'Details & tech',
     privateRepo: 'Private repo',
     groups: [
       {
@@ -219,6 +221,8 @@ const en: Content = {
             year: '2026 · Freelance',
             live: 'In production',
             alt: 'Khash, Multi-Tenant ERP / POS for Restaurants, interface preview',
+            summary:
+              'Restaurant ERP and POS that runs orders, inventory, cash and end-of-day closing across locations, with apps for web, Android and Windows.',
             product: [
               'Multi-tenant SaaS ERP and POS for restaurants and small businesses that unifies daily operations in a single platform from product setup to payments and end-of-day closing. Menu items can be created from photos or a ready catalog and adjusted quickly to fit each business. The system is modular, supports multiple locations, and lets you enable only the features you need. It covers orders, inventory, and cash register management in real time, with simple reports to understand performance at a glance.',
             ],
@@ -229,6 +233,8 @@ const en: Content = {
             year: '2025 · Freelance',
             live: 'In production',
             alt: 'Konfek, Multi-Tenant ERP for Textile Manufacturing, interface preview',
+            summary:
+              'Textile ERP that turns a photo of a garment matrix into order data, with a visual order gallery. 32 businesses registered to date.',
             product: [
               'Multi-tenant SaaS ERP for textile manufacturers that centralizes the entire order workflow in one place from the first photo of a garment to the finished order. Instead of entering details manually, you take a photo of the garment matrix and the system reads it automatically, generating the data for review. All images are stored in the cloud, and orders are shown as a visual gallery, making them easy to find even at scale. It adapts to each workshop with custom size groups, batch processing, and stage tracking, plus built-in reports to monitor business performance.',
               'Konfek ships as a complete product: a landing page (konfek.com), an admin console (admin.konfek.com) and the app itself (app.konfek.com), with self-serve signup and a 45-day free trial. 32 businesses registered to date.',
@@ -246,6 +252,8 @@ const en: Content = {
             year: '2024 · Bolivian Devs',
             live: 'In production',
             alt: 'TsunaGo, Assisted Transportation App, interface preview',
+            summary:
+              'Assisted transportation app that matches patients and older adults with drivers based on care needs, from booking to payment.',
             product: [
               'TsunaGo is an app that connects people who need assisted transportation such as patients or older adults with nearby drivers who can provide the required support. Users request a ride, define the level of assistance needed, and are matched with a suitable driver. The full process from booking to payment happens inside the app. Matching is based on care needs rather than only location, ensuring better trip fit. Users can schedule rides, view history, and rate drivers, while drivers manage availability and earnings.',
             ],
@@ -256,6 +264,8 @@ const en: Content = {
             year: '2024 · Bolivian Devs',
             live: 'In production',
             alt: 'Makevi, SaaS for Shopee Store Management, interface preview',
+            summary:
+              'Shopee store management in one place: listings, inventory, orders and sales analytics, with less manual work.',
             product: [
               'Makevi is a platform that simplifies Shopee store management by bringing all core operations into one place. It centralizes product listings, inventory, order processing, and sales analytics in a single system, reducing manual work and improving operational efficiency.',
             ],
@@ -350,7 +360,7 @@ const es: Content = {
   hero: {
     role: 'Ingeniero Full-Stack',
     sub: 'Más de 6 años llevando productos TypeScript del concepto a producción con React, Next.js, NestJS y PostgreSQL.',
-    lead: 'Desarrollo aplicaciones web modernas <b>desde la idea hasta producción</b>. Con <b>más de 6 años</b> de experiencia trabajando con TypeScript, React/Next.js, NestJS y PostgreSQL, participo en todo el ciclo de desarrollo, desde la arquitectura e implementación hasta el despliegue y el mantenimiento continuo. He integrado servicios como Stripe, Gemini, AWS S3, Cloudinary y Google Maps, entre otros, y he contribuido a la arquitectura backend y a decisiones técnicas clave en distintos proyectos.',
+    lead: 'Trabajo en <b>todo el ciclo</b>, de la arquitectura al despliegue y mantenimiento, integrando servicios como Stripe, Gemini, AWS S3, Cloudinary y Google Maps.',
     coreStack: 'Stack principal',
     tagline: [
       'TypeScript',
@@ -432,7 +442,7 @@ const es: Content = {
     title: 'Proyectos destacados.',
     sub: 'Proyectos personales que desarrollé solo, y productos co-desarrollados con equipos para clientes internacionales, todos en producción.',
     view: 'App en vivo',
-    techDetails: 'Detalles técnicos',
+    techDetails: 'Detalles y tecnología',
     privateRepo: 'Repo privado',
     groups: [
       {
@@ -444,6 +454,8 @@ const es: Content = {
             year: '2026 · Freelance',
             live: 'En producción',
             alt: 'Khash, ERP / POS Multi-Tenant para Restaurantes, vista previa de la interfaz',
+            summary:
+              'ERP y POS para restaurantes que gestiona pedidos, inventario, caja y cierre diario en varias sucursales, con apps para web, Android y Windows.',
             product: [
               'ERP y POS SaaS multi-tenant para restaurantes y pequeños negocios que unifica todas las operaciones diarias en una sola plataforma, desde la creación de productos hasta los pagos y el cierre de caja. Los productos del menú se pueden crear a partir de fotos o desde un catálogo base, y ajustarlos rápidamente según cada negocio. El sistema es modular, soporta múltiples sucursales y permite activar solo las funciones necesarias. Cubre pedidos, inventario y gestión de caja en tiempo real, con reportes simples para entender el desempeño del negocio.',
             ],
@@ -454,6 +466,8 @@ const es: Content = {
             year: '2025 · Freelance',
             live: 'En producción',
             alt: 'Konfek, ERP Multi-Tenant para Manufactura Textil, vista previa de la interfaz',
+            summary:
+              'ERP textil que convierte la foto de una matriz de prendas en datos del pedido, con galería visual de pedidos. 32 negocios registrados.',
             product: [
               'ERP SaaS multi-tenant para fabricantes textiles que centraliza todo el flujo de pedidos en un solo lugar, desde la primera foto de una prenda hasta el pedido final. En lugar de ingresar los datos manualmente, se toma una foto de la matriz de la prenda y el sistema la interpreta automáticamente, generando la información para revisión. Todas las imágenes se almacenan en la nube y los pedidos se muestran como una galería visual, lo que facilita encontrarlos incluso cuando hay muchos. Se adapta a cada taller con grupos de tallas personalizados, procesamiento por lotes y seguimiento por etapas, además de reportes integrados para monitorear el negocio.',
               'Konfek se ofrece como un producto completo: landing page (konfek.com), consola de administración (admin.konfek.com) y la aplicación en sí (app.konfek.com), con registro autoservicio y 45 días de prueba gratuita. 32 empresas registradas a la fecha.',
@@ -471,6 +485,8 @@ const es: Content = {
             year: '2024 · Bolivian Devs',
             live: 'En producción',
             alt: 'TsunaGo, App de Transporte Asistido, vista previa de la interfaz',
+            summary:
+              'App de transporte asistido que conecta a pacientes y adultos mayores con conductores según sus necesidades de apoyo, desde la reserva hasta el pago.',
             product: [
               'TsunaGo es una aplicación que conecta a personas que necesitan transporte asistido, como pacientes o adultos mayores, con conductores cercanos que pueden brindar ese apoyo. Los usuarios solicitan un viaje, definen el nivel de asistencia requerido y son asignados a un conductor adecuado. Todo el proceso, desde la reserva hasta el pago, se realiza dentro de la app. La asignación se basa en las necesidades de cuidado y no solo en la ubicación, asegurando una mejor experiencia. Los usuarios pueden programar viajes, ver historial y calificar conductores, mientras los conductores gestionan su disponibilidad e ingresos.',
             ],
@@ -481,6 +497,8 @@ const es: Content = {
             year: '2024 · Bolivian Devs',
             live: 'En producción',
             alt: 'Makevi, SaaS para Gestión de Tiendas Shopee, vista previa de la interfaz',
+            summary:
+              'Gestión de tiendas Shopee en un solo lugar: publicaciones, inventario, pedidos y analítica de ventas, con menos trabajo manual.',
             product: [
               'Makevi es una plataforma que simplifica la gestión de tiendas en Shopee al centralizar todas las operaciones principales en un solo lugar. Reúne productos, inventario, pedidos y análisis de ventas en un sistema unificado, reduciendo el trabajo manual y mejorando la eficiencia operativa.',
             ],

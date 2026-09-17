@@ -129,7 +129,7 @@ html.ready .name-reveal{clip-path:inset(-4% -2% -12% -2%);transform:none}
 .hero-name .l2{display:block;color:var(--signal)}
 .hero-sub{margin-top:28px;max-width:31em;font-size:clamp(18px,1.9vw,22px);line-height:1.5;color:var(--ink-soft)}
 .hero-cta{margin-top:36px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.portrait{position:relative;justify-self:end;width:100%;max-width:300px;aspect-ratio:4/5;border-radius:var(--r-card);overflow:hidden;border:1px solid var(--line2);box-shadow:18px 18px 0 -1px var(--signal-soft),0 40px 80px -48px rgba(var(--shadow),.6)}
+.portrait{position:relative;justify-self:end;width:100%;max-width:250px;aspect-ratio:4/5;border-radius:var(--r-card);overflow:hidden;border:1px solid var(--line2);box-shadow:18px 18px 0 -1px var(--signal-soft),0 40px 80px -48px rgba(var(--shadow),.6)}
 .portrait picture{display:block;width:100%;height:100%;filter:grayscale(1) contrast(.95);transition:filter .6s ease}
 .portrait:hover picture{filter:none}
 .portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 18%}
@@ -186,14 +186,18 @@ html.ready .name-reveal{clip-path:inset(-4% -2% -12% -2%);transform:none}
 .proj-body{min-width:0}
 .p-year{font-family:var(--font-mono),monospace;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .p-title{margin-top:10px;font-weight:800;font-size:clamp(24px,2.5vw,32px);line-height:1.12;letter-spacing:-.025em;color:var(--ink);text-wrap:balance}
-.live{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-family:var(--font-mono),monospace;font-size:12px;letter-spacing:.06em;color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 35%,transparent);background:var(--ok-soft);padding:4px 11px;border-radius:var(--r-pill)}
+.p-badges{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px}
+.live{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono),monospace;font-size:12px;letter-spacing:.06em;color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 35%,transparent);background:var(--ok-soft);padding:4px 11px;border-radius:var(--r-pill)}
+.p-model{font-family:var(--font-mono),monospace;font-size:12px;letter-spacing:.06em;color:var(--ink-soft);border:1px solid var(--line2);padding:4px 11px;border-radius:var(--r-pill)}
 .live i{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2s ease-in-out infinite}
 .p-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
 .repo{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;font-family:var(--font-mono),monospace;font-size:12.5px;color:var(--muted);border:1px dashed var(--line2);border-radius:var(--r-ctl);padding:12px 15px;transition:color .2s,border-color .2s}
 a.repo:hover{color:var(--signal-text);border-color:var(--signal);border-style:solid}
 .repo.is-locked{cursor:default}
 .proj-text{min-width:0}
-.p-product p{font-size:16px;line-height:1.7;color:var(--ink-soft);max-width:65ch}
+.p-summary{font-size:17px;line-height:1.6;color:var(--ink-soft);max-width:60ch}
+.p-product{margin-top:14px}
+.p-product p{font-size:15px;line-height:1.7;color:var(--ink-soft);max-width:65ch}
 .p-product p+p{margin-top:12px}
 .p-tech{margin-top:18px}
 .p-tech>summary{display:inline-flex;align-items:center;gap:10px;cursor:pointer;list-style:none;font-family:var(--font-mono),monospace;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:6px 0;transition:color .2s}
@@ -201,7 +205,7 @@ a.repo:hover{color:var(--signal-text);border-color:var(--signal);border-style:so
 .p-tech>summary::before{content:"+";display:grid;place-items:center;width:20px;height:20px;border:1px solid var(--line2);border-radius:var(--r-pill);font-size:14px;line-height:1;color:var(--signal-text);transition:transform .3s var(--ease)}
 .p-tech[open]>summary::before{transform:rotate(45deg)}
 .p-tech>summary:hover{color:var(--ink)}
-.p-tech-body{margin-top:14px;font-size:15px;line-height:1.7;color:var(--ink-soft);max-width:65ch}
+.p-tech-body{margin-top:12px;font-size:15px;line-height:1.7;color:var(--ink-soft);max-width:65ch}
 .p-tech .chips{margin-top:16px}
 .p-tech::details-content{opacity:0;transition:opacity .32s ease,content-visibility .32s allow-discrete}
 .p-tech[open]::details-content{opacity:1}
@@ -361,7 +365,7 @@ a.repo:hover{color:var(--signal-text);border-color:var(--signal);border-style:so
 }
 @media (max-width:760px){
   .hero-grid{grid-template-columns:minmax(0,1fr);gap:36px}
-  .portrait{order:-1;justify-self:start;max-width:min(190px,50vw);box-shadow:12px 12px 0 -1px var(--signal-soft)}
+  .portrait{order:-1;justify-self:start;max-width:min(160px,44vw);box-shadow:12px 12px 0 -1px var(--signal-soft)}
   .hero-name{margin-top:18px}
   .edu{grid-template-columns:minmax(0,1fr);gap:6px}
   .colo-side{align-items:stretch;width:100%}
