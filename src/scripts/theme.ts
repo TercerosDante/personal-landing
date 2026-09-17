@@ -4,17 +4,27 @@
  *
  * A manual choice from `#themeToggle` is stored in `localStorage.theme` and
  * stamped as `<html data-theme>`; an inline script in Layout.astro re-applies it
- * before first paint. Dispatches `themechange` so canvas drawing can re-read
- * tokens.
+ * before first paint. Keeps `<meta name="theme-color">` in sync (mobile browser
+ * chrome) and dispatches `themechange` so canvas drawing can re-read tokens.
  */
 import { getLang } from './i18n';
 
 const KEY = 'theme';
 const root = document.documentElement;
 const btn = document.getElementById('themeToggle');
+const metaColor = document.querySelector<HTMLMetaElement>(
+  'meta[name="theme-color"]',
+);
+
+/** Browser-chrome colors, matching `--paper` in each theme (global.css). */
+const CHROME = { dark: '#14171d', light: '#f3f1ec' } as const;
 
 export function isDark(): boolean {
   return root.dataset.theme !== 'light';
+}
+
+function syncMeta(): void {
+  metaColor?.setAttribute('content', isDark() ? CHROME.dark : CHROME.light);
 }
 
 function updateLabel(): void {
@@ -38,8 +48,10 @@ btn?.addEventListener('click', () => {
     /* ignore storage failures (private mode) */
   }
   updateLabel();
+  syncMeta();
   window.dispatchEvent(new CustomEvent('themechange'));
 });
 
 window.addEventListener('langchange', updateLabel);
 updateLabel();
+syncMeta();
