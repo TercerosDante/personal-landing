@@ -6,17 +6,24 @@ const t = dict.aiDev;
 
 <section class="sec" id="ai-dev">
   <div class="sec-head reveal">
-    <div class="eyebrow" data-i18n="aiDev.eyebrow">{t.eyebrow}</div>
+    <p class="eyebrow" data-i18n="aiDev.eyebrow">{t.eyebrow}</p>
     <h2 data-i18n="aiDev.title">{t.title}</h2>
   </div>
-  <div class="aidev-body reveal" data-d=".1">
-    <p data-i18n="aiDev.lead">{t.lead}</p>
-    {
-      t.body.map((p, i) => (
-        <p data-i18n={`aiDev.body.${i}`}>{p}</p>
-      ))
-    }
+  <blockquote class="aidev-quote reveal">
     <p data-i18n="aiDev.accountable">{t.accountable}</p>
-    <p data-i18n="aiDev.close">{t.close}</p>
+  </blockquote>
+  <div class="aidev-cols">
+    <div class="reveal">
+      <p class="aidev-lead" data-i18n="aiDev.lead">{t.lead}</p>
+      <p data-i18n="aiDev.body.0">{t.body[0]}</p>
+    </div>
+    <div class="reveal" style="--i:1">
+      {
+        t.body
+          .slice(1)
+          .map((p, i) => <p data-i18n={`aiDev.body.${i + 1}`}>{p}</p>)
+      }
+      <p class="aidev-close" data-i18n="aiDev.close">{t.close}</p>
+    </div>
   </div>
 </section>

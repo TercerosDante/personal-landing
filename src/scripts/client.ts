@@ -5,6 +5,7 @@
 // Importing the named helpers also runs the i18n module (toggle wiring + any
 // saved-locale swap) before the behaviours below read the current language.
 import { taglineWords, formText, getLang } from './i18n';
+import './theme';
 
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -13,6 +14,13 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const el = document.getElementById('tw');
   if (!el) return;
   let words = taglineWords();
+  if (REDUCED) {
+    el.textContent = words[0] ?? '';
+    window.addEventListener('langchange', () => {
+      el.textContent = taglineWords()[0] ?? '';
+    });
+    return;
+  }
   let i = 0;
   let c = 0;
   let del = false;
@@ -49,7 +57,7 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   });
 })();
 
-/* ============================== BLUEPRINT GRID (static background) ============================== */
+/* ============================== BLUEPRINT GRID (static, theme-aware) ============================== */
 (() => {
   const cv = document.getElementById('warp') as HTMLCanvasElement | null;
   const ctx = cv?.getContext('2d');
@@ -66,7 +74,10 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx!.clearRect(0, 0, W, H);
     ctx!.lineWidth = 1;
-    ctx!.strokeStyle = 'rgba(48,66,96,0.07)';
+    ctx!.strokeStyle =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue('--grid')
+        .trim() || 'rgba(48,66,96,0.07)';
     const cols = Math.ceil(W / GAP) + 2;
     const rows = Math.ceil(H / GAP) + 2;
     for (let r = 0; r < rows; r++) {
@@ -84,67 +95,7 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
   draw();
   window.addEventListener('resize', draw);
-})();
-
-/* ============================== PARALLAX (mouse depth + scroll, self-suspending) ============================== */
-(() => {
-  const aura = document.querySelector<HTMLElement>('.aura');
-  const avatar = document.querySelector<HTMLElement>('.avatar');
-  const name = document.querySelector<HTMLElement>('.intro-id h1');
-  // The aura's ambient float is now a CSS animation (`auraFloat`), so under
-  // reduced motion there is nothing left for JS to do here.
-  if (REDUCED) return;
-  let tmx = 0;
-  let tmy = 0;
-  let mx = 0;
-  let my = 0;
-  let tsy = window.scrollY || 0;
-  let sy = tsy;
-  let raf = 0;
-  const step = () => {
-    mx += (tmx - mx) * 0.06;
-    my += (tmy - my) * 0.06;
-    sy += (tsy - sy) * 0.12;
-    // Aura reacts via the individual `translate` property so it composes with
-    // the CSS `auraFloat` transform (the float runs on the compositor, no JS).
-    if (aura) {
-      aura.style.translate = `${(-mx * 9).toFixed(2)}% ${(-sy * 0.006 - my * 7).toFixed(2)}%`;
-    }
-    if (avatar) {
-      avatar.style.transform = `translate3d(${(-mx * 16).toFixed(1)}px,${(-my * 12 + sy * 0.05).toFixed(1)}px,0)`;
-    }
-    if (name) {
-      name.style.transform = `translate3d(${(mx * 8).toFixed(1)}px,${(my * 5).toFixed(1)}px,0)`;
-    }
-    // Keep stepping only while values are still easing toward their target.
-    // Once settled the loop stops; pointer/scroll wakes it again.
-    const moving =
-      Math.abs(tmx - mx) > 0.0002 ||
-      Math.abs(tmy - my) > 0.0002 ||
-      Math.abs(tsy - sy) > 0.05;
-    raf = moving ? requestAnimationFrame(step) : 0;
-  };
-  const wake = () => {
-    if (!raf) raf = requestAnimationFrame(step);
-  };
-  window.addEventListener(
-    'pointermove',
-    (e) => {
-      tmx = e.clientX / window.innerWidth - 0.5;
-      tmy = e.clientY / window.innerHeight - 0.5;
-      wake();
-    },
-    { passive: true },
-  );
-  window.addEventListener(
-    'scroll',
-    () => {
-      tsy = window.scrollY;
-      wake();
-    },
-    { passive: true },
-  );
-  wake(); // settle the initial resting state once, then stop
+  window.addEventListener('themechange', draw);
 })();
 
 /* ============================== NAV (menu · smooth scroll · active link) ============================== */
@@ -170,7 +121,7 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   });
   // If the viewport grows back to desktop while open (e.g. rotation), close so
   // the page never stays scroll-locked behind a hidden sheet.
-  window.matchMedia('(min-width:861px)').addEventListener('change', (e) => {
+  window.matchMedia('(min-width:1041px)').addEventListener('change', (e) => {
     if (e.matches) setMenu(false);
   });
   document.querySelectorAll<HTMLElement>('[data-go]').forEach((b) =>
@@ -181,7 +132,7 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   );
   if (!nav) return;
   nav
-    .querySelectorAll<HTMLAnchorElement>('a[href^="#"]:not(.ph)')
+    .querySelectorAll<HTMLAnchorElement>('a[href^="#"]')
     .forEach((a) => a.addEventListener('click', () => setMenu(false)));
   const navMap: Record<string, HTMLAnchorElement> = {};
   nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
@@ -201,35 +152,14 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll('section[id]').forEach((s) => io.observe(s));
 })();
 
-/* ============================== PLACEHOLDER TOAST ============================== */
-(() => {
-  const toast = document.getElementById('toast');
-  if (!toast) return;
-  let toT: ReturnType<typeof setTimeout>;
-  document.querySelectorAll<HTMLElement>('.ph').forEach((el) =>
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      toast.textContent = `🔧 ${el.dataset.ph || 'Placeholder, coming soon'}`;
-      const x = Math.min(e.clientX, window.innerWidth - toast.offsetWidth - 20);
-      toast.style.left = `${Math.max(12, x)}px`;
-      toast.style.top = `${e.clientY + 16}px`;
-      toast.classList.add('show');
-      clearTimeout(toT);
-      toT = setTimeout(() => toast.classList.remove('show'), 1900);
-    }),
-  );
-})();
-
 /* ============================== REVEAL ON SCROLL ============================== */
 (() => {
   const rio = new IntersectionObserver(
     (es) =>
       es.forEach((e) => {
         if (e.isIntersecting) {
-          const el = e.target as HTMLElement;
-          if (el.dataset.d) el.style.transitionDelay = `${el.dataset.d}s`;
-          el.classList.add('in');
-          rio.unobserve(el);
+          e.target.classList.add('in');
+          rio.unobserve(e.target);
         }
       }),
     { rootMargin: '0px 0px -8% 0px' },
@@ -258,7 +188,7 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       window.turnstile?.render(tsEl, {
         sitekey: tsKey,
         appearance: 'interaction-only',
-        theme: 'light',
+        theme: 'auto',
         callback: (token: string) => {
           tsToken = token;
         },
@@ -468,7 +398,7 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       };
   });
 
-  // Point the quick-download links (nav pill + hero main) at the shown language.
+  // Point the quick-download links (nav button + hero main) at the shown language.
   const apply = (): void => {
     const lang = getLang();
     const cur = map[lang] ?? map.en;
@@ -510,13 +440,10 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   });
 })();
 
-/* ============================== BOOT / ENTRANCE ============================== */
-window.addEventListener('load', () => {
-  const boot = document.getElementById('boot');
-  const bar = document.getElementById('bootBar');
-  requestAnimationFrame(() => {
-    if (bar) bar.style.width = '100%';
-  });
-  setTimeout(() => document.documentElement.classList.add('ready'), 520);
-  setTimeout(() => boot?.classList.add('gone'), 560);
-});
+/* ============================== ENTRANCE ============================== */
+// No loading overlay: let the browser paint the hidden entrance state for one
+// frame (the saved locale is already applied by the i18n import above), then
+// reveal. Under reduced motion the CSS skips the transitions entirely.
+requestAnimationFrame(() =>
+  requestAnimationFrame(() => document.documentElement.classList.add('ready')),
+);

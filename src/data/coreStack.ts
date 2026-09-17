@@ -1,4 +1,4 @@
-/** Hero "Core stack" chips. `icon` = devicon-plain name; otherwise `mono` badge text. */
+/** Hero "Core stack" chips. `icon` = an `Icon.astro` name (devicon-plain, `si:` or `ph:`); otherwise `mono` badge text. */
 export interface CoreChip {
   label: string;
   icon?: string;
@@ -7,11 +7,11 @@ export interface CoreChip {
 
 export const coreStack: CoreChip[] = [
   { label: 'TypeScript', icon: 'typescript' },
-  { label: 'React', icon: 'react' },
+  { label: 'React', icon: 'si:react' },
   { label: 'Next.js', icon: 'nextjs' },
   { label: 'Node.js', icon: 'nodejs' },
   { label: 'NestJS', icon: 'nestjs' },
   { label: 'PostgreSQL', icon: 'postgresql' },
   { label: 'Docker', icon: 'docker' },
-  { label: 'CI/CD', icon: 'cicd' },
+  { label: 'CI/CD', icon: 'ph:infinity' },
 ];

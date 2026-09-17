@@ -7,8 +7,8 @@
  *   - `[data-i18n-html]`   → innerHTML (trusted, authored copy)
  *   - `[data-i18n-attr]`   → one or more `attr:path` pairs (`;`-separated)
  * English values are captured from the DOM on first switch, so only Spanish is
- * shipped. Choice is persisted to localStorage and re-applied during the boot
- * overlay (no visible flash). A `langchange` event lets client.ts re-sync.
+ * shipped. Choice is persisted to localStorage and re-applied on load, before the
+ * entrance reveal (no visible flash). A `langchange` event lets client.ts re-sync.
  */
 import type { Lang } from '../i18n/content';
 
@@ -146,7 +146,7 @@ export function formText(key: string): string {
   return resolve(`contact.${key}`) ?? EN_FORM[key] ?? '';
 }
 
-// Wire the toggle and apply any saved preference (during the boot overlay).
+// Wire the toggle and apply any saved preference (before the entrance reveal).
 const toggle = document.getElementById('langToggle');
 toggle?.addEventListener('click', () => apply(lang === 'en' ? 'es' : 'en'));
 

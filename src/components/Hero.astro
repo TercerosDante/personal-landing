@@ -8,155 +8,111 @@ import { dict } from '../i18n/content';
 ---
 
 <section class="sec intro" id="about">
-  <div class="intro-top load-fx" style="transition-delay:.12s">
-    <div class="avatar">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <p class="hero-role load-fx">
+        <span data-i18n="hero.role">{dict.hero.role}</span>
+        <span class="tagline" aria-hidden="true"
+          ><span class="tw" id="tw"></span></span
+        >
+      </p>
+      <h1 class="hero-name">
+        <span class="name-reveal">
+          {site.firstName}
+          <span class="l2">{site.lastName}</span>
+        </span>
+      </h1>
+      <p class="hero-sub load-fx" style="--i:2" data-i18n="hero.sub">
+        {dict.hero.sub}
+      </p>
+      <div class="hero-cta load-fx" style="--i:3">
+        <div class="cv-menu" data-cv-menu>
+          <a
+            class="btn solid cv-main"
+            data-cv-dl
+            href={site.cv.en}
+            download="Ronald-Terceros-CV-EN.pdf"
+          >
+            <Icon name="ph:download-simple" size={16} />
+            <span data-i18n="nav.cv">{dict.nav.cv}</span>
+          </a>
+          <button
+            class="btn solid cv-caret"
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded="false"
+            aria-controls="cvPop"
+            aria-label="Choose CV language"
+          >
+            <Icon name="ph:caret-down" size={14} />
+          </button>
+          <div class="cv-pop" id="cvPop" role="menu" hidden>
+            <a
+              class="cv-opt"
+              role="menuitem"
+              data-cv-lang="en"
+              href={site.cv.en}
+              download="Ronald-Terceros-CV-EN.pdf"
+            >
+              <span class="cv-code">EN</span>
+              <span class="cv-name">English</span>
+              <span class="cv-ext">PDF</span>
+            </a>
+            <a
+              class="cv-opt"
+              role="menuitem"
+              data-cv-lang="es"
+              href={site.cv.es}
+              download="Ronald-Terceros-CV-ES.pdf"
+            >
+              <span class="cv-code">ES</span>
+              <span class="cv-name">Español</span>
+              <span class="cv-ext">PDF</span>
+            </a>
+          </div>
+        </div>
+        <a class="btn ghost" href="#contact">
+          <span data-i18n="nav.contact">{dict.nav.contact}</span>
+          <Icon name="ph:arrow-right" size={16} />
+        </a>
+      </div>
+    </div>
+    <figure class="portrait load-fx" style="--i:1">
       <Picture
         src={profile}
-        alt={`${site.name} · ${site.role}`}
+        alt={`${site.name}, ${site.role}`}
         formats={['avif', 'webp']}
         fallbackFormat="webp"
-        widths={[116, 232]}
-        sizes="116px"
+        widths={[320, 480, 720]}
+        sizes="(max-width:760px) 50vw, 300px"
+        loading="eager"
+        fetchpriority="high"
       />
-    </div>
-    <div class="intro-id">
-      <div class="kicker" data-i18n="hero.kicker">{dict.hero.kicker}</div>
-      <h1 class="name-reveal">
-        {site.firstName}
-        <span class="l2">{site.lastName}</span>
-      </h1>
-      <div class="title">
-        <span data-i18n="hero.role">{dict.hero.role}</span>
-        <span class="tagline"><span class="tw" id="tw"></span></span>
-      </div>
-      <span class="loc"
-        ><i></i><span data-i18n="common.location">{dict.common.location}</span
-        ></span
-      >
-    </div>
+    </figure>
   </div>
 
-  <p
-    class="about-lead load-fx"
-    style="transition-delay:.26s"
-    data-i18n-html="hero.lead"
-    set:html={dict.hero.lead}
-  />
-
-  <div class="core load-fx" style="transition-delay:.38s">
-    <div class="core-l" data-i18n="hero.coreStack">{dict.hero.coreStack}</div>
-    <div class="core-chips">
-      {
-        coreStack.map((c) => (
-          <span class="cchip">
-            {c.icon ? (
-              <Icon name={c.icon} size={15} />
-            ) : (
-              <b class="cm">{c.mono}</b>
-            )}
-            <span>{c.label}</span>
-          </span>
-        ))
-      }
-    </div>
-  </div>
-
-  <div class="intro-actions load-fx" style="transition-delay:.5s">
-    <a class="cline" href={`mailto:${site.email}`}>
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.7"
-        ><rect x="3" y="5" width="18" height="14" rx="2"></rect><path
-          d="m3 7 9 6 9-6"></path></svg
-      >
-      {site.email}
-    </a>
-    <a class="cline" href={site.whatsapp} target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor"
-        ><path
-          d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1 1 12 20Zm4.4-5.8c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1-.6.8-.8 1-.3.2-.5.1a6.5 6.5 0 0 1-1.9-1.2 7.3 7.3 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.4.2-.4a.4.4 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11 11 0 0 0 4.3 3.8c1.5.6 1.8.5 2.2.5a2.5 2.5 0 0 0 1.6-1.2 2 2 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3Z"
-        ></path></svg
-      >
-      {site.phone}
-    </a>
-    <a class="btn" href={site.linkedin} target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor"
-        ><path
-          d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0ZM.2 8.2h4.6V24H.2V8.2Zm7.4 0h4.4v2.2h.1c.6-1.1 2.1-2.3 4.3-2.3 4.6 0 5.5 3 5.5 7V24h-4.6v-6.9c0-1.6 0-3.7-2.3-3.7s-2.6 1.8-2.6 3.6V24H7.6V8.2Z"
-        ></path></svg
-      >
-      LinkedIn
-    </a>
-    <a class="btn" href={site.github} target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor"
-        ><path
-          d="M12 2A10 10 0 0 0 8.8 21.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .8.1-.6.3-1.1.6-1.4-2.2-.2-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.8-4.6 5 .3.3.6.9.6 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"
-        ></path></svg
-      >
-      GitHub
-    </a>
-    <div class="cv-menu" data-cv-menu>
-      <a
-        class="btn solid cv-main"
-        data-cv-dl
-        href={site.cv.en}
-        download="Ronald-Terceros-CV-EN.pdf"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.8"
-          ><path
-            d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
-          ></path></svg
-        >
-        <span data-i18n="hero.cv">{dict.hero.cv}</span>
-      </a>
-      <button
-        class="btn solid cv-caret"
-        type="button"
-        aria-haspopup="menu"
-        aria-expanded="false"
-        aria-controls="cvPop"
-        aria-label="Choose CV language"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg
-        >
-      </button>
-      <div class="cv-pop" id="cvPop" role="menu" hidden>
-        <a
-          class="cv-opt"
-          role="menuitem"
-          data-cv-lang="en"
-          href={site.cv.en}
-          download="Ronald-Terceros-CV-EN.pdf"
-        >
-          <span class="cv-code">EN</span>
-          <span class="cv-name">English</span>
-          <span class="cv-ext">PDF</span>
-        </a>
-        <a
-          class="cv-opt"
-          role="menuitem"
-          data-cv-lang="es"
-          href={site.cv.es}
-          download="Ronald-Terceros-CV-ES.pdf"
-        >
-          <span class="cv-code">ES</span>
-          <span class="cv-name">Español</span>
-          <span class="cv-ext">PDF</span>
-        </a>
-      </div>
+  <div class="intro-body">
+    <p
+      class="about-lead reveal"
+      data-i18n-html="hero.lead"
+      set:html={dict.hero.lead}
+    />
+    <div class="core reveal" style="--i:1">
+      <p class="core-l" data-i18n="hero.coreStack">{dict.hero.coreStack}</p>
+      <ul class="core-list">
+        {
+          coreStack.map((c) => (
+            <li class="cchip">
+              {c.icon ? (
+                <Icon name={c.icon} size={20} />
+              ) : (
+                <b class="cm">{c.mono}</b>
+              )}
+              <span>{c.label}</span>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </div>
 </section>

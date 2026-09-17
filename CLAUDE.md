@@ -36,13 +36,14 @@ src/
     index.astro          # composes the page (inside <main>)
     api/contact.ts       # on-demand POST endpoint: Resend send + Zod validation (prerender=false)
   layouts/Layout.astro   # <head>: SEO meta + Fonts API + global.css; embeds ES i18n JSON; loads client.ts
-  components/            # Nav, Hero, Experience, Projects, Stack, Education, Contact, Footer
-                        # + Background (bg layers + warp canvas), Lightbox, Boot, Icon
+  components/            # Nav, Hero, Projects, Experience, AiDev, Education, Contact, Colophon, Footer
+                        # + Background (bg layers + grid canvas), Lightbox, Icon
   data/                 # STRUCTURE only (no translatable prose) — see "Content vs structure"
   i18n/content.ts       # ALL human copy, EN + ES, typed
   scripts/
     client.ts           # all client behaviours (bundled, typed — no inline blob)
     i18n.ts             # the EN/ES swap engine
+    theme.ts            # light/dark toggle (system default + manual override)
   styles/global.css     # single compact design-system stylesheet (prettier-ignored)
   assets/               # source images processed by astro:assets
 public/                 # served as-is: favicon.svg, og.png, resume.pdf, robots.txt, sitemap.xml
@@ -73,7 +74,7 @@ To make a string translatable in a component:
    - `data-i18n="path"` → swaps `textContent`
    - `data-i18n-html="path"` → swaps `innerHTML` (use for rich/authored HTML, e.g. the hero lead)
    - `data-i18n-attr="attr:path"` → swaps an attribute (`;`-separate multiple). Used for input
-     `placeholder`, image `alt`, the stack tooltip `data-note`, the toast `data-ph`.
+     `placeholder` and project image `alt`.
 3. **If the element has child elements** (an icon/SVG), wrap the text in a `<span data-i18n>` —
    `data-i18n` sets `textContent` and would otherwise wipe the children.
 
@@ -81,7 +82,8 @@ To make a string translatable in a component:
 included). `src/scripts/i18n.ts` resolves it, captures the English from the DOM on first switch (so
 only ES is shipped), sets `<html lang>`, persists `localStorage.lang`, and dispatches `langchange`.
 The toggle button (`#langToggle`, a globe + EN/ES code) lives in `Nav.astro`. The choice is
-re-applied on load **during the boot overlay**, so there's no flash. `client.ts` listens for
+re-applied on load **before the entrance reveal** (hero and nav stay hidden until `html.ready`), so
+there's no flash. `client.ts` listens for
 `langchange` to rebuild the typewriter and uses `taglineWords()` / `formText()` from `i18n.ts`
 (both embedded via `enExtra` in `Layout.astro` because they aren't present in the DOM as text).
 
@@ -94,17 +96,30 @@ re-applied on load **during the boot overlay**, so there's no flash. `client.ts`
 into thousands of lines. Design tokens are CSS variables in `:root` at the top. Components are
 markup-only and reference these classes/tokens.
 
-Notable tokens: `--paper*` (warm backgrounds), `--ink*`/`--slate` (text), `--signal` `#d8623f`
-(brand coral, used for accents/links/highlights), `--signal-strong` `#c0512c` (darker coral used
-**only as the fill of solid buttons** so white-on-coral meets WCAG AA 4.5:1).
+Notable tokens: `--paper*`/`--card` (backgrounds), `--ink`/`--ink-soft`/`--muted` (text, all
+≥ 4.5:1), `--faint` (decorative only, never text), `--signal` `#d8623f` (brand coral: fills, rules,
+large text), `--signal-text` (darker coral for small text, AA), `--signal-strong` `#c0512c` (fill of
+solid buttons, white text AA), `--ok`/`--err` (semantic states only). Shape scale: `--r-ctl` 10px
+(buttons/inputs), `--r-card` 16px (cards/images), `--r-pill` (chips); the wordmark plate keeps 6px.
+
+**Dark mode is the default** (owner's choice, regardless of OS setting): `:root` holds the light
+tokens and `:root:not([data-theme="light"])` overrides them with the dark set, so light is opt-in. A manual
+choice (`#themeToggle`) is stored in `localStorage.theme` and re-applied before paint by a one-line
+inline script in `Layout.astro`. **That script's sha256 is pinned in the `vercel.json` CSP**: if you edit
+it, recompute the hash from the built HTML and update `script-src`.
+
+**Design rules in force**: body copy is Archivo; IBM Plex Mono is for metadata only (dates, tags,
+labels). Min text size 12px. At most 3 eyebrows on the page (hero role line, AI & Dev, Colophon), no
+numbered labels. No em/en dashes in copy (use `-`). One accent (coral).
 
 ### 4. Build-time icons
 
-`src/components/Icon.astro` inlines SVGs from `@iconify-json/devicon-plain` **at build time** (only
+`src/components/Icon.astro` inlines SVGs from `@iconify-json/devicon-plain` (tech logos),
+`@iconify-json/simple-icons` (logos devicon-plain lacks, `name="si:..."`) and `@iconify-json/ph`
+(Phosphor UI glyphs, `name="ph:..."`) **at build time** (only
 the icons actually used ship; no icon-font CDN, no runtime JS). Icons are monochrome `currentColor`
-— color them via the parent's `color` (e.g. the stack chips set `style="color:..."` on `.ti`).
-`react` has no "plain" variant in that set, so it's provided via a small inline `OVERRIDES` map in
-`Icon.astro`. Usage: `<Icon name="nestjs" size={17} />`.
+— color them via the parent's `color`. Don't hand-roll SVG icons; use a `ph:` glyph.
+Usage: `<Icon name="nestjs" size={17} />`, `<Icon name="ph:arrow-right" size={16} />`.
 
 ### 5. Images, fonts, scripts
 
@@ -113,11 +128,12 @@ the icons actually used ship; no icon-font CDN, no runtime JS). Icons are monoch
   `<img>` src.
 - **Fonts** — Astro 6 **Fonts API** (config in `astro.config.mjs`): Archivo + IBM Plex Mono,
   self-hosted and subset, referenced via `var(--font-archivo)` / `var(--font-mono)`. No Google
-  Fonts CDN, no `preload` (the boot overlay masks any swap).
+  Fonts CDN. The Fonts API generates metric-matched fallbacks, so the swap is not visible.
 - **Client JS** — one module, `src/scripts/client.ts`, imported once from `Layout.astro`. It owns:
-  clock, typewriter, warp-grid canvas, parallax, nav (menu + active link), reveal-on-scroll,
-  placeholder toast, contact form (client validation + `POST /api/contact`), lightbox,
-  boot/entrance. No inline `<script>` blobs.
+  typewriter, grid canvas (theme-aware), nav (menu + active link), reveal-on-scroll (stagger via the
+  CSS `--i` property), contact form (client validation + `POST /api/contact`), lightbox, CV picker
+  and the entrance (`html.ready`); it imports `theme.ts`. No scroll listeners: the portrait depth is a
+  CSS scroll-driven animation. The only inline script is the theme bootstrap in `Layout.astro`.
 
 ### 6. SEO
 
