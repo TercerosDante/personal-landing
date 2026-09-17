@@ -234,10 +234,10 @@ const en: Content = {
             live: 'In production',
             alt: 'Konfek, Multi-Tenant ERP for Textile Manufacturing, interface preview',
             summary:
-              'Textile ERP that manages the whole order workflow, from intake to finished order, with stage tracking, custom size groups and built-in reports. 32 businesses registered.',
+              'Textile ERP that manages the whole order workflow, from intake to finished order, with stage tracking, custom size groups and built-in reports.',
             product: [
               'Multi-tenant SaaS ERP for textile manufacturers that centralizes the entire order workflow in one place from the first photo of a garment to the finished order. Instead of entering details manually, you take a photo of the garment matrix and the system reads it automatically, generating the data for review. All images are stored in the cloud, and orders are shown as a visual gallery, making them easy to find even at scale. It adapts to each workshop with custom size groups, batch processing, and stage tracking, plus built-in reports to monitor business performance.',
-              'Konfek ships as a complete product: a landing page (konfek.com), an admin console (admin.konfek.com) and the app itself (app.konfek.com), with self-serve signup and a 45-day free trial. 32 businesses registered to date.',
+              'Konfek ships as a complete product: a landing page (konfek.com), an admin console (admin.konfek.com) and the app itself (app.konfek.com), with self-serve signup and a 45-day free trial.',
             ],
             tech: 'Multi-tenant SaaS backend in NestJS, TypeScript, PostgreSQL and Prisma, with tenant isolation enforced at the query level, row-level security (RLS) on a Neon Postgres database, and AsyncLocalStorage (ALS) carrying per-request tenant context. Secure authentication, role-based access control and workflows across the textile domain: products, variants, production attributes, pricing structures and order states. The React frontend (Vite, Ant Design, TanStack Query, React Hook Form) installs as a PWA and streamlines order management, image handling and document generation, with drag-and-drop order building (dnd-kit), Cloudinary uploads and Word/Excel export. GitHub Actions CI/CD with Docker and Traefik on a VPS (Contabo).',
           },
@@ -467,10 +467,10 @@ const es: Content = {
             live: 'En producción',
             alt: 'Konfek, ERP Multi-Tenant para Manufactura Textil, vista previa de la interfaz',
             summary:
-              'ERP textil que gestiona el flujo de pedidos, del ingreso al pedido terminado, con seguimiento por etapas, grupos de tallas y reportes. 32 negocios registrados.',
+              'ERP textil que gestiona el flujo de pedidos, del ingreso al pedido terminado, con seguimiento por etapas, grupos de tallas y reportes.',
             product: [
               'ERP SaaS multi-tenant para fabricantes textiles que centraliza todo el flujo de pedidos en un solo lugar, desde la primera foto de una prenda hasta el pedido final. En lugar de ingresar los datos manualmente, se toma una foto de la matriz de la prenda y el sistema la interpreta automáticamente, generando la información para revisión. Todas las imágenes se almacenan en la nube y los pedidos se muestran como una galería visual, lo que facilita encontrarlos incluso cuando hay muchos. Se adapta a cada taller con grupos de tallas personalizados, procesamiento por lotes y seguimiento por etapas, además de reportes integrados para monitorear el negocio.',
-              'Konfek se ofrece como un producto completo: landing page (konfek.com), consola de administración (admin.konfek.com) y la aplicación en sí (app.konfek.com), con registro autoservicio y 45 días de prueba gratuita. 32 empresas registradas a la fecha.',
+              'Konfek se ofrece como un producto completo: landing page (konfek.com), consola de administración (admin.konfek.com) y la aplicación en sí (app.konfek.com), con registro autoservicio y 45 días de prueba gratuita.',
             ],
             tech: 'Backend SaaS multi-tenant en NestJS, TypeScript, PostgreSQL y Prisma, con aislamiento por tenant aplicado a nivel de query, seguridad a nivel de fila (RLS) sobre una base de datos Postgres en Neon, y AsyncLocalStorage (ALS) para el contexto de tenant por request. Autenticación segura, control de acceso por roles y flujos en todo el dominio textil: productos, variantes, atributos de producción, estructuras de precio y estados de pedido. El frontend en React (Vite, Ant Design, TanStack Query, React Hook Form) se instala como PWA y agiliza la gestión de pedidos, el manejo de imágenes y la generación de documentos, con construcción de pedidos por arrastrar y soltar (dnd-kit), subidas a Cloudinary y exportación a Word/Excel. CI/CD en GitHub Actions con Docker y Traefik en un VPS (Contabo).',
           },
