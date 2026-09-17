@@ -1,5 +1,5 @@
 ---
-import { education, languages } from '../data/education';
+import { education } from '../data/education';
 import { dict } from '../i18n/content';
 
 const t = dict.edu;
@@ -7,47 +7,36 @@ const t = dict.edu;
 
 <section class="sec" id="education">
   <div class="sec-head reveal">
-    <div class="eyebrow" data-i18n="edu.eyebrow">{t.eyebrow}</div>
     <h2 data-i18n="edu.title">{t.title}</h2>
   </div>
   <div class="edu-grid">
-    <div class="edu-list">
+    <ol class="edu-list">
       {
         education.map((e, i) => (
-          <div
-            class="edu reveal"
-            data-d={i ? (i * 0.06).toFixed(2) : undefined}
-          >
-            <div class="yr">{e.year}</div>
+          <li class="edu reveal" style={`--i:${i}`}>
+            <span class="yr">{e.year}</span>
             <div class="ed-b">
               <h3 data-i18n={`edu.items.${i}.title`}>{t.items[i].title}</h3>
-              <div class="inst" data-i18n={`edu.items.${i}.inst`}>
+              <p class="inst" data-i18n={`edu.items.${i}.inst`}>
                 {t.items[i].inst}
-              </div>
+              </p>
             </div>
-          </div>
+          </li>
         ))
       }
-    </div>
-    <div class="lang-card reveal" data-d=".1">
-      <div class="lc-h" data-i18n="edu.languages">{t.languages}</div>
-      {
-        languages.map((l, i) => (
-          <div class="lang">
-            <div class="lt">
-              <span class="ln" data-i18n={`edu.langs.${i}.name`}>
-                {t.langs[i].name}
-              </span>
-              <span class="lv" data-i18n={`edu.langs.${i}.level`}>
-                {t.langs[i].level}
-              </span>
+    </ol>
+    <div class="langs reveal" style="--i:1">
+      <h3 class="langs-h" data-i18n="edu.languages">{t.languages}</h3>
+      <dl>
+        {
+          t.langs.map((l, i) => (
+            <div class="lang">
+              <dt data-i18n={`edu.langs.${i}.name`}>{l.name}</dt>
+              <dd data-i18n={`edu.langs.${i}.level`}>{l.level}</dd>
             </div>
-            <div class="bar">
-              <i style={`width:${l.pct}%`} />
-            </div>
-          </div>
-        ))
-      }
+          ))
+        }
+      </dl>
     </div>
   </div>
 </section>

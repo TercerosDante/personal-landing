@@ -23,3 +23,6 @@ Thumbs.db
 # local lighthouse audit exports
 desktop.json
 mobile.json
+
+# LLM / IA / Agents
+.claude

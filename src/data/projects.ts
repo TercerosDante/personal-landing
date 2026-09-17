@@ -21,6 +21,8 @@ export interface Project {
    * (links to contact). `private` = client/NDA work, just label it private.
    */
   repo?: 'walkthrough' | 'private';
+  /** Business-model badges shown next to the status (non-translatable tokens). */
+  model?: string[];
 }
 
 export interface ProjectGroup {
@@ -43,11 +45,15 @@ export const projectGroups: ProjectGroup[] = [
           { label: 'Vite' },
           { label: 'Ant Design' },
           { label: 'Zustand' },
-          { label: 'Capacitor' },
-          { label: 'Electron' },
+          { label: 'Capacitor · Android' },
+          { label: 'Electron · Windows' },
+          { label: 'Thermal printing', hot: true },
+          { label: 'Clerk' },
+          { label: 'Google Auth' },
           { label: 'DDD · Multi-tenant', hot: true },
         ],
         link: 'https://www.khash.app',
+        model: ['SaaS', 'Multi-tenant'],
         repo: 'walkthrough',
       },
       {
@@ -65,6 +71,7 @@ export const projectGroups: ProjectGroup[] = [
           { label: 'Multi-tenant · RLS', hot: true },
         ],
         link: 'https://www.konfek.com',
+        model: ['SaaS', 'Multi-tenant'],
         repo: 'walkthrough',
       },
     ],
@@ -104,6 +111,7 @@ export const projectGroups: ProjectGroup[] = [
           { label: 'Zod' },
         ],
         link: 'https://makevi.jp',
+        model: ['SaaS', 'Multi-tenant'],
         repo: 'private',
       },
     ],

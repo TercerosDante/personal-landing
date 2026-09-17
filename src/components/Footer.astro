@@ -1,13 +1,40 @@
 ---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
 import { dict } from '../i18n/content';
 
 const t = dict.footer;
+
+const social = [
+  { label: 'GitHub', href: site.github, icon: 'ph:github-logo' },
+  { label: 'LinkedIn', href: site.linkedin, icon: 'ph:linkedin-logo' },
+  { label: 'WhatsApp', href: site.whatsapp, icon: 'ph:whatsapp-logo' },
+];
 ---
 
 <footer class="footer">
-  <div class="wrap">
-    <span data-i18n="footer.copy">{t.copy}</span>
-    <span data-i18n="footer.tech">{t.tech}</span>
-    <span data-i18n="common.location">{dict.common.location}</span>
+  <div class="wrap foot-row">
+    <p class="foot-copy">
+      <span data-i18n="footer.copy">{t.copy}</span>
+      <span class="foot-loc" data-i18n="common.location"
+        >{dict.common.location}</span
+      >
+    </p>
+    <ul class="foot-links">
+      <li>
+        <a href={`mailto:${site.email}`} aria-label={`Email ${site.email}`}>
+          <Icon name="ph:envelope-simple" size={18} />
+        </a>
+      </li>
+      {
+        social.map((s) => (
+          <li>
+            <a href={s.href} target="_blank" rel="noopener" aria-label={s.label}>
+              <Icon name={s.icon} size={18} />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </footer>

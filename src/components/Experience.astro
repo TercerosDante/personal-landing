@@ -7,27 +7,26 @@ const t = dict.exp;
 
 <section class="sec" id="experience">
   <div class="sec-head reveal">
-    <div class="eyebrow" data-i18n="exp.eyebrow">{t.eyebrow}</div>
     <h2 data-i18n="exp.title">{t.title}</h2>
     <p class="sub" data-i18n="exp.sub">{t.sub}</p>
   </div>
-  <div class="timeline">
+  <div class="xp-list">
     {
       experience.map((co, ci) => (
-        <div class="tl-group reveal">
-          <div class="tl-co">
+        <div class="xp">
+          <header class="xp-co reveal">
             <h3>{co.name}</h3>
-            <span class="meta" data-i18n={`exp.companies.${ci}.meta`}>
-              {t.companies[ci].meta}
-            </span>
-            <span class="when" data-i18n={`exp.companies.${ci}.when`}>
+            <p class="when" data-i18n={`exp.companies.${ci}.when`}>
               {t.companies[ci].when}
-            </span>
-          </div>
-          <div class="tl-items">
+            </p>
+            <p class="meta" data-i18n={`exp.companies.${ci}.meta`}>
+              {t.companies[ci].meta}
+            </p>
+          </header>
+          <div class="xp-roles">
             {co.roles.map((role, ri) => (
-              <article class="tl-card">
-                <div class="ph-row">
+              <article class="xp-role reveal">
+                <div class="xp-role-head">
                   <h4>{role.name}</h4>
                   <span
                     class="tag-cli"
@@ -36,7 +35,7 @@ const t = dict.exp;
                     {t.companies[ci].roles[ri].client}
                   </span>
                 </div>
-                <ul class="tl-bullets">
+                <ul class="xp-bullets">
                   {t.companies[ci].roles[ri].bullets.map((b, bi) => (
                     <li
                       data-i18n={`exp.companies.${ci}.roles.${ri}.bullets.${bi}`}
@@ -45,11 +44,11 @@ const t = dict.exp;
                     </li>
                   ))}
                 </ul>
-                <div class="chips">
+                <ul class="chips">
                   {role.tags.map((tag) => (
-                    <span class={tag.hot ? 'hot' : undefined}>{tag.label}</span>
+                    <li class={tag.hot ? 'hot' : undefined}>{tag.label}</li>
                   ))}
-                </div>
+                </ul>
               </article>
             ))}
           </div>

@@ -22,17 +22,16 @@ export interface Content {
     cv: string;
   };
   hero: {
-    kicker: string;
     role: string;
+    /** Short hero subtext (max 20 words). */
+    sub: string;
     /** Rich (HTML) lead paragraph. */
     lead: string;
     coreStack: string;
-    cv: string;
     /** Typewriter rotation. */
     tagline: string[];
   };
   exp: {
-    eyebrow: string;
     title: string;
     sub: string;
     /** One per company in `src/data/experience.ts` (same order). */
@@ -43,7 +42,6 @@ export interface Content {
     }[];
   };
   proj: {
-    eyebrow: string;
     title: string;
     sub: string;
     view: string;
@@ -60,7 +58,9 @@ export interface Content {
         year: string;
         live?: string;
         alt?: string;
-        /** Plain-language product description, one entry per paragraph (visible). */
+        /** Short visible summary (max 25 words). */
+        summary: string;
+        /** Full product description, one entry per paragraph (inside the details disclosure). */
         product: string[];
         /** Technical deep-dive (collapsed in a <details>). */
         tech: string;
@@ -68,7 +68,6 @@ export interface Content {
     }[];
   };
   edu: {
-    eyebrow: string;
     title: string;
     languages: string;
     items: { title: string; inst: string }[];
@@ -87,7 +86,6 @@ export interface Content {
     close: string;
   };
   contact: {
-    eyebrow: string;
     title: string;
     sub: string;
     name: string;
@@ -110,8 +108,7 @@ export interface Content {
     invalidEmail: string;
     invalidMessage: string;
   };
-  footer: { copy: string; tech: string };
-  boot: { loading: string };
+  footer: { copy: string };
   lightbox: { hint: string };
   colophon: { label: string; text: string; source: string };
 }
@@ -125,14 +122,13 @@ const en: Content = {
     education: 'Education',
     aiDev: 'AI & Dev',
     contact: 'Contact',
-    cv: 'CV ↓',
+    cv: 'Download CV',
   },
   hero: {
-    kicker: 'Full-Stack Engineer',
     role: 'Full-Stack Engineer',
-    lead: "I build modern web applications from <b>concept to production</b>. With <b>6+ years</b> of experience using TypeScript, React/Next.js, NestJS, and PostgreSQL, I work across the full development lifecycle, from architecture and implementation to deployment and ongoing maintenance. I've integrated services such as Stripe, Gemini, AWS S3, Cloudinary, and Google Maps, among others, and have contributed to backend architecture as well as key technical decisions across different projects.",
+    sub: '6+ years building TypeScript products from concept to production with React, Next.js, NestJS and PostgreSQL.',
+    lead: 'I work across the <b>full lifecycle</b>, from architecture to deployment and maintenance, integrating services like Stripe, Gemini, AWS S3, Cloudinary and Google Maps.',
     coreStack: 'Core stack',
-    cv: 'Download CV',
     tagline: [
       'TypeScript',
       'React - Next.js',
@@ -144,13 +140,12 @@ const en: Content = {
     ],
   },
   exp: {
-    eyebrow: '02 / Experience',
     title: 'Professional timeline.',
     sub: 'Most recent first. Production work across remote teams and international clients.',
     companies: [
       {
         meta: 'Full-Stack Developer · Bolivia (Remote)',
-        when: 'Feb 2024 – Present',
+        when: 'Feb 2024 - Present',
         roles: [
           {
             client: 'JP Client',
@@ -186,7 +181,7 @@ const en: Content = {
       },
       {
         meta: 'Full-Stack Developer · Bolivia (Remote / in-site)',
-        when: '2020 – 2024',
+        when: '2020 - 2024',
         roles: [
           {
             client: 'BO Client',
@@ -211,11 +206,10 @@ const en: Content = {
     ],
   },
   proj: {
-    eyebrow: '01 / Projects',
     title: 'Featured projects.',
     sub: 'Side projects I shipped solo, and products co-developed with teams for international clients, all running in production.',
     view: 'Live App',
-    techDetails: 'Technical details',
+    techDetails: 'Details & tech',
     privateRepo: 'Private repo',
     groups: [
       {
@@ -227,19 +221,23 @@ const en: Content = {
             year: '2026 · Freelance',
             live: 'In production',
             alt: 'Khash, Multi-Tenant ERP / POS for Restaurants, interface preview',
+            summary:
+              'Restaurant ERP and POS that runs orders, inventory, cash and end-of-day closing across locations, with apps for web, Android and Windows.',
             product: [
               'Multi-tenant SaaS ERP and POS for restaurants and small businesses that unifies daily operations in a single platform from product setup to payments and end-of-day closing. Menu items can be created from photos or a ready catalog and adjusted quickly to fit each business. The system is modular, supports multiple locations, and lets you enable only the features you need. It covers orders, inventory, and cash register management in real time, with simple reports to understand performance at a glance.',
             ],
-            tech: 'Multi-tenant backend in NestJS, TypeScript, PostgreSQL and Prisma with tenant isolation, row-level security, JWT auth and role-based access across multiple business locations. A modular system lets each business turn on the capabilities it needs (point of sale, inventory, cash, recipes, kitchen workflows) from one shared platform, with domain-driven design keeping the business logic maintainable as modules grow. The cross-platform POS runs on desktop and touch devices from a single React codebase (Vite, Ant Design, Zustand, Capacitor, Electron). pnpm and Turborepo monorepo with shared Zod contracts, GitHub Actions CI/CD, and Docker and Traefik on a VPS. AI-assisted development was used under direct supervision to speed up delivery.',
+            tech: 'Multi-tenant backend in NestJS, TypeScript, PostgreSQL and Prisma with tenant isolation, row-level security, JWT auth and role-based access across multiple business locations. A modular system lets each business turn on the capabilities it needs (point of sale, inventory, cash, recipes, kitchen workflows) from one shared platform, with domain-driven design keeping the business logic maintainable as modules grow. The cross-platform POS runs on desktop and touch devices from a single React codebase (Vite, Ant Design, Zustand), packaged as native Android (Capacitor) and Windows (Electron) apps with thermal receipt printer support. Sign-in runs on Clerk with Google authentication. pnpm and Turborepo monorepo with shared Zod contracts, GitHub Actions CI/CD, and Docker and Traefik on a VPS. AI-assisted development was used under direct supervision to speed up delivery.',
           },
           {
             title: 'Konfek - Multi-Tenant ERP for Textile Manufacturing',
             year: '2025 · Freelance',
             live: 'In production',
             alt: 'Konfek, Multi-Tenant ERP for Textile Manufacturing, interface preview',
+            summary:
+              'Textile ERP that manages the whole order workflow, from intake to finished order, with stage tracking, custom size groups and built-in reports.',
             product: [
               'Multi-tenant SaaS ERP for textile manufacturers that centralizes the entire order workflow in one place from the first photo of a garment to the finished order. Instead of entering details manually, you take a photo of the garment matrix and the system reads it automatically, generating the data for review. All images are stored in the cloud, and orders are shown as a visual gallery, making them easy to find even at scale. It adapts to each workshop with custom size groups, batch processing, and stage tracking, plus built-in reports to monitor business performance.',
-              'Konfek ships as a complete product: a landing page (konfek.com), an admin console (admin.konfek.com) and the app itself (app.konfek.com), with self-serve signup and a 45-day free trial. 32 businesses registered to date.',
+              'Konfek ships as a complete product: a landing page (konfek.com), an admin console (admin.konfek.com) and the app itself (app.konfek.com), with self-serve signup and a 45-day free trial.',
             ],
             tech: 'Multi-tenant SaaS backend in NestJS, TypeScript, PostgreSQL and Prisma, with tenant isolation enforced at the query level, row-level security (RLS) on a Neon Postgres database, and AsyncLocalStorage (ALS) carrying per-request tenant context. Secure authentication, role-based access control and workflows across the textile domain: products, variants, production attributes, pricing structures and order states. The React frontend (Vite, Ant Design, TanStack Query, React Hook Form) installs as a PWA and streamlines order management, image handling and document generation, with drag-and-drop order building (dnd-kit), Cloudinary uploads and Word/Excel export. GitHub Actions CI/CD with Docker and Traefik on a VPS (Contabo).',
           },
@@ -254,6 +252,8 @@ const en: Content = {
             year: '2024 · Bolivian Devs',
             live: 'In production',
             alt: 'TsunaGo, Assisted Transportation App, interface preview',
+            summary:
+              'Assisted transportation app that matches patients and older adults with drivers based on care needs, from booking to payment.',
             product: [
               'TsunaGo is an app that connects people who need assisted transportation such as patients or older adults with nearby drivers who can provide the required support. Users request a ride, define the level of assistance needed, and are matched with a suitable driver. The full process from booking to payment happens inside the app. Matching is based on care needs rather than only location, ensuring better trip fit. Users can schedule rides, view history, and rate drivers, while drivers manage availability and earnings.',
             ],
@@ -264,6 +264,8 @@ const en: Content = {
             year: '2024 · Bolivian Devs',
             live: 'In production',
             alt: 'Makevi, SaaS for Shopee Store Management, interface preview',
+            summary:
+              'Shopee store management in one place: listings, inventory, orders and sales analytics, with less manual work.',
             product: [
               'Makevi is a platform that simplifies Shopee store management by bringing all core operations into one place. It centralizes product listings, inventory, order processing, and sales analytics in a single system, reducing manual work and improving operational efficiency.',
             ],
@@ -274,7 +276,6 @@ const en: Content = {
     ],
   },
   edu: {
-    eyebrow: '04 / Education',
     title: 'Training & languages.',
     languages: 'Languages',
     items: [
@@ -297,7 +298,7 @@ const en: Content = {
     ],
   },
   aiDev: {
-    eyebrow: '03 / AI & Dev',
+    eyebrow: 'AI & Dev',
     title: 'AI as a productivity multiplier.',
     lead: 'I use AI throughout the software development lifecycle to improve productivity and reduce repetitive work.',
     body: [
@@ -310,7 +311,6 @@ const en: Content = {
       'For me, the real value of AI is not automation itself, but the ability to spend more time and energy on problems that create real impact.',
   },
   contact: {
-    eyebrow: '05 / Contact',
     title: "Let's build something.",
     sub: 'Open to full-stack roles and freelance projects. Fastest reply via email or WhatsApp.',
     name: 'Name',
@@ -320,7 +320,7 @@ const en: Content = {
     emailPh: 'you@company.com',
     msgPh: 'Tell me about the role or project…',
     send: 'Send message',
-    note: 'Sends straight to my inbox · I usually reply within a day.',
+    note: 'Sends straight to my inbox. I usually reply within a day.',
     sending: 'Sending your message…',
     success: "Thanks, your message is on its way. I'll reply soon.",
     errorGeneric:
@@ -337,10 +337,8 @@ const en: Content = {
   },
   footer: {
     copy: '© 2026 Ronald Terceros · Full-Stack Engineer',
-    tech: 'TypeScript · React · NestJS · PostgreSQL · AWS',
   },
-  boot: { loading: 'Loading Portfolio' },
-  lightbox: { hint: 'Esc · click outside · ✕ to close' },
+  lightbox: { hint: 'Press Esc or click outside to close' },
   colophon: {
     label: 'Colophon',
     text: 'This very page is built with <b>Astro</b> and <b>TypeScript</b>, a hand-rolled EN/ES i18n layer and a <b>zero-dependency client bundle</b>. Static pages, one serverless endpoint, open source.',
@@ -357,14 +355,13 @@ const es: Content = {
     education: 'Educación',
     aiDev: 'IA & Dev',
     contact: 'Contacto',
-    cv: 'CV ↓',
+    cv: 'Descargar CV',
   },
   hero: {
-    kicker: 'Ingeniero Full-Stack',
     role: 'Ingeniero Full-Stack',
-    lead: 'Desarrollo aplicaciones web modernas <b>desde la idea hasta producción</b>. Con <b>más de 6 años</b> de experiencia trabajando con TypeScript, React/Next.js, NestJS y PostgreSQL, participo en todo el ciclo de desarrollo, desde la arquitectura e implementación hasta el despliegue y el mantenimiento continuo. He integrado servicios como Stripe, Gemini, AWS S3, Cloudinary y Google Maps, entre otros, y he contribuido a la arquitectura backend y a decisiones técnicas clave en distintos proyectos.',
+    sub: 'Más de 6 años llevando productos TypeScript del concepto a producción con React, Next.js, NestJS y PostgreSQL.',
+    lead: 'Trabajo en <b>todo el ciclo</b>, de la arquitectura al despliegue y mantenimiento, integrando servicios como Stripe, Gemini, AWS S3, Cloudinary y Google Maps.',
     coreStack: 'Stack principal',
-    cv: 'Descargar CV',
     tagline: [
       'TypeScript',
       'React - Next.js',
@@ -376,13 +373,12 @@ const es: Content = {
     ],
   },
   exp: {
-    eyebrow: '02 / Experiencia',
     title: 'Trayectoria profesional.',
     sub: 'Más reciente primero. Trabajo en producción con equipos remotos y clientes internacionales.',
     companies: [
       {
         meta: 'Desarrollador Full-Stack · Bolivia (Remoto)',
-        when: 'Feb 2024 – Presente',
+        when: 'Feb 2024 - Presente',
         roles: [
           {
             client: 'Cliente JP',
@@ -418,7 +414,7 @@ const es: Content = {
       },
       {
         meta: 'Desarrollador Full-Stack · Bolivia (Remoto / presencial)',
-        when: '2020 – 2024',
+        when: '2020 - 2024',
         roles: [
           {
             client: 'Cliente BO',
@@ -443,11 +439,10 @@ const es: Content = {
     ],
   },
   proj: {
-    eyebrow: '01 / Proyectos',
     title: 'Proyectos destacados.',
     sub: 'Proyectos personales que desarrollé solo, y productos co-desarrollados con equipos para clientes internacionales, todos en producción.',
     view: 'App en vivo',
-    techDetails: 'Detalles técnicos',
+    techDetails: 'Detalles y tecnología',
     privateRepo: 'Repo privado',
     groups: [
       {
@@ -459,19 +454,23 @@ const es: Content = {
             year: '2026 · Freelance',
             live: 'En producción',
             alt: 'Khash, ERP / POS Multi-Tenant para Restaurantes, vista previa de la interfaz',
+            summary:
+              'ERP y POS para restaurantes que gestiona pedidos, inventario, caja y cierre diario en varias sucursales, con apps para web, Android y Windows.',
             product: [
               'ERP y POS SaaS multi-tenant para restaurantes y pequeños negocios que unifica todas las operaciones diarias en una sola plataforma, desde la creación de productos hasta los pagos y el cierre de caja. Los productos del menú se pueden crear a partir de fotos o desde un catálogo base, y ajustarlos rápidamente según cada negocio. El sistema es modular, soporta múltiples sucursales y permite activar solo las funciones necesarias. Cubre pedidos, inventario y gestión de caja en tiempo real, con reportes simples para entender el desempeño del negocio.',
             ],
-            tech: 'Backend multi-tenant en NestJS, TypeScript, PostgreSQL y Prisma con aislamiento por tenant, seguridad a nivel de fila (RLS), autenticación JWT y acceso por roles en varias ubicaciones de negocio. Un sistema modular permite a cada negocio activar las capacidades que necesita (punto de venta, inventario, caja, recetas, flujos de cocina) desde una sola plataforma compartida, con diseño orientado al dominio que mantiene la lógica de negocio mantenible a medida que crecen los módulos. El POS multiplataforma corre en escritorio y dispositivos táctiles desde una sola base de código React (Vite, Ant Design, Zustand, Capacitor, Electron). Monorepo pnpm y Turborepo con contratos Zod compartidos, CI/CD en GitHub Actions, y Docker y Traefik en un VPS. Usé desarrollo asistido por IA bajo supervisión directa para acelerar la entrega.',
+            tech: 'Backend multi-tenant en NestJS, TypeScript, PostgreSQL y Prisma con aislamiento por tenant, seguridad a nivel de fila (RLS), autenticación JWT y acceso por roles en varias ubicaciones de negocio. Un sistema modular permite a cada negocio activar las capacidades que necesita (punto de venta, inventario, caja, recetas, flujos de cocina) desde una sola plataforma compartida, con diseño orientado al dominio que mantiene la lógica de negocio mantenible a medida que crecen los módulos. El POS multiplataforma corre en escritorio y dispositivos táctiles desde una sola base de código React (Vite, Ant Design, Zustand), empaquetado como apps nativas para Android (Capacitor) y Windows (Electron) con soporte para impresoras térmicas de tickets. El inicio de sesión usa Clerk con autenticación de Google. Monorepo pnpm y Turborepo con contratos Zod compartidos, CI/CD en GitHub Actions, y Docker y Traefik en un VPS. Usé desarrollo asistido por IA bajo supervisión directa para acelerar la entrega.',
           },
           {
             title: 'Konfek - ERP Multi-Tenant para Manufactura Textil',
             year: '2025 · Freelance',
             live: 'En producción',
             alt: 'Konfek, ERP Multi-Tenant para Manufactura Textil, vista previa de la interfaz',
+            summary:
+              'ERP textil que gestiona el flujo de pedidos, del ingreso al pedido terminado, con seguimiento por etapas, grupos de tallas y reportes.',
             product: [
               'ERP SaaS multi-tenant para fabricantes textiles que centraliza todo el flujo de pedidos en un solo lugar, desde la primera foto de una prenda hasta el pedido final. En lugar de ingresar los datos manualmente, se toma una foto de la matriz de la prenda y el sistema la interpreta automáticamente, generando la información para revisión. Todas las imágenes se almacenan en la nube y los pedidos se muestran como una galería visual, lo que facilita encontrarlos incluso cuando hay muchos. Se adapta a cada taller con grupos de tallas personalizados, procesamiento por lotes y seguimiento por etapas, además de reportes integrados para monitorear el negocio.',
-              'Konfek se ofrece como un producto completo: landing page (konfek.com), consola de administración (admin.konfek.com) y la aplicación en sí (app.konfek.com), con registro autoservicio y 45 días de prueba gratuita. 32 empresas registradas a la fecha.',
+              'Konfek se ofrece como un producto completo: landing page (konfek.com), consola de administración (admin.konfek.com) y la aplicación en sí (app.konfek.com), con registro autoservicio y 45 días de prueba gratuita.',
             ],
             tech: 'Backend SaaS multi-tenant en NestJS, TypeScript, PostgreSQL y Prisma, con aislamiento por tenant aplicado a nivel de query, seguridad a nivel de fila (RLS) sobre una base de datos Postgres en Neon, y AsyncLocalStorage (ALS) para el contexto de tenant por request. Autenticación segura, control de acceso por roles y flujos en todo el dominio textil: productos, variantes, atributos de producción, estructuras de precio y estados de pedido. El frontend en React (Vite, Ant Design, TanStack Query, React Hook Form) se instala como PWA y agiliza la gestión de pedidos, el manejo de imágenes y la generación de documentos, con construcción de pedidos por arrastrar y soltar (dnd-kit), subidas a Cloudinary y exportación a Word/Excel. CI/CD en GitHub Actions con Docker y Traefik en un VPS (Contabo).',
           },
@@ -486,6 +485,8 @@ const es: Content = {
             year: '2024 · Bolivian Devs',
             live: 'En producción',
             alt: 'TsunaGo, App de Transporte Asistido, vista previa de la interfaz',
+            summary:
+              'App de transporte asistido que conecta a pacientes y adultos mayores con conductores según sus necesidades de apoyo, desde la reserva hasta el pago.',
             product: [
               'TsunaGo es una aplicación que conecta a personas que necesitan transporte asistido, como pacientes o adultos mayores, con conductores cercanos que pueden brindar ese apoyo. Los usuarios solicitan un viaje, definen el nivel de asistencia requerido y son asignados a un conductor adecuado. Todo el proceso, desde la reserva hasta el pago, se realiza dentro de la app. La asignación se basa en las necesidades de cuidado y no solo en la ubicación, asegurando una mejor experiencia. Los usuarios pueden programar viajes, ver historial y calificar conductores, mientras los conductores gestionan su disponibilidad e ingresos.',
             ],
@@ -496,6 +497,8 @@ const es: Content = {
             year: '2024 · Bolivian Devs',
             live: 'En producción',
             alt: 'Makevi, SaaS para Gestión de Tiendas Shopee, vista previa de la interfaz',
+            summary:
+              'Gestión de tiendas Shopee en un solo lugar: publicaciones, inventario, pedidos y analítica de ventas, con menos trabajo manual.',
             product: [
               'Makevi es una plataforma que simplifica la gestión de tiendas en Shopee al centralizar todas las operaciones principales en un solo lugar. Reúne productos, inventario, pedidos y análisis de ventas en un sistema unificado, reduciendo el trabajo manual y mejorando la eficiencia operativa.',
             ],
@@ -506,7 +509,6 @@ const es: Content = {
     ],
   },
   edu: {
-    eyebrow: '04 / Educación',
     title: 'Formación e idiomas.',
     languages: 'Idiomas',
     items: [
@@ -529,7 +531,7 @@ const es: Content = {
     ],
   },
   aiDev: {
-    eyebrow: '03 / IA & Dev',
+    eyebrow: 'IA & Dev',
     title: 'La IA como multiplicador de productividad.',
     lead: 'Uso la inteligencia artificial en todo el ciclo de desarrollo de software para aumentar la productividad y reducir el trabajo repetitivo.',
     body: [
@@ -542,7 +544,6 @@ const es: Content = {
       'Para mí, el valor real de la IA no es la automatización en sí, sino poder dedicar más tiempo y energía a los problemas que generan mayor impacto.',
   },
   contact: {
-    eyebrow: '05 / Contacto',
     title: 'Construyamos algo.',
     sub: 'Disponible para roles full-stack y proyectos freelance. Respuesta más rápida por email o WhatsApp.',
     name: 'Nombre',
@@ -552,7 +553,7 @@ const es: Content = {
     emailPh: 'tú@empresa.com',
     msgPh: 'Cuéntame sobre el rol o el proyecto…',
     send: 'Enviar mensaje',
-    note: 'Llega directo a mi bandeja · suelo responder en un día.',
+    note: 'Llega directo a mi bandeja. Suelo responder en un día.',
     sending: 'Enviando tu mensaje…',
     success: 'Gracias, tu mensaje está en camino. Te responderé pronto.',
     errorGeneric:
@@ -570,10 +571,8 @@ const es: Content = {
   },
   footer: {
     copy: '© 2026 Ronald Terceros · Ingeniero Full-Stack',
-    tech: 'TypeScript · React · NestJS · PostgreSQL · AWS',
   },
-  boot: { loading: 'Cargando Portafolio' },
-  lightbox: { hint: 'Esc · clic fuera · ✕ para cerrar' },
+  lightbox: { hint: 'Pulsa Esc o haz clic fuera para cerrar' },
   colophon: {
     label: 'Colofón',
     text: 'Esta página está hecha con <b>Astro</b> y <b>TypeScript</b>, una capa i18n EN/ES propia y un <b>bundle de cliente sin dependencias</b>. Páginas estáticas, un endpoint serverless, open source.',

@@ -1,5 +1,6 @@
 ---
 // Image viewer. Opened by the client script when a project thumbnail is clicked.
+import Icon from './Icon.astro';
 import { dict } from '../i18n/content';
 ---
 
@@ -11,12 +12,10 @@ import { dict } from '../i18n/content';
   aria-label="Image viewer"
 >
   <button class="lb-close" id="lbClose" aria-label="Close viewer (Esc)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M6 6l12 12M18 6 6 18"></path>
-    </svg>
+    <Icon name="ph:x" size={18} />
   </button>
   <figure>
     <img id="lbImg" src="" alt="" /><figcaption id="lbCap"></figcaption>
   </figure>
-  <div class="lb-hint" data-i18n="lightbox.hint">{dict.lightbox.hint}</div>
+  <p class="lb-hint" data-i18n="lightbox.hint">{dict.lightbox.hint}</p>
 </div>
