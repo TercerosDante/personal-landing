@@ -34,4 +34,16 @@ export default defineConfig({
       styles: ['normal'],
     },
   ],
+
+  vite: {
+    server: {
+      watch: {
+        // Build output. On Windows, `astro build` deletes and recreates
+        // .vercel/output, and fs.watch on the deleted folder then fires
+        // "rename" events forever (~4k/s), leaking native memory in a running
+        // `astro dev` until the machine runs out.
+        ignored: ['**/.vercel/**', '**/dist/**'],
+      },
+    },
+  },
 });
